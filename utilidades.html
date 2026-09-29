@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilidades | Polícia Civil RJ — Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ===== TABS DE NAVEGAÇÃO INTERNA ===== */
+        .util-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 45px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid var(--borda);
+        }
+
+        .util-tab {
+            background: transparent;
+            border: 1px solid var(--borda);
+            color: var(--texto);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: .3s;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .util-tab i {
+            font-size: 16px;
+        }
+
+        .util-tab:hover,
+        .util-tab.ativo {
+            background: var(--dourado);
+            color: #000;
+            border-color: var(--dourado);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 162, 39, .3);
+        }
+
+        .util-painel {
+            display: none;
+        }
+
+        .util-painel.ativo {
+            display: block;
+            animation: fadeIn .4s;
+        }
+
+        /* ===== SEÇÃO / SUBTÍTULOS ===== */
+        .util-subtitulo {
+            color: var(--dourado);
+            font-size: 22px;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--borda);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .util-subtitulo i {
+            font-size: 20px;
+        }
+
+        .util-subtitulo:first-child {
+            margin-top: 0;
+        }
+
+        /* ===== CARD DE CARGO (ARSENAL) ===== */
+        .arsenal-card {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-left: 4px solid var(--dourado);
+            border-radius: 10px;
+            padding: 22px 26px;
+            margin-bottom: 18px;
+            transition: .3s;
+        }
+
+        .arsenal-card:hover {
+            border-color: var(--dourado);
+            border-left-color: var(--dourado-hover);
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(201, 162, 39, .15);
+        }
+
+        .arsenal-card.todos {
+            border-left-color: #c9a227;
+        }
+
+        .arsenal-card.alto {
+            border-left-color: #e6c453;
+        }
+
+        .arsenal-card.medio {
+            border-left-color: #64b5f6;
+        }
+
+        .arsenal-card.base {
+            border-left-color: #81c784;
+        }
+
+        .arsenal-cargos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .cargo-tag {
+            background: var(--preto-suave);
+            border: 1px solid var(--borda);
+            color: var(--dourado);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cargo-tag i {
+            font-size: 10px;
+            opacity: .7;
+        }
+
+        .arsenal-lista {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .arma-tag {
+            background: linear-gradient(135deg, rgba(183, 28, 28, .15), rgba(183, 28, 28, .05));
+            border: 1px solid rgba(183, 28, 28, .4);
+            color: #ff8a80;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: .2s;
+        }
+
+        .arma-tag:hover {
+            background: rgba(183, 28, 28, .3);
+            transform: scale(1.05);
+        }
+
+        .arma-tag i {
+            font-size: 11px;
+        }
+
+        .arsenal-card .todos-arm {
+            background: linear-gradient(135deg, rgba(201, 162, 39, .2), rgba(201, 162, 39, .05));
+            border: 1px solid var(--dourado);
+            color: var(--dourado-hover);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .arsenal-card .todos-arm i {
+            font-size: 16px;
+        }
+
+        /* ===== VIATURAS ===== */
+        .viatura-grupo {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 22px;
+            transition: .3s;
+        }
+
+        .viatura-grupo:hover {
+            border-color: var(--dourado);
+            box-shadow: 0 8px 25px rgba(201, 162, 39, .15);
+        }
+
+        .viatura-grupo-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--borda);
+        }
+
+        .viatura-grupo-header .grupo-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--dourado), var(--dourado-hover));
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .viatura-grupo-header h4 {
+            color: var(--dourado);
+            font-size: 17px;
+            margin: 0;
+            flex: 1;
+        }
+
+        .viatura-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .viatura-item {
+            background: var(--preto);
+            border: 1px solid var(--borda);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: .3s;
+        }
+
+        .viatura-item:hover {
+            border-color: var(--dourado);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(201, 162, 39, .2);
+        }
+
+        .viatura-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .viatura-item h5 {
+            color: var(--dourado);
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .viatura-item p {
+            color: var(--texto-muted);
+            font-size: 12px;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* ===== REGRAS ===== */
+        .regras-box {
+            background: var(--preto-card);
+            border: 2px solid var(--vermelho);
+            border-radius: 12px;
+            padding: 30px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .regras-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--vermelho), var(--dourado));
+        }
+
+        .regras-box h4 {
+            color: var(--dourado);
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .regras-lista {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .regras-lista li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 18px;
+            background: var(--preto);
+            border-left: 3px solid var(--dourado);
+            border-radius: 6px;
+            font-size: 14.5px;
+            line-height: 1.55;
+            transition: .3s;
+        }
+
+        .regras-lista li:hover {
+            border-left-color: var(--vermelho);
+            transform: translateX(6px);
+        }
+
+        .regras-lista li i {
+            color: var(--dourado);
+            font-size: 16px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .regras-lista li strong {
+            color: var(--dourado);
+            font-weight: 600;
+        }
+
+        .aviso-punicao {
+            margin-top: 20px;
+            padding: 16px 20px;
+            background: rgba(183, 28, 28, .15);
+            border: 1px solid var(--vermelho);
+            border-radius: 8px;
+            color: #ff8a80;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .aviso-punicao i {
+            font-size: 20px;
+            color: var(--vermelho);
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 700px) {
+            .util-tabs {
+                gap: 8px;
+            }
+
+            .util-tab {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .util-tab span {
+                display: none;
+            }
+
+            .util-tab i {
+                font-size: 18px;
+            }
+
+            .arsenal-card {
+                padding: 18px;
+            }
+
+            .viatura-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .regras-box {
+                padding: 22px 18px;
+            }
+
+            .viatura-item img {
+                height: 150px;
+            }
+        }
+
+        /* ===== UNIFORMES ===== */
+        .uniforme-filtros {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .uniforme-filtro {
+            background: transparent;
+            border: 1px solid var(--borda);
+            color: var(--texto);
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .uniforme-filtro:hover,
+        .uniforme-filtro.ativo {
+            background: var(--dourado);
+            color: #000;
+            border-color: var(--dourado);
+        }
+
+        .uniforme-grupo {
+            display: none;
+        }
+
+        .uniforme-grupo.ativo {
+            display: block;
+            animation: fadeIn .4s;
+        }
+
+        .uniforme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 22px;
+        }
+
+        /* Card de uniforme */
+        .uniforme-card {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: .3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .uniforme-card:hover {
+            border-color: var(--dourado);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(201, 162, 39, .2);
+        }
+
+        .uniforme-img {
+            background: #ffffff;
+            padding: 12px;
+            border-bottom: 2px solid var(--borda);
+        }
+
+        .uniforme-img img {
+            width: 100%;
+            height: 240px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .uniforme-info {
+            padding: 20px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .uniforme-badge {
+            display: inline-block;
+            background: rgba(201, 162, 39, .15);
+            color: #e6c453;
+            border: 1px solid var(--dourado);
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .uniforme-info h3 {
+            color: var(--dourado);
+            font-size: 17px;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .uniforme-cargos {
+            color: var(--texto-muted);
+            font-size: 12px;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .uniforme-obs {
+            color: #ff8a80;
+            font-size: 12px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Ficha de códigos */
+        .uniforme-codigos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            padding-top: 12px;
+            border-top: 1px solid var(--borda);
+        }
+
+        .uniforme-codigos span {
+            background: var(--preto);
+            border: 1px solid var(--borda);
+            padding: 4px 9px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            color: var(--texto);
+        }
+
+        .uniforme-codigos span b {
+            color: var(--dourado);
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            .uniforme-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .uniforme-img img {
+                height: 200px;
+            }
+
+            .uniforme-filtro span {
+                display: none;
+            }
+        }
+
+        /* Ajuste fino para imagens femininas (mais largas) */
+        #uf-feminino .uniforme-img img {
+            height: 220px;
+        }
+
+        /* Ajuste fino para imagens de C.A.T. */
+        #uf-cat .uniforme-img img {
+            height: 220px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/img/logo.png" alt="Logo PC-RJ">
+                <span>POLÍCIA CIVIL — RJ</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navList">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cargos.html">Cargos</a></li>
+                    <li><a href="concursos.html">Concursos</a></li>
+                    <li><a href="galeria.html">Galeria</a></li>
+                    <li><a href="utilidades.html">Utilidades</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li class="nav-actions">
+                        <button id="loginBtn" class="btn-login">
+                            <i class="fa-solid fa-lock"></i> Área Restrita
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+            <h2>Acesso Restrito</h2>
+            <p class="modal-sub">Exclusivo para membros da corporação</p>
+            <form id="loginForm">
+                <label>ID Policial</label>
+                <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+                <label>Senha</label>
+                <input type="password" id="userPass" placeholder="••••••••" required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+            </form>
+            <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+        </div>
+    </div>
+
+    <section>
+        <h2>Utilidades da Corporação</h2>
+        <p style="margin-bottom:25px;">Guias oficiais de armamento, viaturas, uniformes e regras internas da Polícia
+            Civil de Revoada RJ.</p>
+
+        <!-- TABS -->
+        <div class="util-tabs">
+            <button class="util-tab ativo" data-tab="arsenal">
+                <i class="fa-solid fa-gun"></i> <span>Arsenal</span>
+            </button>
+            <button class="util-tab" data-tab="viaturas">
+                <i class="fa-solid fa-car"></i> <span>Viaturas</span>
+            </button>
+            <button class="util-tab" data-tab="uniformes">
+                <i class="fa-solid fa-shirt"></i> <span>Uniformes</span>
+            </button>
+        </div>
+
+        <!-- ============ ARSENAL ============ -->
+        <div class="util-painel ativo" id="arsenal">
+
+            <div class="util-subtitulo">
+                <i class="fa-solid fa-gun"></i> Armamentos por Cargo
+            </div>
+
+            <!-- Todos liberados -->
+            <div class="arsenal-card todos">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-crown"></i> Delegado PCERJ</span>
+                    <span class="cargo-tag"><i class="fa-solid fa-user-shield"></i> Delegado Adj. PCERJ</span>
+                </div>
+                <div class="todos-arm">
+                    <i class="fa-solid fa-infinity"></i> Todos os armamentos liberados
+                </div>
+            </div>
+
+            <div class="arsenal-card alto">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-crosshairs"></i> Comando CORE</span>
+                </div>
+                <div class="todos-arm">
+                    <i class="fa-solid fa-infinity"></i> Todos os armamentos liberados (exceto Shotgun)
+                </div>
+            </div>
+
+            <div class="arsenal-card alto">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-clipboard-check"></i> Comando CGPC</span>
+                    <span class="cargo-tag"><i class="fa-solid fa-helicopter"></i> Comando SAER</span>
+                    <span class="cargo-tag"><i class="fa-solid fa-motorcycle"></i> Comando GEM</span>
+                </div>
+                <div class="todos-arm">
+                    <i class="fa-solid fa-infinity"></i> Todos os armamentos liberados (exceto Shotgun)
+                </div>
+            </div>
+
+            <div class="arsenal-card alto">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-diagram-project"></i> Coordenador Civil</span>
+                </div>
+                <div class="todos-arm">
+                    <i class="fa-solid fa-infinity"></i> Todos os armamentos liberados (exceto Shotgun)
+                </div>
+            </div>
+
+            <div class="arsenal-card alto">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-user-check"></i> Supervisor Geral Civil</span>
+                </div>
+                <div class="todos-arm">
+                    <i class="fa-solid fa-infinity"></i> Todos os armamentos liberados (exceto Shotgun)
+                </div>
+            </div>
+
+            <div class="arsenal-card alto">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-user-police"></i> Inspetor Civil</span>
+                    <span class="cargo-tag"><i class="fa-solid fa-clipboard-list"></i> Comissário de Polícia</span>
+                </div>
+                <div class="todos-arm">
+                    <i class="fa-solid fa-infinity"></i> Todos os armamentos liberados (exceto Shotgun)
+                </div>
+            </div>
+
+            <!-- Arsenal completo -->
+            <div class="arsenal-card medio">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-person-running"></i> Investigador Operacional
+                        Civil</span>
+                    <span class="cargo-tag"><i class="fa-solid fa-bullseye"></i> Investigador de Operações
+                        Especiais</span>
+                </div>
+                <div class="arsenal-lista">
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Glock</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Pistola AP</span>
+                    <span class="arma-tag"><i class="fa-solid fa-bolt"></i> Taser</span>
+                    <span class="arma-tag"><i class="fa-solid fa-briefcase"></i> Kit Patrulha</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> MP5</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SigSauer</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> MTAR</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> M16</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> M4A4</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SCAR-H</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> G36</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Parafal</span>
+                </div>
+            </div>
+
+            <div class="arsenal-card medio">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-star"></i> Investigador Especial</span>
+                    <span class="cargo-tag"><i class="fa-solid fa-file-signature"></i> Escrivão Civil</span>
+                </div>
+                <div class="arsenal-lista">
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Glock</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Pistola AP</span>
+                    <span class="arma-tag"><i class="fa-solid fa-bolt"></i> Taser</span>
+                    <span class="arma-tag"><i class="fa-solid fa-briefcase"></i> Kit Patrulha</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> MP5</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SigSauer</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> M4A4</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> MTAR</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SCAR-H</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> G36</span>
+                </div>
+            </div>
+
+            <div class="arsenal-card base">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-medal"></i> Investigador 1ª Classe</span>
+                </div>
+                <div class="arsenal-lista">
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Glock</span>
+                    <span class="arma-tag"><i class="fa-solid fa-bolt"></i> Taser</span>
+                    <span class="arma-tag"><i class="fa-solid fa-briefcase"></i> Kit Patrulha</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> MP5</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SigSauer</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> M4A4</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SCAR-H</span>
+                </div>
+            </div>
+
+            <div class="arsenal-card base">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-award"></i> Investigador 2ª Classe</span>
+                </div>
+                <div class="arsenal-lista">
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Glock</span>
+                    <span class="arma-tag"><i class="fa-solid fa-bolt"></i> Taser</span>
+                    <span class="arma-tag"><i class="fa-solid fa-briefcase"></i> Kit Patrulha</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> MP5</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SigSauer</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> M4A4</span>
+                </div>
+            </div>
+
+            <div class="arsenal-card base">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-certificate"></i> Investigador 3ª Classe</span>
+                </div>
+                <div class="arsenal-lista">
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Glock</span>
+                    <span class="arma-tag"><i class="fa-solid fa-bolt"></i> Taser</span>
+                    <span class="arma-tag"><i class="fa-solid fa-briefcase"></i> Kit Patrulha</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> MP5</span>
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> SigSauer</span>
+                </div>
+            </div>
+
+            <div class="arsenal-card base">
+                <div class="arsenal-cargos">
+                    <span class="cargo-tag"><i class="fa-solid fa-graduation-cap"></i> Aluno PCERJ</span>
+                </div>
+                <div class="arsenal-lista">
+                    <span class="arma-tag"><i class="fa-solid fa-gun"></i> Glock</span>
+                    <span class="arma-tag"><i class="fa-solid fa-bolt"></i> Taser</span>
+                    <span class="arma-tag"><i class="fa-solid fa-briefcase"></i> Kit Patrulha</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ VIATURAS ============ -->
+        <div class="util-painel" id="viaturas">
+
+            <div class="util-subtitulo">
+                <i class="fa-solid fa-car"></i> Viaturas por Cargo
+            </div>
+
+            <!-- Highlander -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-crown"></i></div>
+                    <h4>Delegado PCERJ · Delegado Adj. PCERJ</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/highlander.jpg" alt="Toyota Highlander">
+                        <h5>Toyota Highlander</h5>
+                        <p>Comando Supremo</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SW4 -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4>Comando CORE · CGPC · SAER · GEM</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/sw4.jpg" alt="Toyota SW4">
+                        <h5>Toyota SW4</h5>
+                        <p>Comandos Especiais</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ranger / Hilux -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    <h4>Coordenador · Escrivão · Inspetor · Investigador Operacional · Investigador de Op. Especiais ·
+                        Comissário · Supervisor Geral</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/ranger.jpg" alt="Ford Ranger">
+                        <h5>Ford Ranger</h5>
+                        <p>Escrivão e Superiores</p>
+                    </div>
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/hilux.jpg" alt="Toyota Hilux Gradeada">
+                        <h5>Toyota Hilux Gradeada</h5>
+                        <p>Escrivão e Superiores</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trailblazer 22 / 25 -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-star"></i></div>
+                    <h4>Investigador Especial · 『 EQP 』CGPC</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/trailblazer22.jpg" alt="Trailblazer 22">
+                        <h5>Trailblazer 22</h5>
+                        <p>Investigador Especial</p>
+                    </div>
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/trailblazer25.jpg" alt="Trailblazer 25">
+                        <h5>Trailblazer 25</h5>
+                        <p>Investigador Especial</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S10 / A45 -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-medal"></i></div>
+                    <h4>Investigador 1ª Classe</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/s10.jpg" alt="Chevrolet S10">
+                        <h5>Chevrolet S10</h5>
+                        <p>Investigador 1ª Classe</p>
+                    </div>
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/a45.jpg" alt="A45">
+                        <h5>A45</h5>
+                        <p>Investigador 1ª Classe</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Focus -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-award"></i></div>
+                    <h4>Investigador 2ª Classe</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/focus.jpg" alt="Ford Focus">
+                        <h5>Ford Focus</h5>
+                        <p>Investigador 2ª Classe</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Versa / Duster -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-certificate"></i></div>
+                    <h4>Investigador 3ª Classe</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/versa.jpg" alt="Versa">
+                        <h5>Versa</h5>
+                        <p>Investigador 3ª Classe</p>
+                    </div>
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/duster.jpg" alt="Renault Duster">
+                        <h5>Renault Duster</h5>
+                        <p>Investigador 3ª Classe</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corolla -->
+            <div class="viatura-grupo">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h4>Aluno PCERJ</h4>
+                </div>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/corolla.jpg" alt="Toyota Corolla">
+                        <h5>Toyota Corolla</h5>
+                        <p>Aluno</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- C.A.T. -->
+            <div class="viatura-grupo" style="border-color: var(--vermelho);">
+                <div class="viatura-grupo-header">
+                    <div class="grupo-icon" style="background: linear-gradient(135deg, #b71c1c, #d32f2f); color: #fff;">
+                        <i class="fa-solid fa-crosshairs"></i>
+                    </div>
+                    <h4>Operações C.A.T. — Combate ao Tráfico</h4>
+                </div>
+                <p style="color: var(--texto-muted); font-size: 14px; margin-bottom: 20px;">
+                    Disponíveis para: Delegado PCERJ · Delegado Adj. · Comando CORE · Comando SAER · Comando GEM ·
+                    Comando CGPC · Coordenador Civil · Supervisor Geral Civil · Escrivão Civil.<br>
+                    <strong style="color: var(--dourado);">Uso exclusivo em operações de combate ao tráfico.</strong>
+                </p>
+                <div class="viatura-grid">
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/civic.jpg" alt="Honda Civic">
+                        <h5>Honda Civic</h5>
+                        <p>Operações C.A.T.</p>
+                    </div>
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/tiggo8.jpg" alt="Chery Tiggo 8">
+                        <h5>Chery Tiggo 8</h5>
+                        <p>Operações C.A.T.</p>
+                    </div>
+                    <div class="viatura-item">
+                        <img src="assets/img/viaturas/urus.jpg" alt="Lamborghini Urus">
+                        <h5>Lamborghini Urus</h5>
+                        <p>Operações C.A.T.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REGRAS DE VIATURAS -->
+            <div class="util-subtitulo" style="margin-top: 60px;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Regras de Viaturas
+            </div>
+
+            <div class="regras-box">
+                <h4><i class="fa-solid fa-book"></i> Regras | Viaturas | PCERJ</h4>
+                <ul class="regras-lista">
+                    <li><i class="fa-solid fa-chevron-right"></i> Usar o <strong>adesivo/plotagem da PCERJ</strong> (F8
+                        + livery 1)</li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <strong>Proibido</strong> usar viaturas não
+                        autorizadas por seu cargo</li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <strong>Proibido</strong> colocar insulfilme na QSV —
+                        permitido apenas para comandantes</li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <strong>Proibido</strong> estacionar a viatura fora
+                        dos locais adequados</li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <strong>Proibido</strong> patrulhar com a viatura
+                        quebrada, danificada, sem porta, sem capô, etc.</li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <strong>Proibido</strong> fazer modificações estéticas
+                        e/ou de outros tipos nas viaturas</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Permitido</strong> tunar sua viatura, bem como colocar
+                        blindagens diversas</li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <strong>Proibido</strong> utilizar os veículos de
+                        C.A.T. para deslocamentos</li>
+                    <li><i class="fa-solid fa-chevron-right"></i> <strong>Proibido</strong> fazer alterações estéticas
+                        nos veículos de C.A.T. sem autorização do Delegado PCERJ / Delegado Adj.</li>
+                </ul>
+
+                <div class="aviso-punicao">
+                    <i class="fa-solid fa-gavel"></i>
+                    O descumprimento de qualquer uma das regras acima acarretará em punições severas.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ UNIFORMES ============ -->
+        <div class="util-painel" id="uniformes">
+
+            <div class="util-subtitulo">
+                <i class="fa-solid fa-shirt"></i> Uniformes da Corporação
+            </div>
+
+            <!-- Sub-filtros -->
+            <div class="uniforme-filtros">
+                <button class="uniforme-filtro ativo" data-uf="masculino">
+                    <i class="fa-solid fa-person"></i> Masculino
+                </button>
+                <button class="uniforme-filtro" data-uf="feminino">
+                    <i class="fa-solid fa-person-dress"></i> Feminino
+                </button>
+                <button class="uniforme-filtro" data-uf="cat">
+                    <i class="fa-solid fa-crosshairs"></i> C.A.T.
+                </button>
+            </div>
+
+            <!-- ========== MASCULINO ========== -->
+            <div class="uniforme-grupo ativo" id="uf-masculino">
+
+                <div class="uniforme-grid">
+
+                    <!-- DELEGADO EXECUTIVO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-executivo.jpg" alt="Delegado Executivo">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado</span>
+                            <h3>Delegado Executivo</h3>
+                            <p class="uniforme-cargos">Delegado PCERJ · Delegado Adj. PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 52 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 146 1</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 110 3</span>
+                                <span><b>colete</b> 0 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 929 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADO GERAL OPERACIONAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-geral-operacional.jpg"
+                                alt="Delegado Geral Operacional">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado Geral</span>
+                            <h3>Delegado Geral Operacional</h3>
+                            <p class="uniforme-cargos">Delegado PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 116 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 830 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADO GERAL TÁTICO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-geral-tatico.jpg"
+                                alt="Delegado Geral Tático">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado Geral</span>
+                            <h3>Delegado Geral Tático</h3>
+                            <p class="uniforme-cargos">Delegado PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 56 0</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 3</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 795 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADO SOCIAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-social.jpg" alt="Delegado Social">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado</span>
+                            <h3>Delegado Social</h3>
+                            <p class="uniforme-cargos">Delegado PCERJ · Delegado Adj. PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 192 2</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 928 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADO GERAL ADMINISTRATIVO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-geral-administrativo.jpg"
+                                alt="Delegado Geral Administrativo">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado Geral</span>
+                            <h3>Delegado Geral Administrativo</h3>
+                            <p class="uniforme-cargos">Delegado PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 146 1</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 0 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 825 2</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADO ADJ. ADMINISTRATIVO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-adj-administrativo.jpg"
+                                alt="Delegado Adj. Administrativo">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado Adjunto</span>
+                            <h3>Delegado Adj. Administrativo</h3>
+                            <p class="uniforme-cargos">Delegado Adj. PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 146 1</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 0 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 825 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADO ADJUNTO OPERACIONAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-adj-operacional.jpg"
+                                alt="Delegado Adjunto Operacional">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado Adjunto</span>
+                            <h3>Delegado Adjunto Operacional</h3>
+                            <p class="uniforme-cargos">Delegado Adj. PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 116 1</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 830 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADO ADJUNTO TÁTICO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/delegado-adj-tatico.jpg"
+                                alt="Delegado Adjunto Tático">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegado Adjunto</span>
+                            <h3>Delegado Adjunto Tático</h3>
+                            <p class="uniforme-cargos">Delegado Adj. PCERJ</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 2</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 795 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COORDENADOR CAMUFLADO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/coordenador-camuflado.jpg"
+                                alt="Coordenador Camuflado">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Coordenador</span>
+                            <h3>Coordenador Camuflado</h3>
+                            <p class="uniforme-cargos">Coordenador Civil</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 1</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 842 23</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COORDENADOR CINZA -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/coordenador-cinza.jpg" alt="Coordenador Cinza">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Coordenador</span>
+                            <h3>Coordenador Cinza</h3>
+                            <p class="uniforme-cargos">Coordenador Civil</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 131 0</span>
+                                <span><b>maos</b> 4 0</span>
+                                <span><b>calca</b> 181 3</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 56 0</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 1</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 852 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUPERVISOR GERAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/supervisor-geral.jpg" alt="Supervisor Geral">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Supervisor</span>
+                            <h3>Supervisor Geral</h3>
+                            <p class="uniforme-cargos">Supervisor Geral Civil</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 282 6</span>
+                                <span><b>maos</b> 47 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 6</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 855 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COMISSÁRIO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/comissario.jpg" alt="Comissário">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Comissário</span>
+                            <h3>Comissário</h3>
+                            <p class="uniforme-cargos">Comissário de Polícia</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 271 1</span>
+                                <span><b>maos</b> 51 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 859 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADOR DE OPERAÇÕES ESPECIAIS -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/investigador-ops-especiais.jpg"
+                                alt="Investigador de Operações Especiais">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Investigador</span>
+                            <h3>Investigador de Operações Especiais</h3>
+                            <p class="uniforme-cargos">Investigador de Operações Especiais</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 282 2</span>
+                                <span><b>maos</b> 49 0</span>
+                                <span><b>calca</b> 302 11</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 8</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 852 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INSPETOR -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/inspetor.jpg" alt="Inspetor">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Inspetor</span>
+                            <h3>Inspetor</h3>
+                            <p class="uniforme-cargos">Inspetor Civil</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 271 1</span>
+                                <span><b>maos</b> 52 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 56</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 160 5</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 858 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADOR OPERACIONAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/investigador-operacional.jpg"
+                                alt="Investigador Operacional">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Investigador</span>
+                            <h3>Investigador Operacional</h3>
+                            <p class="uniforme-cargos">Investigador Operacional Civil</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 44 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 7</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 857 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESCRIVÃO CAMUFLADO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/escrivao-camuflado.jpg" alt="Escrivão Camuflado">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Escrivão</span>
+                            <h3>Escrivão Camuflado</h3>
+                            <p class="uniforme-cargos">Escrivão Civil</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 282 6</span>
+                                <span><b>maos</b> 56 0</span>
+                                <span><b>calca</b> 302 17</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 191 4</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 842 22</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADOR ESPECIAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/investigador-especial.jpg"
+                                alt="Investigador Especial">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Investigador Especial</span>
+                            <h3>Investigador Especial</h3>
+                            <p class="uniforme-cargos">Investigador Especial</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 271 1</span>
+                                <span><b>maos</b> 44 0</span>
+                                <span><b>calca</b> 302 12</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 159 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 856 4</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADOR 1ª CLASSE -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/investigador-1-classe.jpg"
+                                alt="Investigador 1ª Classe">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">1ª Classe</span>
+                            <h3>Investigador 1ª Classe</h3>
+                            <p class="uniforme-cargos">Investigador 1ª Classe</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 271 1</span>
+                                <span><b>maos</b> 44 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 159 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 853 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADOR 2ª CLASSE -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/investigador-2-classe.jpg"
+                                alt="Investigador 2ª Classe">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">2ª Classe</span>
+                            <h3>Investigador 2ª Classe</h3>
+                            <p class="uniforme-cargos">Investigador 2ª Classe</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 271 1</span>
+                                <span><b>maos</b> 56 0</span>
+                                <span><b>calca</b> 297 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 159 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 854 1</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADOR 3ª CLASSE -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/investigador-3-classe.jpg"
+                                alt="Investigador 3ª Classe">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">3ª Classe</span>
+                            <h3>Investigador 3ª Classe</h3>
+                            <p class="uniforme-cargos">Investigador 3ª Classe</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 179 1</span>
+                                <span><b>maos</b> 44 0</span>
+                                <span><b>calca</b> 181 3</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 159 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 853 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ALUNO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/masculino/aluno.jpg" alt="Aluno">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Aluno</span>
+                            <h3>Aluno</h3>
+                            <p class="uniforme-cargos">Aluno PCERJ</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 179 1</span>
+                                <span><b>maos</b> 45 0</span>
+                                <span><b>calca</b> 181 3</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 208 1</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 107 3</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 854 0</span>
+                                <span><b>oculos</b> 18 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- REGRAS DE FARDAMENTO -->
+                <div class="regras-box" style="margin-top: 40px;">
+                    <h4><i class="fa-solid fa-book"></i> Regras de Fardamento PCERJ</h4>
+                    <ul class="regras-lista">
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> tatuagem no rosto</li>
+                        <li><i class="fa-solid fa-check"></i> Tatuagem no corpo <strong>liberada</strong></li>
+                        <li><i class="fa-solid fa-palette"></i> Cores únicas para cabelo: <strong>preto, loiro, ruivo,
+                                branco e castanho</strong></li>
+                        <li><i class="fa-solid fa-scissors"></i> Corte de cabelo e blush <strong>liberados</strong></li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> óculos coloridos</li>
+                        <li><i class="fa-solid fa-glasses"></i> Óculos permitidos apenas com a <strong>perna branca ou
+                                preta</strong></li>
+                        <li><i class="fa-solid fa-clock"></i> Relógios permitidos apenas nas cores <strong>branca ou
+                                preta</strong></li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> realizar alterações nos uniformes
+                            (colete, coldre, máscara, etc.)</li>
+                        <li><i class="fa-solid fa-shield-halved"></i> Durante a patrulha é <strong>obrigatório</strong>
+                            utilizar o colete</li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> o uso de brincos, colares,
+                            pulseiras e quaisquer outros acessórios fora do padrão</li>
+                        <li><i class="fa-solid fa-mask"></i> A <strong>máscara é obrigatória</strong> para todos, exceto
+                            para cargos a partir de <strong>Investigador Operacional</strong></li>
+                    </ul>
+
+                    <div class="aviso-punicao">
+                        <i class="fa-solid fa-gavel"></i>
+                        O descumprimento de qualquer uma das regras acima acarretará em punições severas.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ========== FEMININO ========== -->
+            <!-- ========== FEMININO ========== -->
+            <div class="uniforme-grupo" id="uf-feminino">
+
+                <div class="uniforme-grid">
+
+                    <!-- DELEGADA GERAL OPERACIONAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/delegada_geral_op.jpg"
+                                alt="Delegada Geral Operacional">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegada Geral</span>
+                            <h3>Delegada Geral Operacional</h3>
+                            <p class="uniforme-cargos">Delegado PCERJ</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 65 0</span>
+                                <span><b>calca</b> 317 22</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 50 0</span>
+                                <span><b>acessorios</b> 126 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 151 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 937 6</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADA GERAL TÁTICO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/delegada_geral_tatico.jpg"
+                                alt="Delegada Geral Tático">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegada Geral</span>
+                            <h3>Delegada Geral Tático</h3>
+                            <p class="uniforme-cargos">Delegado PCERJ</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 78 0</span>
+                                <span><b>calca</b> 317 22</span>
+                                <span><b>mochila</b> -1 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 243 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 171 5</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 937 6</span>
+                                <span><b>oculos</b> 5 0</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADA ADJUNTA OPERACIONAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/delegada_adj_op.jpg"
+                                alt="Delegada Adjunta Operacional">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegada Adjunta</span>
+                            <h3>Delegada Adjunta Operacional</h3>
+                            <p class="uniforme-cargos">Delegado Adj. PCERJ</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 65 0</span>
+                                <span><b>calca</b> 317 22</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 50 0</span>
+                                <span><b>acessorios</b> 126 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 151 1</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 937 6</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DELEGADA ADJUNTA TÁTICO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/delegada_adj_tatico.jpg"
+                                alt="Delegada Adjunta Tático">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Delegada Adjunta</span>
+                            <h3>Delegada Adjunta Tático</h3>
+                            <p class="uniforme-cargos">Delegado Adj. PCERJ</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 78 0</span>
+                                <span><b>calca</b> 317 22</span>
+                                <span><b>mochila</b> -1 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 243 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 171 6</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 937 6</span>
+                                <span><b>oculos</b> 5 0</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COORDENADORA CAMUFLADO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/coordenadora_camuflado.jpg"
+                                alt="Coordenadora Camuflado">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Coordenadora</span>
+                            <h3>Coordenadora Camuflado</h3>
+                            <p class="uniforme-cargos">Coordenador Civil</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 65 0</span>
+                                <span><b>calca</b> 317 22</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 163 1</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 946 3</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUPERVISORA GERAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/supervisora_geral.jpg" alt="Supervisora Geral">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Supervisora</span>
+                            <h3>Supervisora Geral</h3>
+                            <p class="uniforme-cargos">Supervisor Geral Civil</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 78 0</span>
+                                <span><b>calca</b> 317 15</span>
+                                <span><b>mochila</b> -1 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 246 1</span>
+                                <span><b>blusa</b> 1 0</span>
+                                <span><b>colete</b> 163 5</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 964 0</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COMISSÁRIA -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/comissaria.jpg" alt="Comissária">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Comissária</span>
+                            <h3>Comissária</h3>
+                            <p class="uniforme-cargos">Comissário de Polícia</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 86 0</span>
+                                <span><b>calca</b> 321 11</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 50 0</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 163 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 960 0</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADORA DE OPERAÇÕES ESPECIAIS -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/invesgadora_op_esp.jpg"
+                                alt="Investigadora de Operações Especiais">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Investigadora</span>
+                            <h3>Investigadora de Operações Especiais</h3>
+                            <p class="uniforme-cargos">Investigador de Operações Especiais</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 65 0</span>
+                                <span><b>calca</b> 317 22</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 163 4</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 967 0</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INSPETORA -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/inspetora.jpg" alt="Inspetora">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Inspetora</span>
+                            <h3>Inspetora</h3>
+                            <p class="uniforme-cargos">Inspetor Civil</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 65 0</span>
+                                <span><b>calca</b> 321 11</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 163 3</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 964 0</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADORA OPERACIONAL -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/invesgadora_op.jpg" alt="Investigadora Operacional">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Investigadora</span>
+                            <h3>Investigadora Operacional</h3>
+                            <p class="uniforme-cargos">Investigador Operacional Civil</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> Não é obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 0 0</span>
+                                <span><b>maos</b> 86 0</span>
+                                <span><b>calca</b> 321 11</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 50 0</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 171 4</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 966 0</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESCRIVÃ CAMUFLADO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/escriva.jpg" alt="Escrivã Camuflado">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Escrivã</span>
+                            <h3>Escrivã Camuflado</h3>
+                            <p class="uniforme-cargos">Escrivão Civil</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 303 2</span>
+                                <span><b>maos</b> 78 0</span>
+                                <span><b>calca</b> 321 19</span>
+                                <span><b>mochila</b> -1 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 236 1</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 171 2</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 946 2</span>
+                                <span><b>oculos</b> 9 10</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADORA ESPECIAL / 1ª CLASSE -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/investigadora_1_classe.jpg"
+                                alt="Investigadora Especial / 1ª Classe">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Especial / 1ª Classe</span>
+                            <h3>Investigadora Especial / 1ª Classe</h3>
+                            <p class="uniforme-cargos">Investigador Especial · Investigador 1ª Classe</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 184 0</span>
+                                <span><b>maos</b> 41 0</span>
+                                <span><b>calca</b> 321 11</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 162 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 965 0</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADORA 2ª CLASSE -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/investigadora_2_classe.jpg"
+                                alt="Investigadora 2ª Classe">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">2ª Classe</span>
+                            <h3>Investigadora 2ª Classe</h3>
+                            <p class="uniforme-cargos">Investigador 2ª Classe</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 184 0</span>
+                                <span><b>maos</b> 76 0</span>
+                                <span><b>calca</b> 321 11</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 162 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 963 1</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGADORA 3ª CLASSE -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/investigadora_3_classe.jpg"
+                                alt="Investigadora 3ª Classe">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">3ª Classe</span>
+                            <h3>Investigadora 3ª Classe</h3>
+                            <p class="uniforme-cargos">Investigador 3ª Classe</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 184 1</span>
+                                <span><b>maos</b> 86 0</span>
+                                <span><b>calca</b> 177 3</span>
+                                <span><b>mochila</b> -1 0</span>
+                                <span><b>sapatos</b> 50 0</span>
+                                <span><b>acessorios</b> 201 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 162 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 962 0</span>
+                                <span><b>oculos</b> 9 9</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ALUNA -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/feminino/aluna.jpg" alt="Aluna">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge">Aluna</span>
+                            <h3>Aluna</h3>
+                            <p class="uniforme-cargos">Aluno PCERJ</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-circle-exclamation"></i> Obrigatório o uso da
+                                máscara</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 184 1</span>
+                                <span><b>maos</b> 70 0</span>
+                                <span><b>calca</b> 177 3</span>
+                                <span><b>mochila</b> -1 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 201 0</span>
+                                <span><b>blusa</b> 14 0</span>
+                                <span><b>colete</b> 112 8</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 963 0</span>
+                                <span><b>oculos</b> 17 11</span>
+                                <span><b>chapeu</b> -1 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- REGRAS DE FARDAMENTO (Feminino) -->
+                <div class="regras-box" style="margin-top: 40px;">
+                    <h4><i class="fa-solid fa-book"></i> Regras de Fardamento PCERJ</h4>
+                    <ul class="regras-lista">
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> tatuagem no rosto</li>
+                        <li><i class="fa-solid fa-check"></i> Tatuagem no corpo <strong>liberada</strong></li>
+                        <li><i class="fa-solid fa-palette"></i> Cores únicas para cabelo: <strong>preto, loiro, ruivo,
+                                branco e castanho</strong></li>
+                        <li><i class="fa-solid fa-scissors"></i> Corte de cabelo e blush <strong>liberados</strong></li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> óculos coloridos</li>
+                        <li><i class="fa-solid fa-glasses"></i> Óculos permitidos apenas com a <strong>perna branca ou
+                                preta</strong></li>
+                        <li><i class="fa-solid fa-clock"></i> Relógios permitidos apenas nas cores <strong>branca ou
+                                preta</strong></li>
+                        <li><i class="fa-solid fa-hat-cowboy"></i> Boné ou touca permitida apenas na cor <strong>preta,
+                                sem estampas</strong></li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> realizar alterações nos uniformes
+                            (colete, coldre, máscara, etc.)</li>
+                        <li><i class="fa-solid fa-shield-halved"></i> Durante a patrulha é <strong>obrigatório</strong>
+                            utilizar o colete</li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> o uso de brincos, colares,
+                            pulseiras e quaisquer outros acessórios fora do padrão</li>
+                        <li><i class="fa-solid fa-mask"></i> A <strong>máscara é obrigatória</strong> para todos, exceto
+                            para cargos a partir de <strong>Investigador Operacional</strong></li>
+                    </ul>
+
+                    <div class="aviso-punicao">
+                        <i class="fa-solid fa-gavel"></i>
+                        O descumprimento de qualquer uma das regras acima acarretará em punições severas.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ========== C.A.T. ========== -->
+            <!-- ========== C.A.T. ========== -->
+            <div class="uniforme-grupo" id="uf-cat">
+
+                <div class="util-subtitulo">
+                    <i class="fa-solid fa-crosshairs"></i> Uniformes de Combate ao Tráfico
+                </div>
+
+                <p style="color: var(--texto-muted); font-size: 14px; margin-bottom: 25px; text-align: center;">
+                    Exclusivo para membros do <strong style="color: var(--dourado);">Curso de Combate ao
+                        Tráfico</strong>.
+                    <br>Obrigatório o uso do uniforme durante operações.
+                </p>
+
+                <div class="uniforme-grid">
+
+                    <!-- C.A.T. MASCULINO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/cat/cat-masculino.jpg" alt="Uniforme C.A.T. Masculino">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge"
+                                style="background: rgba(183,28,28,.15); color: #ff8a80; border-color: #b71c1c;">
+                                <i class="fa-solid fa-person"></i> C.A.T. Masculino
+                            </span>
+                            <h3>Uniforme Masculino — Combate ao Tráfico</h3>
+                            <p class="uniforme-cargos">P.C.E.R.J. · Curso de Combate ao Tráfico</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-triangle-exclamation"></i> Proibido realizar
+                                alterações no uniforme</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 276 0</span>
+                                <span><b>maos</b> 40 0</span>
+                                <span><b>calca</b> 303 0</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 56 0</span>
+                                <span><b>acessorios</b> 1 0</span>
+                                <span><b>blusa</b> 15 0</span>
+                                <span><b>colete</b> 148 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 923 1</span>
+                                <span><b>chapeu</b> 291 0</span>
+                                <span><b>oculos</b> 21 5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- C.A.T. FEMININO -->
+                    <div class="uniforme-card">
+                        <div class="uniforme-img">
+                            <img src="assets/img/uniformes/cat/cat-feminino.jpg" alt="Uniforme C.A.T. Feminino">
+                        </div>
+                        <div class="uniforme-info">
+                            <span class="uniforme-badge"
+                                style="background: rgba(183,28,28,.15); color: #ff8a80; border-color: #b71c1c;">
+                                <i class="fa-solid fa-person-dress"></i> C.A.T. Feminino
+                            </span>
+                            <h3>Uniforme Feminino — Combate ao Tráfico</h3>
+                            <p class="uniforme-cargos">P.C.E.R.J. · Curso de Combate ao Tráfico</p>
+                            <p class="uniforme-obs"><i class="fa-solid fa-triangle-exclamation"></i> Proibido realizar
+                                alterações no uniforme</p>
+                            <div class="uniforme-codigos">
+                                <span><b>mascara</b> 296 0</span>
+                                <span><b>maos</b> 77 0</span>
+                                <span><b>calca</b> 317 24</span>
+                                <span><b>mochila</b> 0 0</span>
+                                <span><b>sapatos</b> 225 1</span>
+                                <span><b>acessorios</b> 237 0</span>
+                                <span><b>blusa</b> 3 0</span>
+                                <span><b>colete</b> 143 0</span>
+                                <span><b>adesivo</b> 0 0</span>
+                                <span><b>jaqueta</b> 960 0</span>
+                                <span><b>chapeu</b> 279 0</span>
+                                <span><b>oculos</b> 2 5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- REGRAS DO C.A.T. -->
+                <div class="regras-box" style="margin-top: 40px; border-color: var(--vermelho);">
+                    <h4 style="color: #ff8a80;"><i class="fa-solid fa-crosshairs"></i> Regras de Fardamento C.A.T.</h4>
+                    <ul class="regras-lista">
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> óculos coloridos</li>
+                        <li><i class="fa-solid fa-glasses"></i> Óculos permitidos apenas com a <strong>perna branca e
+                                preta</strong></li>
+                        <li><i class="fa-solid fa-clock"></i> Relógios permitidos apenas na cor <strong>branca e
+                                preta</strong></li>
+                        <li><i class="fa-solid fa-hat-cowboy"></i> Boné ou touca permitida apenas nas cores
+                            <strong>preto, sem estampas</strong>
+                        </li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> realizar alterações no uniforme
+                            (chapéu, óculos, etc.)</li>
+                        <li><i class="fa-solid fa-shield-halved"></i> Durante a operação é <strong>obrigatório o uso do
+                                uniforme</strong></li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> o uso de brincos, colares,
+                            relógios, pulseiras e quaisquer outros acessórios fora do padrão</li>
+                        <li><i class="fa-solid fa-mask"></i> A <strong>máscara é obrigatória</strong> para todos, exceto
+                            para cargos a partir de <strong>Coordenador</strong></li>
+                        <li><i class="fa-solid fa-car"></i> Utilizar <strong>somente a QSV Civic todo preto e
+                                insulfilmado</strong></li>
+                        <li><i class="fa-solid fa-ban"></i> <strong>Proibido</strong> realizar alterações estéticas ou a
+                            cor do Honda Civic</li>
+                    </ul>
+
+                    <div class="aviso-punicao">
+                        <i class="fa-solid fa-gavel"></i>
+                        O descumprimento de qualquer uma das regras acima acarretará em punições severas.
+                    </div>
+                </div>
+
+            </div>
+
+    </section>
+
+    <footer>
+        <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        // ===== TABS DE UTILIDADES =====
+        document.querySelectorAll('.util-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.util-tab').forEach(t => t.classList.remove('ativo'));
+                document.querySelectorAll('.util-painel').forEach(p => p.classList.remove('ativo'));
+
+                tab.classList.add('ativo');
+                document.getElementById(tab.dataset.tab).classList.add('ativo');
+            });
+        });
+    </script>
+
+    <script>
+        // ... (tabs existentes)
+
+        // ===== FILTROS DE UNIFORMES =====
+        document.querySelectorAll('.uniforme-filtro').forEach(filtro => {
+            filtro.addEventListener('click', () => {
+                document.querySelectorAll('.uniforme-filtro').forEach(f => f.classList.remove('ativo'));
+                document.querySelectorAll('.uniforme-grupo').forEach(g => g.classList.remove('ativo'));
+
+                filtro.classList.add('ativo');
+                document.getElementById('uf-' + filtro.dataset.uf).classList.add('ativo');
+            });
+        });
+    </script>
+</body>
+
+</html>

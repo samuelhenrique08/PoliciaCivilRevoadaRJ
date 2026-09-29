@@ -8,6 +8,382 @@
     <link rel="icon" href="assets/img/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ===== CARDS DE CARGO ===== */
+        .cargo-grupo {
+            margin-bottom: 60px;
+        }
+
+        .grupo-titulo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--dourado);
+            font-size: 24px;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--borda);
+        }
+
+        .grupo-titulo i {
+            font-size: 26px;
+        }
+
+        /* Grid ajustável — mínimo confortável */
+        .cargo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 22px;
+        }
+
+        /* Grid mais largo pra grupos com poucos cards */
+        .cargo-grid.wide {
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        }
+
+        /* Grid mais compacto pra grupos com muitos cards */
+        .cargo-grid.compact {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        /* ===== CARD DE CARGO ===== */
+        .cargo-card {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cargo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--dourado);
+            transition: .3s;
+        }
+
+        .cat-alto-comando::before {
+            background: linear-gradient(180deg, #c9a227, #e6c453);
+        }
+
+        .cat-comandos::before {
+            background: linear-gradient(180deg, #b71c1c, #d32f2f);
+        }
+
+        .cat-gestao::before {
+            background: linear-gradient(180deg, #0d47a1, #1565c0);
+        }
+
+        .cat-investigativo::before {
+            background: linear-gradient(180deg, #1b5e20, #2e7d32);
+        }
+
+        .cargo-card:hover {
+            border-color: var(--dourado);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(201, 162, 39, .2);
+        }
+
+        /* Cabeçalho do card: ícone + badge */
+        .cargo-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 5px;
+        }
+
+        .cargo-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .4);
+        }
+
+        .cat-alto-comando .cargo-icon {
+            background: linear-gradient(135deg, #c9a227, #e6c453);
+        }
+
+        .cat-comandos .cargo-icon {
+            background: linear-gradient(135deg, #b71c1c, #d32f2f);
+            color: #fff;
+        }
+
+        .cat-gestao .cargo-icon {
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
+            color: #fff;
+        }
+
+        .cat-investigativo .cargo-icon {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            color: #fff;
+        }
+
+        .cargo-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .cat-alto-comando .cargo-badge {
+            background: rgba(201, 162, 39, .15);
+            color: #e6c453;
+            border: 1px solid #c9a227;
+        }
+
+        .cat-comandos .cargo-badge {
+            background: rgba(183, 28, 28, .15);
+            color: #ff5252;
+            border: 1px solid #b71c1c;
+        }
+
+        .cat-gestao .cargo-badge {
+            background: rgba(13, 71, 161, .15);
+            color: #64b5f6;
+            border: 1px solid #0d47a1;
+        }
+
+        .cat-investigativo .cargo-badge {
+            background: rgba(27, 94, 32, .15);
+            color: #81c784;
+            border: 1px solid #1b5e20;
+        }
+
+        .cargo-card h3 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--dourado);
+            line-height: 1.3;
+        }
+
+        .cargo-card>p {
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--texto);
+            margin: 0;
+        }
+
+        .cargo-card>p strong {
+            color: var(--dourado);
+            font-weight: 600;
+        }
+
+        /* Lista de atribuições */
+        .atribuicoes {
+            list-style: none;
+            margin-top: 6px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 6px 20px;
+        }
+
+        .atribuicoes li {
+            padding: 5px 0 5px 22px;
+            position: relative;
+            font-size: 14px;
+            color: var(--texto);
+        }
+
+        .atribuicoes li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 7px;
+            color: var(--dourado);
+            font-size: 11px;
+        }
+
+        /* ===== COMANDOS ESPECIAIS — mini-cards ===== */
+        .comandos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .comando-mini {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-radius: 10px;
+            padding: 22px 18px;
+            text-align: center;
+            transition: .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comando-mini::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #b71c1c, #d32f2f);
+        }
+
+        .comando-mini:hover {
+            border-color: var(--vermelho);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(183, 28, 28, .3);
+        }
+
+        .comando-mini i {
+            font-size: 30px;
+            color: #ff5252;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .comando-mini h4 {
+            color: var(--dourado);
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .comando-mini span {
+            font-size: 12px;
+            color: var(--texto-muted);
+            display: block;
+            line-height: 1.4;
+        }
+
+        /* Bloco descritivo */
+        .bloco-desc {
+            background: var(--preto-card);
+            border-left: 4px solid var(--vermelho);
+            border-radius: 8px;
+            padding: 22px 26px;
+            margin-top: 15px;
+        }
+
+        .bloco-desc.verde {
+            border-left-color: #1b5e20;
+        }
+
+        .bloco-desc h4 {
+            color: var(--dourado);
+            font-size: 15px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bloco-desc p {
+            font-size: 14.5px;
+            margin-bottom: 8px;
+            line-height: 1.65;
+        }
+
+        .bloco-desc p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bloco-desc p strong {
+            color: var(--dourado);
+            font-weight: 600;
+        }
+
+        /* ===== Linha visual de hierarquia ===== */
+        .linha-hierarquia {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            font-size: 13px;
+            color: var(--texto-muted);
+        }
+
+        .linha-hierarquia span {
+            padding: 6px 12px;
+            background: var(--preto-suave);
+            border-radius: 6px;
+            border: 1px solid var(--borda);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .linha-hierarquia span i {
+            color: var(--dourado);
+        }
+
+        .linha-hierarquia>i {
+            color: var(--dourado);
+            font-size: 11px;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 900px) {
+
+            .cargo-grid,
+            .cargo-grid.wide {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .grupo-titulo {
+                font-size: 19px;
+                gap: 10px;
+            }
+
+            .grupo-titulo i {
+                font-size: 20px;
+            }
+
+            .cargo-card {
+                padding: 22px 20px;
+            }
+
+            .cargo-card h3 {
+                font-size: 17px;
+            }
+
+            .cargo-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
+
+            .comandos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .atribuicoes {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .comandos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -28,7 +404,7 @@
                     <li><a href="cargos.html">Cargos</a></li>
                     <li><a href="concursos.html">Concursos</a></li>
                     <li><a href="galeria.html">Galeria</a></li>
-                    <li><a href="corregedoria.html">Corregedoria</a></li>
+                    <li><a href="utilidades.html">Utilidades</a></li>
                     <li><a href="contato.html">Contato</a></li>
                     <li class="nav-actions">
                         <button id="loginBtn" class="btn-login">
@@ -62,94 +438,254 @@
     </div>
 
     <section>
-        <h2>Hierarquia da Corporação</h2>
-        <p style="margin-bottom:30px;">A Polícia Civil de Revoada RJ segue uma estrutura hierárquica rígida, onde cada
-            membro possui responsabilidades específicas e deve respeitar a cadeia de comando.</p>
+        <h2>Hierarquia da PCERJ</h2>
+        <p style="margin-bottom:25px;">A Polícia Civil de Revoada RJ segue uma cadeia de comando rígida, onde cada
+            membro possui atribuições específicas e responde aos superiores hierárquicos.</p>
 
-        <div class="grid">
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-crown"></i></div>
-                <h3>Delegado Geral</h3>
-                <p><strong>Nível:</strong> Comando Supremo</p>
-                <p>Autoridade máxima da corporação. Responsável pelas decisões estratégicas, operações de grande porte e
-                    representação oficial da Polícia Civil perante o governo do estado.</p>
+        <!-- Linha visual de progressão -->
+        <div class="linha-hierarquia">
+            <span><i class="fa-solid fa-crown"></i> Alto Comando</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span><i class="fa-solid fa-shield-halved"></i> Comandos Especiais</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span><i class="fa-solid fa-user-tie"></i> Gestão</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span><i class="fa-solid fa-user-secret"></i> Investigação</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span><i class="fa-solid fa-graduation-cap"></i> Formação</span>
+        </div>
+
+        <!-- ============ ALTO COMANDO ============ -->
+        <div class="cargo-grupo">
+            <div class="grupo-titulo">
+                <i class="fa-solid fa-crown"></i> Alto Comando
             </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-star"></i></div>
-                <h3>Delegado</h3>
-                <p><strong>Nível:</strong> Alta Gestão</p>
-                <p>Autoridade policial responsável pela condução de inquéritos, gestão da delegacia e assinatura de
-                    mandados. Supervisiona investigadores e escrivães.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-file-signature"></i></div>
-                <h3>Escrivão</h3>
-                <p><strong>Nível:</strong> Oficial</p>
-                <p>Responsável pela documentação oficial, registros de ocorrência, autos de prisão e demais trâmites
-                    burocráticos da corporação.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
-                <h3>Investigador Chefe</h3>
-                <p><strong>Nível:</strong> Oficial Sênior</p>
-                <p>Lidera equipes de investigação em campo, coordena operações táticas e responde diretamente ao
-                    Delegado.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-user-secret"></i></div>
-                <h3>Investigador</h3>
-                <p><strong>Nível:</strong> Operacional</p>
-                <p>Atua em campo na coleta de provas, interrogatórios, vigilância e perseguição de suspeitos. É o agente
-                    principal das operações.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-microscope"></i></div>
-                <h3>Perito Criminal</h3>
-                <p><strong>Nível:</strong> Especialista</p>
-                <p>Responsável pela análise técnica de cenas de crime, coleta de evidências, exames laboratoriais e
-                    produção de laudos periciais.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-fingerprint"></i></div>
-                <h3>Papiloscopista</h3>
-                <p><strong>Nível:</strong> Técnico</p>
-                <p>Especialista em identificação civil e criminal através de impressões digitais, análise biométrica e
-                    banco de dados.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                <h3>Recruta</h3>
-                <p><strong>Nível:</strong> Formação</p>
-                <p>Novo membro em período de treinamento. Passa por academia, avaliação de conduta e prova prática antes
-                    de ser efetivado.</p>
+            <div class="cargo-grid wide">
+
+                <div class="cargo-card cat-alto-comando">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-crown"></i></div>
+                        <span class="cargo-badge">Comando Supremo</span>
+                    </div>
+                    <h3>Delegado PCERJ</h3>
+                    <p>Responsável por comandar as atividades administrativas e burocráticas, atuar na parte técnica,
+                        emitir inquéritos e comandar o departamento, executando todas as competências atribuídas ao
+                        cargo no desempenho das funções.</p>
+                </div>
+
+                <div class="cargo-card cat-alto-comando">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-user-shield"></i></div>
+                        <span class="cargo-badge">Vice-Comando</span>
+                    </div>
+                    <h3>Delegado Adj. PCERJ</h3>
+                    <p>Deve auxiliar o Delegado Geral da Polícia Civil. Na ausência do Delegado Geral, o Delegado
+                        Adjunto assume a liderança da matriz.</p>
+                </div>
+
             </div>
         </div>
-    </section>
 
-    <section>
-        <h2>Requisitos para Promoção</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
-                <h4>Recruta → Investigador</h4>
-                <p>Concluir a academia de formação, ter 15 dias de atividade mínima e passar na prova prática.</p>
+        <!-- ============ COMANDOS ESPECIAIS ============ -->
+        <div class="cargo-grupo">
+            <div class="grupo-titulo">
+                <i class="fa-solid fa-shield-halved"></i> Comandos Especiais
             </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
-                <h4>Investigador → Investigador Chefe</h4>
-                <p>30 dias de serviço ativo, indicação de superior e destaque em operações relevantes.</p>
+
+            <div class="comandos-grid">
+                <div class="comando-mini">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <h4>Comando CORE</h4>
+                    <span>Coordenadoria de Recursos Especiais</span>
+                </div>
+                <div class="comando-mini">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <h4>Comando CGPC</h4>
+                    <span>Controladoria Geral</span>
+                </div>
+                <div class="comando-mini">
+                    <i class="fa-solid fa-helicopter"></i>
+                    <h4>Comando SAER</h4>
+                    <span>Serviço Aero Policial</span>
+                </div>
+                <div class="comando-mini">
+                    <i class="fa-solid fa-motorcycle"></i>
+                    <h4>Comando GEM</h4>
+                    <span>Grupamento Especial de Motocicletas</span>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
-                <h4>Investigador Chefe → Escrivão</h4>
-                <p>60 dias de casa, aprovação em prova interna de legislação e conduta exemplar.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
-                <h4>Escrivão → Delegado</h4>
-                <p>90 dias de serviço, recomendação do Delegado Geral e avaliação de mérito.</p>
+
+            <div class="bloco-desc">
+                <p>São os comandantes das divisões especiais e grupamentos. Possuem <strong>autonomia
+                        administrativa</strong>, mas sempre sob supervisão dos delegados.</p>
+                <p>Também poderão <strong>emitir mandados</strong> caso necessário.</p>
+                <p>Assumem a liderança do departamento na ausência dos Delegados.</p>
             </div>
         </div>
+
+        <!-- ============ GESTÃO E SUPERVISÃO ============ -->
+        <div class="cargo-grupo">
+            <div class="grupo-titulo">
+                <i class="fa-solid fa-user-tie"></i> Gestão e Supervisão
+            </div>
+            <div class="cargo-grid">
+
+                <div class="cargo-card cat-gestao">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                        <span class="cargo-badge">Coordenação</span>
+                    </div>
+                    <h3>Coordenador Civil</h3>
+                    <p>É responsável por coordenar os setores que regem a Polícia Civil, que vão do <strong>ensino até a
+                            investigação</strong>. Integra o administrativo, convoca reuniões, autoriza operações e
+                        supervisiona os demais abaixo.</p>
+                </div>
+
+                <div class="cargo-card cat-gestao">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-user-check"></i></div>
+                        <span class="cargo-badge">Supervisão</span>
+                    </div>
+                    <h3>Supervisor Geral Civil</h3>
+                    <p>Responsável tanto pelo <strong>operacional quanto investigativo</strong>, o melhor dos dois
+                        mundos. Este cargo proporciona liderança e adesão a todas as áreas da PCERJ. É superior ao
+                        Comissário e ao Investigador de Operações Especiais.</p>
+                </div>
+
+                <div class="cargo-card cat-gestao">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <span class="cargo-badge">Investigação Administrativa</span>
+                    </div>
+                    <h3>Comissário de Polícia</h3>
+                    <p>Todas as atribuições anteriores com <strong>foco em Investigação</strong>, sem deixar de lado o
+                        operacional. Grande foco na <strong>CGPC</strong>, auxiliando em relatórios e investigações.</p>
+                </div>
+
+                <div class="cargo-card cat-gestao">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-bullseye"></i></div>
+                        <span class="cargo-badge">Operações Especiais</span>
+                    </div>
+                    <h3>Investigador de Operações Especiais</h3>
+                    <p>Todas as atribuições anteriores com <strong>foco em ação</strong>, sem deixar de lado as
+                        investigações. Auxilia em <strong>recrutamentos de grupamentos e tropas especiais</strong>.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============ CARREIRA INVESTIGATIVA ============ -->
+        <div class="cargo-grupo">
+            <div class="grupo-titulo">
+                <i class="fa-solid fa-user-secret"></i> Carreira Investigativa
+            </div>
+            <div class="cargo-grid">
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-user-police"></i></div>
+                        <span class="cargo-badge">Investigação Sênior</span>
+                    </div>
+                    <h3>Inspetor Civil</h3>
+                    <p>Todas as atribuições anteriores com <strong>foco em Investigação</strong>.</p>
+                </div>
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-person-running"></i></div>
+                        <span class="cargo-badge">Operacional</span>
+                    </div>
+                    <h3>Investigador Operacional Civil</h3>
+                    <p>Todas as atribuições anteriores com <strong>foco em ação</strong>.</p>
+                </div>
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-file-signature"></i></div>
+                        <span class="cargo-badge">Documentação</span>
+                    </div>
+                    <h3>Escrivão Civil</h3>
+                    <p>Realiza a <strong>emissão e controle de documentação</strong>, como portes de arma e limpeza de
+                        ficha. Supervisiona os agentes. Autoriza e participa de <strong>operações C.A.T.</strong></p>
+                </div>
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-star"></i></div>
+                        <span class="cargo-badge">Nível Especial</span>
+                    </div>
+                    <h3>Investigador Especial</h3>
+                    <p>Cargo de destaque dentro da carreira investigativa, com atribuições plenas de investigação e
+                        operacionais.</p>
+                </div>
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-medal"></i></div>
+                        <span class="cargo-badge">1ª Classe</span>
+                    </div>
+                    <h3>Investigador 1ª Classe</h3>
+                    <p>Nível mais alto da carreira de investigador, com as atribuições completas da função.</p>
+                </div>
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-award"></i></div>
+                        <span class="cargo-badge">2ª Classe</span>
+                    </div>
+                    <h3>Investigador 2ª Classe</h3>
+                    <p>Nível intermediário da carreira, com as atribuições completas da função.</p>
+                </div>
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-certificate"></i></div>
+                        <span class="cargo-badge">3ª Classe</span>
+                    </div>
+                    <h3>Investigador 3ª Classe</h3>
+                    <p>Nível inicial da carreira investigativa, com as atribuições completas da função.</p>
+                </div>
+
+            </div>
+
+            <!-- Atribuições comuns -->
+            <div class="bloco-desc verde" style="margin-top: 30px;">
+                <h4><i class="fa-solid fa-list-check"></i> Atribuições dos Investigadores (todas as classes)</h4>
+                <ul class="atribuicoes">
+                    <li>Identificar, localizar e interrogar suspeitos</li>
+                    <li>Coletar evidências e provas</li>
+                    <li>Alimentar o banco de dados da Polícia Civil</li>
+                    <li>Elaborar relatórios de investigação</li>
+                    <li>Cumprir mandados judiciais e efetuar prisões</li>
+                    <li>Escoltar presos</li>
+                    <li>Manter a segurança de locais em investigação</li>
+                    <li>Conduzir viaturas policiais</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- ============ FORMAÇÃO ============ -->
+        <div class="cargo-grupo">
+            <div class="grupo-titulo">
+                <i class="fa-solid fa-graduation-cap"></i> Formação
+            </div>
+            <div class="cargo-grid wide">
+
+                <div class="cargo-card cat-investigativo">
+                    <div class="cargo-header">
+                        <div class="cargo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <span class="cargo-badge">Em Formação</span>
+                    </div>
+                    <h3>Aluno PCERJ</h3>
+                    <p>Tem como principal função o <strong>aprendizado</strong>, através de cursos e patrulhamento. É o
+                        primeiro passo na carreira dentro da Polícia Civil.</p>
+                </div>
+
+            </div>
+        </div>
+
     </section>
 
     <footer>
