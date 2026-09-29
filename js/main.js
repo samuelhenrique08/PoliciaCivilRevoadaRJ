@@ -56,7 +56,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.card, section, .aviso, .stat').forEach(el => {
+document.querySelectorAll('.card, section, .aviso').forEach(el => {
   el.classList.add('fade-in');
   observer.observe(el);
 });

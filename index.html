@@ -82,28 +82,7 @@
         </div>
     </section>
 
-    <section class="stats">
-        <div class="stat">
-            <i class="fa-solid fa-users"></i>
-            <span class="stat-number">+70</span>
-            <span class="stat-label">Membros Ativos</span>
-        </div>
-        <div class="stat">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span class="stat-number">4</span>
-            <span class="stat-label">Grupamentos</span>
-        </div>
-        <div class="stat">
-            <i class="fa-solid fa-clock"></i>
-            <span class="stat-number">24h</span>
-            <span class="stat-label">Plantão</span>
-        </div>
-        <div class="stat">
-            <i class="fa-solid fa-landmark"></i>
-            <span class="stat-number">1808</span>
-            <span class="stat-label">Desde</span>
-        </div>
-    </section>
+
 
     <section class="destaques">
         <h2>Nossos Pilares</h2>
@@ -126,33 +105,41 @@
         </div>
     </section>
 
-    <section class="avisos">
-        <h2>Avisos da Corporação</h2>
-        <div class="aviso-list">
-            <div class="aviso">
-                <span class="data">28/09</span>
-                <p class="aviso-texto"><i class="fa-solid fa-helicopter"></i> Inscrições abertas para o
-                    <strong>SAER</strong> — Serviço Aero Policial.
-                </p>
-            </div>
-            <div class="aviso">
-                <span class="data">26/09</span>
-                <p class="aviso-texto"><i class="fa-solid fa-pen-fancy"></i> Concurso interno para
-                    <strong>Escrivão</strong> com vagas em aberto.
-                </p>
-            </div>
-            <div class="aviso">
-                <span class="data">22/09</span>
-                <p class="aviso-texto"><i class="fa-solid fa-crosshairs"></i> <strong>CORE</strong> abre processo
-                    seletivo para policiais de elite.</p>
-            </div>
+    <!-- ==================== MURAL DE AVISOS E NOTÍCIAS ==================== -->
+    <section class="mural">
+        <div class="mural-header">
+            <h2><i class="fa-solid fa-newspaper"></i> Mural de Avisos e Notícias</h2>
+            <span class="mural-sub">Comunicados oficiais e últimas operações da PCERJ</span>
         </div>
-        <div style="text-align:center; margin-top:30px;">
-            <a href="concursos.html" class="btn btn-outline">
-                <i class="fa-solid fa-list-check"></i> Ver Todos os Concursos
+
+        <div class="mural-grid" id="muralGrid"></div>
+
+        <div class="mural-footer">
+            <a href="#" class="btn btn-outline" id="verTodosBtn">
+                <i class="fa-solid fa-list"></i> Ver Todas as Publicações
             </a>
         </div>
     </section>
+
+    <!-- MODAL DE PUBLICAÇÃO -->
+    <div class="post-modal" id="postModal">
+        <div class="post-conteudo">
+            <div class="post-header">
+                <div class="post-header-icon" id="postIcon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div class="post-header-info">
+                    <span class="post-badge" id="postBadge">AVISO</span>
+                    <h2 id="postTitulo">Título</h2>
+                    <span class="post-meta" id="postMeta">Autor · Data</span>
+                </div>
+                <button class="post-close" id="postClose" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="post-body" id="postBody"></div>
+        </div>
+    </div>
 
     <section class="cta">
         <h2>Quer fazer parte da elite?</h2>
@@ -169,6 +156,273 @@
 
     <script src="js/main.js"></script>
     <script src="js/login.js"></script>
+
+    <script>
+        /* ============================================================
+           DADOS DO MURAL (estático — será substituído pelo painel)
+           ------------------------------------------------------------
+           INTEGRAÇÃO FUTURA COM FIREBASE:
+           Substituir o array por:
+             onSnapshot(collection(db, 'publicacoes'), (snap) => {
+               const POSTS_DATA = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+               renderMural();
+             });
+           ============================================================ */
+        const POSTS_DATA = [
+            {
+                id: "0001",
+                tipo: "pacificacao",
+                categoria: "Pacificação",
+                titulo: "Pacificação no Complexo do Alemão",
+                preview: "Operação conjunta entre CORE e SAER resultou na retomada do território. Mais de 40 agentes mobilizados, 8 presos e 12 armas apreendidas.",
+                conteudo: `
+      <p>Na madrugada de <strong>29/09/2026</strong>, as forças conjuntas da Polícia Civil — com apoio do <strong>CORE</strong>, <strong>SAER</strong> e grupamentos táticos — deflagraram a <strong>Operação Pacificação</strong> no Complexo do Alemão.</p>
+
+      <p>A operação contou com mais de <strong>40 agentes</strong> envolvidos, incluindo apoio aéreo do SAER e equipes de solo do CORE. O objetivo foi retomar o controle de áreas dominadas por facções criminosas que atuavam no tráfico de drogas e armas.</p>
+
+      <p><strong>Resultados da operação:</strong></p>
+      <ul>
+        <li>8 criminosos presos em flagrante</li>
+        <li>12 armas de fogo apreendidas (incluindo 2 fuzis)</li>
+        <li>Mais de 50 kg de entorpecentes apreendidos</li>
+        <li>3 laboratórios de refino desativados</li>
+        <li>Nenhum agente ferido</li>
+      </ul>
+
+      <p>A operação segue em andamento nas próximas 48h para consolidação da paz no território. A população pode retomar suas atividades normalmente.</p>
+
+      <p style="color: var(--dourado); text-align: center; font-weight: bold; margin-top: 25px;">
+        SERVIÇO — Segurança para todos. Denuncie. Ligue 190.
+      </p>
+    `,
+                autor: "[DEL G.] Macedo Tenebras",
+                data: "29/09/2026",
+                hora: "06:42",
+                destaque: true
+            },
+            {
+                id: "0002",
+                tipo: "operacao",
+                categoria: "Operação",
+                titulo: "Operação Lixo Zero na Zona Sul",
+                preview: "Ação conjunta com a GEM resultou na desarticulação de quadrilha especializada em roubo de veículos de luxo em Ipanema e Leblon.",
+                conteudo: `
+      <p>Nesta manhã, a <strong>Polícia Civil</strong>, em conjunto com o <strong>GEM</strong> (Grupamento Especial de Motocicletas), deflagrou a <strong>Operação Lixo Zero</strong> nos bairros de Ipanema e Leblon.</p>
+
+      <p>A operação teve como alvo uma quadrilha especializada em <strong>roubo de veículos de luxo</strong> que atuava na região há mais de 3 meses. Através de investigações conduzidas pelo <strong>Comissário Marcelo</strong>, foi possível mapear o modus operandi do grupo.</p>
+
+      <p><strong>Resultados:</strong></p>
+      <ul>
+        <li>5 membros da quadrilha presos</li>
+        <li>3 veículos recuperados (avaliados em mais de R$ 800 mil)</li>
+        <li>1 desmanche clandestino fechado</li>
+        <li>Equipamentos de clonagem de placas apreendidos</li>
+      </ul>
+
+      <p>A operação contou com apoio de <strong>12 motocicletas do GEM</strong> que fizeram o cerco tático na região. Não houve confronto.</p>
+    `,
+                autor: "[CMD GEM] Zorro",
+                data: "28/09/2026",
+                hora: "18:20",
+                destaque: true
+            },
+            {
+                id: "0003",
+                tipo: "promocao",
+                categoria: "Promoção",
+                titulo: "3 Investigadores são promovidos a Investigador Especial",
+                preview: "Após rigoroso processo interno, três membros do quadro de investigação sobem de classe. Confira os nomes e a justificativa.",
+                conteudo: `
+      <p>É com grande satisfação que a <strong>Delegacia Geral da PCERJ</strong> anuncia a promoção de <strong>3 investigadores</strong> ao cargo de <strong>Investigador Especial</strong>.</p>
+
+      <p>A promoção foi aprovada após análise de mérito realizada pelos Delegados e pelo Comando Geral, levando em consideração: desempenho operacional, conduta disciplinar, tempo de serviço e participação em operações relevantes.</p>
+
+      <p><strong>Investigadores promovidos:</strong></p>
+      <ul>
+        <li><strong>Husupreme</strong> (INV ESP CORE)</li>
+        <li><strong>Henrique</strong> (INV ESP CORE)</li>
+        <li><strong>Todyn</strong> (INV ESP · 1314)</li>
+      </ul>
+
+      <p>A todos os promovidos, nossos <strong>parabéns</strong>. Que continuem honrando o lema da nossa corporação: <strong>Servir e Proteger</strong>.</p>
+    `,
+                autor: "[CMD] Dede Tenebras",
+                data: "27/09/2026",
+                hora: "12:00",
+                destaque: false
+            },
+            {
+                id: "0004",
+                tipo: "aviso",
+                categoria: "Geral",
+                titulo: "Nova escala de plantão para a próxima semana",
+                preview: "A escala da semana de 30/09 a 06/10 já está disponível. Confira seu turno e comunique ausências com antecedência.",
+                conteudo: `
+      <p>Atenção, <strong>membros da PCERJ</strong>. A nova <strong>escala de plantão</strong> para a semana de <strong>30/09 a 06/10</strong> já está disponível no canal <strong>#escalas</strong> do Discord.</p>
+
+      <p><strong>Lembretes importantes:</strong></p>
+      <ul>
+        <li>Confira seu turno com antecedência</li>
+        <li>Comunique ausências com no mínimo 24h de antecedência</li>
+        <li>Trocas de plantão devem ser autorizadas por um superior</li>
+        <li>Ausência sem justificativa resulta em advertência</li>
+      </ul>
+
+      <p>Dúvidas? Contate diretamente seu supervisor imediato.</p>
+    `,
+                autor: "[COORD] Jeffin",
+                data: "26/09/2026",
+                hora: "09:15",
+                destaque: false
+            },
+            {
+                id: "0005",
+                tipo: "noticia",
+                categoria: "Geral",
+                titulo: "Balanço do mês: redução de 34% em crimes violentos",
+                preview: "Relatório mensal aponta queda significativa nos índices de criminalidade após reforço das operações integradas entre os grupamentos.",
+                conteudo: `
+      <p>O <strong>setor de inteligência da PCERJ</strong> divulgou nesta semana o <strong>balanço mensal de setembro</strong>, com dados que apontam uma redução significativa nos índices de criminalidade em Revoada RJ.</p>
+
+      <p><strong>Números do mês:</strong></p>
+      <ul>
+        <li>Redução de <strong>34%</strong> em crimes violentos (roubo, latrocínio, homicídio)</li>
+        <li><strong>87 prisões</strong> realizadas em flagrante</li>
+        <li><strong>24 mandados</strong> cumpridos</li>
+        <li><strong>152 kg</strong> de entorpecentes apreendidos</li>
+        <li><strong>31 armas</strong> de fogo retiradas de circulação</li>
+      </ul>
+
+      <p>Segundo o <strong>Delegado Geral</strong>, o resultado é fruto do trabalho integrado entre CORE, SAER, GEM e CGPC nas operações conjuntas. "Nossa meta é continuar aumentando esses números e devolver a paz à população", afirmou.</p>
+    `,
+                autor: "[SPV] Zod Tenebras",
+                data: "25/09/2026",
+                hora: "16:30",
+                destaque: false
+            },
+            {
+                id: "0006",
+                tipo: "aviso",
+                categoria: "Geral",
+                titulo: "Novo código de conduta atualizado",
+                preview: "O código de conduta da corporação passou por revisão. Leia atentamente as novas normas disciplinares vigentes.",
+                conteudo: `
+      <p>Informamos a todos os membros que o <strong>Código de Conduta da PCERJ</strong> passou por uma <strong>revisão geral</strong>, com novas normas disciplinares em vigor.</p>
+
+      <p><strong>Principais mudanças:</strong></p>
+      <ul>
+        <li>Uso obrigatório do colete em patrulha</li>
+        <li>Proibição de acessórios fora do padrão</li>
+        <li>Punições mais severas para casos de corrupção</li>
+        <li>Novo protocolo para abordagens a civis</li>
+        <li>Avaliação de conduta trimestral</li>
+      </ul>
+
+      <p>O documento completo está disponível no canal <strong>#código-de-conduta</strong>. Leia com atenção — o desconhecimento não isenta ninguém de responsabilidade.</p>
+    `,
+                autor: "[SUB CMD] Lzin Tenebras",
+                data: "24/09/2026",
+                hora: "11:00",
+                destaque: false
+            }
+        ];
+
+        /* ============================================================
+           CONFIGURAÇÃO DE TIPOS
+           ============================================================ */
+        const TIPOS_CONFIG = {
+            aviso: { cor: "#c9a227", icone: "fa-bullhorn", label: "AVISO" },
+            noticia: { cor: "#1565c0", icone: "fa-newspaper", label: "NOTÍCIA" },
+            pacificacao: { cor: "#b71c1c", icone: "fa-shield-halved", label: "PACIFICAÇÃO" },
+            operacao: { cor: "#ef6c00", icone: "fa-crosshairs", label: "OPERAÇÃO" },
+            promocao: { cor: "#2e7d32", icone: "fa-medal", label: "PROMOÇÃO" }
+        };
+
+        /* ============================================================
+           RENDER — MURAL
+           ============================================================ */
+        function renderMural() {
+            const grid = document.getElementById('muralGrid');
+            if (!grid) return;
+
+            // Mostra só 6 mais recentes (ordem já está decrescente)
+            const posts = POSTS_DATA.slice(0, 6);
+
+            grid.innerHTML = posts.map(p => {
+                const tipo = TIPOS_CONFIG[p.tipo] || TIPOS_CONFIG.aviso;
+                return `
+      <div class="post-card" data-id="${p.id}" style="--cor-tipo: ${tipo.cor};">
+        <div class="post-card-header">
+          <span class="post-tipo ${p.tipo}">
+            <i class="fa-solid ${tipo.icone}"></i> ${tipo.label}
+          </span>
+          <span class="post-categoria">${p.categoria}</span>
+        </div>
+        <div class="post-card-body">
+          <h3>${p.titulo}</h3>
+          <p>${p.preview}</p>
+        </div>
+        <div class="post-card-footer">
+          <div class="post-autor">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>${p.autor}</span>
+          </div>
+          <div class="post-data">
+            <i class="fa-solid fa-clock"></i>
+            <span>${p.data}</span>
+          </div>
+        </div>
+      </div>
+    `;
+            }).join('');
+
+            // Listener
+            document.querySelectorAll('.post-card').forEach(card => {
+                card.addEventListener('click', () => abrirPost(card.dataset.id));
+            });
+        }
+
+        /* ============================================================
+           ABRIR / FECHAR MODAL DE POST
+           ============================================================ */
+        function abrirPost(id) {
+            const post = POSTS_DATA.find(p => p.id === id);
+            if (!post) return;
+
+            const tipo = TIPOS_CONFIG[post.tipo] || TIPOS_CONFIG.aviso;
+
+            document.getElementById('postIcon').innerHTML = `<i class="fa-solid ${tipo.icone}"></i>`;
+            document.getElementById('postBadge').textContent = tipo.label;
+            document.getElementById('postTitulo').textContent = post.titulo;
+            document.getElementById('postMeta').innerHTML = `<i class="fa-solid fa-user-shield"></i> ${post.autor} &nbsp;·&nbsp; <i class="fa-solid fa-calendar"></i> ${post.data} às ${post.hora}`;
+            document.getElementById('postBody').innerHTML = post.conteudo;
+            document.getElementById('postBadge').style.borderColor = tipo.cor;
+            document.getElementById('postBadge').style.color = tipo.cor;
+            document.getElementById('postIcon').style.background = `linear-gradient(135deg, ${tipo.cor}, ${tipo.cor}cc)`;
+            document.querySelector('.post-conteudo').style.setProperty('--cor-tipo', tipo.cor);
+
+            document.getElementById('postModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharPost() {
+            document.getElementById('postModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('postClose')?.addEventListener('click', fecharPost);
+        document.getElementById('postModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'postModal') fecharPost();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') fecharPost();
+        });
+
+        /* ============================================================
+           INIT
+           ============================================================ */
+        renderMural();
+    </script>
 </body>
 
 </html>
