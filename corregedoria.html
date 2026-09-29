@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corregedoria | Polícia Civil RJ — Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/img/logo.png" alt="Logo PC-RJ">
+                <span>POLÍCIA CIVIL — RJ</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navList">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cargos.html">Cargos</a></li>
+                    <li><a href="concursos.html">Concursos</a></li>
+                    <li><a href="galeria.html">Galeria</a></li>
+                    <li><a href="corregedoria.html">Corregedoria</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li class="nav-actions">
+                        <button id="loginBtn" class="btn-login">
+                            <i class="fa-solid fa-lock"></i> Área Restrita
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+            <h2>Acesso Restrito</h2>
+            <p class="modal-sub">Exclusivo para membros da corporação</p>
+            <form id="loginForm">
+                <label>ID Policial</label>
+                <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+                <label>Senha</label>
+                <input type="password" id="userPass" placeholder="••••••••" required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+            </form>
+            <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+        </div>
+    </div>
+
+    <section>
+        <h2>Corregedoria Geral</h2>
+        <p>A Corregedoria é o órgão interno responsável por fiscalizar a conduta dos membros da Polícia Civil, apurar
+            denúncias e aplicar sanções disciplinares quando necessário.</p>
+    </section>
+
+    <section>
+        <h2>Condutas Puníveis</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3>Infrações Leves</h3>
+                <ul class="lista">
+                    <li>Uso indevido do uniforme</li>
+                    <li>Desrespeito leve a superior</li>
+                    <li>Atrasos em plantões</li>
+                    <li>Linguagem inadequada</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-hand"></i></div>
+                <h3>Infrações Médias</h3>
+                <ul class="lista">
+                    <li>Abuso de autoridade</li>
+                    <li>Corrupção leve</li>
+                    <li>Vazamento de informações</li>
+                    <li>Desobediência direta</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-ban"></i></div>
+                <h3>Infrações Graves</h3>
+                <ul class="lista">
+                    <li>Corrupção comprovada</li>
+                    <li>Participação em facções</li>
+                    <li>Roubo a civis ou colegas</li>
+                    <li>Homicídio fora de serviço</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Registrar Denúncia</h2>
+        <p style="text-align:center; margin-bottom:25px;">As denúncias podem ser anônimas. Seu relato será encaminhado
+            diretamente ao Delegado Geral e ao Corregedor.</p>
+        <form class="form-denuncia">
+            <label>Nome (opcional)</label>
+            <input type="text" placeholder="Deixe em branco para anônimo">
+
+            <label>ID do membro denunciado</label>
+            <input type="text" required placeholder="Ex: #1234">
+
+            <label>Descrição da ocorrência</label>
+            <textarea rows="5" required
+                placeholder="Descreva o ocorrido com detalhes, data, hora e testemunhas..."></textarea>
+
+            <label>Provas (link de print/vídeo)</label>
+            <input type="url" placeholder="https://...">
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i> Enviar Denúncia
+            </button>
+        </form>
+    </section>
+
+    <footer>
+        <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

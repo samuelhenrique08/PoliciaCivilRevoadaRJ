@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polícia Civil RJ | Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/img/logo.png" alt="Logo PC-RJ">
+                <span>POLÍCIA CIVIL — RJ</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <nav>
+                <ul id="navList">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cargos.html">Cargos</a></li>
+                    <li><a href="concursos.html">Concursos</a></li>
+                    <li><a href="galeria.html">Galeria</a></li>
+                    <li><a href="corregedoria.html">Corregedoria</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li class="nav-actions">
+                        <button id="loginBtn" class="btn-login">
+                            <i class="fa-solid fa-lock"></i> Área Restrita
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MODAL LOGIN -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+            <h2>Acesso Restrito</h2>
+            <p class="modal-sub">Exclusivo para membros da corporação</p>
+            <form id="loginForm">
+                <label>ID Policial</label>
+                <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+                <label>Senha</label>
+                <input type="password" id="userPass" placeholder="••••••••" required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+            </form>
+            <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>SERVIR E PROTEGER</h1>
+            <p>A Polícia Judiciária do Estado do Rio de Janeiro atua com honra, disciplina e justiça na cidade de
+                <strong>Revoada RJ</strong>.</p>
+            <div class="hero-buttons">
+                <a href="concursos.html" class="btn btn-primary">
+                    <i class="fa-solid fa-file-signature"></i> Ver Concursos Abertos
+                </a>
+                <a href="sobre.html" class="btn btn-outline">
+                    <i class="fa-solid fa-circle-info"></i> Conhecer a Corporação
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <i class="fa-solid fa-users"></i>
+            <span class="stat-number">+120</span>
+            <span class="stat-label">Membros Ativos</span>
+        </div>
+        <div class="stat">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span class="stat-number">6</span>
+            <span class="stat-label">Grupamentos</span>
+        </div>
+        <div class="stat">
+            <i class="fa-solid fa-clock"></i>
+            <span class="stat-number">24h</span>
+            <span class="stat-label">Plantão</span>
+        </div>
+        <div class="stat">
+            <i class="fa-solid fa-landmark"></i>
+            <span class="stat-number">1808</span>
+            <span class="stat-label">Desde</span>
+        </div>
+    </section>
+
+    <section class="destaques">
+        <h2>Nossos Pilares</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Honra</h3>
+                <p>Atuamos com integridade e respeito à população de Revoada RJ.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                <h3>Justiça</h3>
+                <p>Investigação técnica e imparcial em todos os casos.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-badge-sheriff"></i></div>
+                <h3>Disciplina</h3>
+                <p>Hierarquia e protocolo seguidos rigorosamente.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="avisos">
+        <h2>Avisos da Corporação</h2>
+        <div class="aviso-list">
+            <div class="aviso">
+                <span class="data">28/09</span>
+                <p class="aviso-texto"><i class="fa-solid fa-helicopter"></i> Inscrições abertas para o
+                    <strong>SAER</strong> — Serviço Aero Policial.</p>
+            </div>
+            <div class="aviso">
+                <span class="data">26/09</span>
+                <p class="aviso-texto"><i class="fa-solid fa-pen-fancy"></i> Concurso interno para
+                    <strong>Escrivão</strong> com vagas em aberto.</p>
+            </div>
+            <div class="aviso">
+                <span class="data">22/09</span>
+                <p class="aviso-texto"><i class="fa-solid fa-crosshairs"></i> <strong>CORE</strong> abre processo
+                    seletivo para policiais de elite.</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:30px;">
+            <a href="concursos.html" class="btn btn-outline">
+                <i class="fa-solid fa-list-check"></i> Ver Todos os Concursos
+            </a>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Quer fazer parte da elite?</h2>
+        <p>Junte-se à Polícia Civil de Revoada RJ e ajude a manter a ordem na cidade.</p>
+        <a href="concursos.html" class="btn btn-primary">
+            <i class="fa-solid fa-star"></i> Ver Concursos Abertos
+        </a>
+    </section>
+
+    <footer>
+        <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+        <p>Servidor: <strong>Revoada RJ</strong></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

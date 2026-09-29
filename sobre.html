@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre | Polícia Civil RJ — Revoada RJ</title>
+  <link rel="icon" href="assets/img/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <img src="assets/img/logo.png" alt="Logo PC-RJ">
+        <span>POLÍCIA CIVIL — RJ</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav>
+        <ul id="navList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="cargos.html">Cargos</a></li>
+          <li><a href="concursos.html">Concursos</a></li>
+          <li><a href="galeria.html">Galeria</a></li>
+          <li><a href="corregedoria.html">Corregedoria</a></li>
+          <li><a href="contato.html">Contato</a></li>
+          <li class="nav-actions">
+            <button id="loginBtn" class="btn-login">
+              <i class="fa-solid fa-lock"></i> Área Restrita
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Fechar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+      <h2>Acesso Restrito</h2>
+      <p class="modal-sub">Exclusivo para membros da corporação</p>
+      <form id="loginForm">
+        <label>ID Policial</label>
+        <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+        <label>Senha</label>
+        <input type="password" id="userPass" placeholder="••••••••" required>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa-solid fa-right-to-bracket"></i> Entrar
+        </button>
+      </form>
+      <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Sobre a Corporação</h2>
+    <p>A <strong>Polícia Civil do Estado do Rio de Janeiro</strong> é a instituição de polícia judiciária responsável
+      por conduzir investigações criminais, elaborar inquéritos, realizar perícias e cumprir mandados judiciais. No
+      cenário do servidor <strong>Revoada RJ</strong>, nossa corporação atua como força essencial no combate ao crime
+      organizado, ao tráfico de entorpecentes e a facções que ameaçam a ordem pública.</p>
+    <br>
+    <p>Nossa missão é investigar, identificar e responsabilizar criminalmente os infratores, sempre respeitando os
+      direitos constitucionais do cidadão e agindo com base na lei. Somos a porta de entrada do sistema de justiça
+      criminal — é através do nosso trabalho que os casos chegam ao Ministério Público e ao Poder Judiciário.</p>
+  </section>
+
+  <section>
+    <h2>Missão, Visão e Valores</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <h3>Missão</h3>
+        <p>Investigar crimes com excelência técnica, proteger a população de Revoada RJ e contribuir para uma sociedade
+          mais justa e segura.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+        <h3>Visão</h3>
+        <p>Ser reconhecida como a corporação mais eficiente e respeitada do estado, referência em inteligência policial
+          e investigação criminal.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
+        <h3>Valores</h3>
+        <p>Honra, disciplina, hierarquia, lealdade, ética, coragem e compromisso com a verdade e a justiça.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>História da Instituição</h2>
+    <p>A Polícia Civil do Rio de Janeiro foi oficialmente criada em <strong>1808</strong>, com a vinda da Família Real
+      Portuguesa ao Brasil, sendo uma das instituições policiais mais antigas do país. Ao longo de mais de dois séculos,
+      a corporação se modernizou e se tornou referência nacional em investigação criminal, perícia e inteligência
+      policial.</p>
+    <br>
+    <p>No contexto do servidor Revoada RJ, adaptamos toda essa tradição histórica para a realidade do roleplay, mantendo
+      o compromisso com a hierarquia, o protocolo e a imersão que nossos membros buscam.</p>
+  </section>
+
+  <footer>
+    <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/login.js"></script>
+</body>
+
+</html>

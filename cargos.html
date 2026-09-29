@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargos | Polícia Civil RJ — Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/img/logo.png" alt="Logo PC-RJ">
+                <span>POLÍCIA CIVIL — RJ</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navList">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cargos.html">Cargos</a></li>
+                    <li><a href="concursos.html">Concursos</a></li>
+                    <li><a href="galeria.html">Galeria</a></li>
+                    <li><a href="corregedoria.html">Corregedoria</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li class="nav-actions">
+                        <button id="loginBtn" class="btn-login">
+                            <i class="fa-solid fa-lock"></i> Área Restrita
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+            <h2>Acesso Restrito</h2>
+            <p class="modal-sub">Exclusivo para membros da corporação</p>
+            <form id="loginForm">
+                <label>ID Policial</label>
+                <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+                <label>Senha</label>
+                <input type="password" id="userPass" placeholder="••••••••" required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+            </form>
+            <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+        </div>
+    </div>
+
+    <section>
+        <h2>Hierarquia da Corporação</h2>
+        <p style="margin-bottom:30px;">A Polícia Civil de Revoada RJ segue uma estrutura hierárquica rígida, onde cada
+            membro possui responsabilidades específicas e deve respeitar a cadeia de comando.</p>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-crown"></i></div>
+                <h3>Delegado Geral</h3>
+                <p><strong>Nível:</strong> Comando Supremo</p>
+                <p>Autoridade máxima da corporação. Responsável pelas decisões estratégicas, operações de grande porte e
+                    representação oficial da Polícia Civil perante o governo do estado.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+                <h3>Delegado</h3>
+                <p><strong>Nível:</strong> Alta Gestão</p>
+                <p>Autoridade policial responsável pela condução de inquéritos, gestão da delegacia e assinatura de
+                    mandados. Supervisiona investigadores e escrivães.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-file-signature"></i></div>
+                <h3>Escrivão</h3>
+                <p><strong>Nível:</strong> Oficial</p>
+                <p>Responsável pela documentação oficial, registros de ocorrência, autos de prisão e demais trâmites
+                    burocráticos da corporação.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <h3>Investigador Chefe</h3>
+                <p><strong>Nível:</strong> Oficial Sênior</p>
+                <p>Lidera equipes de investigação em campo, coordena operações táticas e responde diretamente ao
+                    Delegado.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-user-secret"></i></div>
+                <h3>Investigador</h3>
+                <p><strong>Nível:</strong> Operacional</p>
+                <p>Atua em campo na coleta de provas, interrogatórios, vigilância e perseguição de suspeitos. É o agente
+                    principal das operações.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-microscope"></i></div>
+                <h3>Perito Criminal</h3>
+                <p><strong>Nível:</strong> Especialista</p>
+                <p>Responsável pela análise técnica de cenas de crime, coleta de evidências, exames laboratoriais e
+                    produção de laudos periciais.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                <h3>Papiloscopista</h3>
+                <p><strong>Nível:</strong> Técnico</p>
+                <p>Especialista em identificação civil e criminal através de impressões digitais, análise biométrica e
+                    banco de dados.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3>Recruta</h3>
+                <p><strong>Nível:</strong> Formação</p>
+                <p>Novo membro em período de treinamento. Passa por academia, avaliação de conduta e prova prática antes
+                    de ser efetivado.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Requisitos para Promoção</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
+                <h4>Recruta → Investigador</h4>
+                <p>Concluir a academia de formação, ter 15 dias de atividade mínima e passar na prova prática.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
+                <h4>Investigador → Investigador Chefe</h4>
+                <p>30 dias de serviço ativo, indicação de superior e destaque em operações relevantes.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
+                <h4>Investigador Chefe → Escrivão</h4>
+                <p>60 dias de casa, aprovação em prova interna de legislação e conduta exemplar.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-arrow-up"></i></div>
+                <h4>Escrivão → Delegado</h4>
+                <p>90 dias de serviço, recomendação do Delegado Geral e avaliação de mérito.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

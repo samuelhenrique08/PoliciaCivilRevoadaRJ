@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria | Polícia Civil RJ — Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .galeria-filtros {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .filtro-btn {
+            background: transparent;
+            border: 1px solid var(--borda);
+            color: var(--texto);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s;
+            font-weight: 500;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.ativo {
+            background: var(--dourado);
+            color: #000;
+            border-color: var(--dourado);
+        }
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .galeria-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            border: 2px solid var(--borda);
+            transition: .4s;
+        }
+
+        .galeria-item:hover {
+            border-color: var(--dourado);
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(201, 162, 39, .3);
+        }
+
+        .galeria-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .6s;
+        }
+
+        .galeria-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .galeria-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, .95) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: .4s;
+        }
+
+        .galeria-item:hover .galeria-overlay {
+            opacity: 1;
+        }
+
+        .galeria-overlay h4 {
+            color: var(--dourado);
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .galeria-overlay span {
+            color: #ccc;
+            font-size: 13px;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .lightbox.open {
+            display: flex;
+            animation: fadeIn .3s;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            border: 3px solid var(--dourado);
+            border-radius: 10px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: var(--dourado);
+            font-size: 34px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: .3s;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+            color: var(--vermelho);
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--dourado);
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/img/logo.png" alt="Logo PC-RJ">
+                <span>POLÍCIA CIVIL — RJ</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navList">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cargos.html">Cargos</a></li>
+                    <li><a href="concursos.html">Concursos</a></li>
+                    <li><a href="galeria.html">Galeria</a></li>
+                    <li><a href="corregedoria.html">Corregedoria</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li class="nav-actions">
+                        <button id="loginBtn" class="btn-login">
+                            <i class="fa-solid fa-lock"></i> Área Restrita
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+            <h2>Acesso Restrito</h2>
+            <p class="modal-sub">Exclusivo para membros da corporação</p>
+            <form id="loginForm">
+                <label>ID Policial</label>
+                <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+                <label>Senha</label>
+                <input type="password" id="userPass" placeholder="••••••••" required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+            </form>
+            <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+        </div>
+    </div>
+
+    <section>
+        <h2>Galeria de Operações</h2>
+        <p style="text-align:center; margin-bottom:30px;">Registros das principais operações, formaturas e ações da
+            Polícia Civil de Revoada RJ.</p>
+
+        <div class="galeria-filtros">
+            <button class="filtro-btn ativo" data-filtro="todas"><i class="fa-solid fa-images"></i> Todas</button>
+            <button class="filtro-btn" data-filtro="operacoes"><i class="fa-solid fa-bullseye"></i> Operações</button>
+            <button class="filtro-btn" data-filtro="formaturas"><i class="fa-solid fa-graduation-cap"></i>
+                Formaturas</button>
+            <button class="filtro-btn" data-filtro="core"><i class="fa-solid fa-crosshairs"></i> CORE</button>
+            <button class="filtro-btn" data-filtro="saer"><i class="fa-solid fa-helicopter"></i> SAER</button>
+            <button class="filtro-btn" data-filtro="gem"><i class="fa-solid fa-motorcycle"></i> GEM</button>
+        </div>
+
+        <div class="galeria-grid" id="galeriaGrid">
+
+            <div class="galeria-item" data-cat="operacoes">
+                <img src="assets/img/galeria/op1.jpg" alt="Operação 1">
+                <div class="galeria-overlay">
+                    <h4>Operação Caveira</h4>
+                    <span>Combate ao tráfico — Zona Norte</span>
+                </div>
+            </div>
+
+            <div class="galeria-item" data-cat="formaturas">
+                <img src="assets/img/galeria/op2.jpg" alt="Formatura">
+                <div class="galeria-overlay">
+                    <h4>Formatura Turma 2025</h4>
+                    <span>Novos investigadores formados</span>
+                </div>
+            </div>
+
+            <div class="galeria-item" data-cat="core">
+                <img src="assets/img/galeria/op3.jpg" alt="CORE">
+                <div class="galeria-overlay">
+                    <h4>Treinamento CORE</h4>
+                    <span>Operação de alto risco</span>
+                </div>
+            </div>
+
+            <div class="galeria-item" data-cat="saer">
+                <img src="assets/img/galeria/op4.jpg" alt="SAER">
+                <div class="galeria-overlay">
+                    <h4>Patrulha Aérea</h4>
+                    <span>SAER em ação</span>
+                </div>
+            </div>
+
+            <div class="galeria-item" data-cat="gem">
+                <img src="assets/img/galeria/op5.jpg" alt="GEM">
+                <div class="galeria-overlay">
+                    <h4>Perseguição GEM</h4>
+                    <span>Alta velocidade pelas ruas</span>
+                </div>
+            </div>
+
+            <div class="galeria-item" data-cat="operacoes">
+                <img src="assets/img/galeria/op6.jpg" alt="Operação 2">
+                <div class="galeria-overlay">
+                    <h4>Operação Limpeza</h4>
+                    <span>Desmanche de facção</span>
+                </div>
+            </div>
+
+            <div class="galeria-item" data-cat="core">
+                <img src="assets/img/galeria/op7.jpg" alt="CORE 2">
+                <div class="galeria-overlay">
+                    <h4>Resgate de Reféns</h4>
+                    <span>CORE em ação</span>
+                </div>
+            </div>
+
+            <div class="galeria-item" data-cat="formaturas">
+                <img src="assets/img/galeria/op8.jpg" alt="Formatura 2">
+                <div class="galeria-overlay">
+                    <h4>Entrega de Medalhas</h4>
+                    <span>Reconhecimento aos destaques</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Fechar">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <img src="" alt="" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+
+    <footer>
+        <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/galeria.js"></script>
+</body>
+
+</html>

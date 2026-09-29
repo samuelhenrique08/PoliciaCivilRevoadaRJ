@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concursos Internos | Polícia Civil RJ — Revoada RJ</title>
+  <link rel="icon" href="assets/img/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <img src="assets/img/logo.png" alt="Logo PC-RJ">
+        <span>POLÍCIA CIVIL — RJ</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav>
+        <ul id="navList">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="cargos.html">Cargos</a></li>
+          <li><a href="concursos.html">Concursos</a></li>
+          <li><a href="galeria.html">Galeria</a></li>
+          <li><a href="corregedoria.html">Corregedoria</a></li>
+          <li><a href="contato.html">Contato</a></li>
+          <li class="nav-actions">
+            <button id="loginBtn" class="btn-login">
+              <i class="fa-solid fa-lock"></i> Área Restrita
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Fechar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+      <h2>Acesso Restrito</h2>
+      <p class="modal-sub">Exclusivo para membros da corporação</p>
+      <form id="loginForm">
+        <label>ID Policial</label>
+        <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+        <label>Senha</label>
+        <input type="password" id="userPass" placeholder="••••••••" required>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa-solid fa-right-to-bracket"></i> Entrar
+        </button>
+      </form>
+      <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Concursos Internos Abertos</h2>
+    <p style="margin-bottom:30px;">A Polícia Civil de Revoada RJ oferece oportunidades de especialização para seus
+      membros através de concursos internos. Veja abaixo os grupamentos disponíveis e os requisitos para cada um.</p>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-helicopter"></i></div>
+        <h3>SAER</h3>
+        <p><em>Serviço Aero Policial</em></p>
+        <p>Atuação em operações aéreas, resgate, patrulhamento aéreo e apoio tático a operações em solo.</p>
+        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
+        <ul class="lista">
+          <li>Ser Investigador há 30 dias</li>
+          <li>Ter brevê de pilotagem no RP</li>
+          <li>Aprovação em prova tática aérea</li>
+          <li>Boa conduta comprovada</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-motorcycle"></i></div>
+        <h3>GEM</h3>
+        <p><em>Grupamento Especial de Motocicletas</em></p>
+        <p>Patrulhamento tático urbano, perseguições em alta velocidade e apoio rápido em operações.</p>
+        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
+        <ul class="lista">
+          <li>Ter CNH categoria A no RP</li>
+          <li>Prova prática de pilotagem</li>
+          <li>Treinamento tático motorizado</li>
+          <li>Disponibilidade para plantões noturnos</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+        <h3>CGPC</h3>
+        <p><em>Controladoria Geral da Polícia Civil</em></p>
+        <p>Fiscalização interna, auditoria de conduta e apuração de irregularidades na corporação.</p>
+        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas — Auditor Pericial / Prisional</span></p>
+        <ul class="lista">
+          <li>Mínimo 60 dias de corporação</li>
+          <li>Sem punições no histórico</li>
+          <li>Conhecimento do código disciplinar</li>
+          <li>Perfil analítico e imparcial</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-pen-fancy"></i></div>
+        <h3>Escrivão</h3>
+        <p><em>Carreira Administrativa Policial</em></p>
+        <p>Ingresso no quadro efetivo de escrivães, com responsabilidade sobre registros oficiais e autos.</p>
+        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
+        <ul class="lista">
+          <li>Mínimo 45 dias como Investigador</li>
+          <li>Prova escrita de legislação RP</li>
+          <li>Boa redação e organização</li>
+          <li>Indicação de superior imediato</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-crosshairs"></i></div>
+        <h3>CORE</h3>
+        <p><em>Coordenadoria de Recursos Especiais</em></p>
+        <p>Tropa de elite da Polícia Civil. Operações de alto risco, resgate de reféns e combate a facções armadas.</p>
+        <p><strong>Vagas:</strong> <span style="color:#c9a227;">Processo Seletivo Rigoroso</span></p>
+        <ul class="lista">
+          <li>Mínimo 90 dias de corporação</li>
+          <li>Zero punições disciplinares</li>
+          <li>Provas físicas e táticas eliminatórias</li>
+          <li>Aprovação em teste psicológico RP</li>
+          <li>Disponibilidade total</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <h3>Ensino</h3>
+        <p><em>Academia de Formação Policial</em></p>
+        <p>Atuação como instrutor na formação de novos recrutas e no aperfeiçoamento contínuo da tropa.</p>
+        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
+        <ul class="lista">
+          <li>Mínimo 90 dias de corporação</li>
+          <li>Domínio das normas internas</li>
+          <li>Boa comunicação e didática</li>
+          <li>Aprovação em prova de instrutor</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Como se Inscrever</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-list-check"></i></div>
+        <h3>1. Verifique os Requisitos</h3>
+        <p>Confirme se você cumpre todos os pré-requisitos exigidos para o grupamento desejado.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
+        <h3>2. Acesse o Discord</h3>
+        <p>Entre no canal <strong>#concursos-internos</strong> e pegue o formulário oficial.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        <h3>3. Aguarde a Convocação</h3>
+        <p>Após enviar, você será convocado por um superior para as etapas seguintes.</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a href="#" class="btn btn-primary">
+        <i class="fa-brands fa-discord"></i> Entrar no Discord
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/login.js"></script>
+</body>
+
+</html>

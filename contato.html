@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato | Polícia Civil RJ — Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/img/logo.png" alt="Logo PC-RJ">
+                <span>POLÍCIA CIVIL — RJ</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navList">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cargos.html">Cargos</a></li>
+                    <li><a href="concursos.html">Concursos</a></li>
+                    <li><a href="galeria.html">Galeria</a></li>
+                    <li><a href="corregedoria.html">Corregedoria</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li class="nav-actions">
+                        <button id="loginBtn" class="btn-login">
+                            <i class="fa-solid fa-lock"></i> Área Restrita
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
+            <h2>Acesso Restrito</h2>
+            <p class="modal-sub">Exclusivo para membros da corporação</p>
+            <form id="loginForm">
+                <label>ID Policial</label>
+                <input type="text" id="userId" placeholder="Ex: PC-1234" required>
+                <label>Senha</label>
+                <input type="password" id="userPass" placeholder="••••••••" required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                </button>
+            </form>
+            <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
+        </div>
+    </div>
+
+    <section>
+        <h2>Canais de Atendimento</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
+                <h3>Discord Oficial</h3>
+                <p>Entre no nosso servidor do Discord para tirar dúvidas, fazer denúncias e participar dos concursos.
+                </p>
+                <a href="#" class="btn btn-primary">
+                    <i class="fa-brands fa-discord"></i> Entrar no Discord
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-envelope"></i></div>
+                <h3>E-mail</h3>
+                <p>Para assuntos administrativos e parcerias:</p>
+                <p><strong>pc.rj@revoada-rj.com</strong></p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-share-nodes"></i></div>
+                <h3>Redes Sociais</h3>
+                <p><i class="fa-brands fa-instagram"></i> <strong>@pc.rj.revoada</strong></p>
+                <p><i class="fa-brands fa-tiktok"></i> <strong>@pcrj.revoada</strong></p>
+                <p><i class="fa-brands fa-youtube"></i> <strong>Polícia Civil RJ RP</strong></p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-clock"></i></div>
+                <h3>Horário de Atendimento</h3>
+                <p>Plantão: <strong>24h</strong></p>
+                <p>Atendimento administrativo: <strong>18h às 00h</strong></p>
+                <p>Delegacia presencial: <strong>Todos os dias</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>
