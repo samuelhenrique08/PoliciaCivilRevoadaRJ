@@ -8,6 +8,494 @@
   <link rel="icon" href="assets/img/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ===== SUB-TABS ===== */
+    .sobre-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 45px;
+      padding-bottom: 25px;
+      border-bottom: 2px solid var(--borda);
+    }
+
+    .sobre-tab {
+      background: transparent;
+      border: 1px solid var(--borda);
+      color: var(--texto);
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .sobre-tab i {
+      font-size: 16px;
+    }
+
+    .sobre-tab:hover,
+    .sobre-tab.ativo {
+      background: var(--dourado);
+      color: #000;
+      border-color: var(--dourado);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(201, 162, 39, .3);
+    }
+
+    .sobre-painel {
+      display: none;
+    }
+
+    .sobre-painel.ativo {
+      display: block;
+      animation: fadeIn .4s;
+    }
+
+    /* ===== SUBTÍTULO ===== */
+    .sub-titulo {
+      color: var(--dourado);
+      font-size: 22px;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sub-titulo:first-child {
+      margin-top: 0;
+    }
+
+    /* ===== DESTAQUE COMANDO ATUAL ===== */
+    .comando-atual {
+      background: linear-gradient(135deg, rgba(201, 162, 39, .1), rgba(201, 162, 39, .02));
+      border: 2px solid var(--dourado);
+      border-radius: 14px;
+      padding: 35px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .comando-atual::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(201, 162, 39, .08), transparent);
+      animation: rotate 15s linear infinite;
+      pointer-events: none;
+    }
+
+    .comando-atual>* {
+      position: relative;
+      z-index: 2;
+    }
+
+    .comando-atual h3 {
+      color: var(--dourado);
+      font-size: 20px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .comando-atual h3 i {
+      font-size: 22px;
+    }
+
+    .comando-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .comando-card {
+      background: var(--preto-card);
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: .3s;
+    }
+
+    .comando-card:hover {
+      border-color: var(--dourado);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(201, 162, 39, .15);
+    }
+
+    .comando-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--dourado), var(--dourado-hover));
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+      border: 2px solid var(--preto-card);
+      box-shadow: 0 0 0 3px rgba(201, 162, 39, .25);
+      overflow: hidden;
+      position: relative;
+      transition: .3s;
+    }
+
+    .comando-avatar.com-foto {
+      background: var(--preto-card);
+      padding: 0;
+    }
+
+    .comando-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .comando-card:hover .comando-avatar {
+      box-shadow: 0 0 0 4px rgba(201, 162, 39, .5);
+      transform: scale(1.05);
+    }
+
+    .comando-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .comando-info h4 {
+      color: var(--dourado);
+      font-size: 16px;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .comando-info span {
+      color: var(--texto-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      display: block;
+    }
+
+    /* ===== HIERARQUIA ===== */
+    .hierarquia-nivel {
+      margin-bottom: 25px;
+      background: var(--preto-card);
+      border: 1px solid var(--borda);
+      border-left: 4px solid var(--dourado);
+      border-radius: 10px;
+      padding: 20px 24px;
+      transition: .3s;
+    }
+
+    .hierarquia-nivel:hover {
+      border-left-color: var(--dourado-hover);
+      box-shadow: 0 6px 20px rgba(201, 162, 39, .12);
+    }
+
+    .hierarquia-nivel.comando-especial {
+      border-left-color: var(--vermelho);
+    }
+
+    .nivel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .nivel-cargo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dourado);
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .nivel-cargo i {
+      font-size: 18px;
+    }
+
+    .nivel-count {
+      background: var(--preto-suave);
+      border: 1px solid var(--borda);
+      color: var(--texto-muted);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .nivel-count i {
+      color: var(--dourado);
+      margin-right: 5px;
+      font-size: 11px;
+    }
+
+    .membros-lista {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .membro-tag {
+      background: var(--preto);
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      color: var(--texto);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: .25s;
+    }
+
+    .membro-tag:hover {
+      border-color: var(--dourado);
+      background: var(--preto-suave);
+      transform: translateX(3px);
+    }
+
+    .membro-tag i {
+      color: var(--dourado);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .membro-tag .membro-id {
+      color: var(--texto-muted);
+      font-size: 11px;
+      font-family: 'Courier New', monospace;
+      margin-left: auto;
+      opacity: .7;
+    }
+
+    .vazio {
+      color: var(--texto-muted);
+      font-style: italic;
+      font-size: 14px;
+      padding: 8px 0;
+    }
+
+    /* ===== MEMORIAL ===== */
+    .memorial-intro {
+      background: linear-gradient(135deg, rgba(183, 28, 28, .08), rgba(0, 0, 0, 0));
+      border-left: 4px solid var(--vermelho);
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      font-style: italic;
+      color: #d0d7e2;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .memorial-intro i {
+      color: var(--dourado);
+      margin-right: 8px;
+    }
+
+    .memorial-intro strong {
+      color: var(--dourado);
+      font-style: normal;
+    }
+
+    .gestao-bloco {
+      margin-bottom: 30px;
+      background: var(--preto-card);
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: .3s;
+    }
+
+    .gestao-bloco:hover {
+      border-color: var(--dourado);
+      box-shadow: 0 8px 25px rgba(201, 162, 39, .12);
+    }
+
+    .gestao-header {
+      background: linear-gradient(90deg, var(--preto-suave), var(--preto-card));
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .gestao-header .gestao-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--dourado), var(--dourado-hover));
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .gestao-header h4 {
+      color: var(--dourado);
+      font-size: 17px;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    .gestao-body {
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .mandato {
+      padding: 14px 0;
+      border-bottom: 1px dashed var(--borda);
+    }
+
+    .mandato:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .mandato:first-child {
+      padding-top: 0;
+    }
+
+    .mandato-codigo {
+      display: inline-block;
+      background: rgba(201, 162, 39, .15);
+      border: 1px solid var(--dourado);
+      color: var(--dourado);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .mandato-membros {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    .mandato-membro {
+      background: var(--preto);
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: .25s;
+    }
+
+    .mandato-membro:hover {
+      border-color: var(--dourado);
+      transform: translateX(4px);
+    }
+
+    .mandato-membro i {
+      color: var(--dourado);
+      font-size: 14px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .mandato-membro .nome-real {
+      display: block;
+      color: var(--dourado);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .mandato-membro .cargo-info {
+      display: block;
+      color: var(--texto-muted);
+      font-size: 12px;
+    }
+
+    /* ===== RESPONSIVO ===== */
+    @media (max-width: 700px) {
+      .sobre-tab {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+
+      .sobre-tab span {
+        display: none;
+      }
+
+      .sobre-tab i {
+        font-size: 18px;
+      }
+
+      .comando-atual {
+        padding: 24px 20px;
+      }
+
+      .comando-atual h3 {
+        font-size: 17px;
+      }
+
+      .comando-avatar {
+        width: 46px;
+        height: 46px;
+        font-size: 18px;
+      }
+
+      .hierarquia-nivel {
+        padding: 16px 18px;
+      }
+
+      .membros-lista {
+        grid-template-columns: 1fr;
+      }
+
+      .gestao-header {
+        padding: 14px 18px;
+      }
+
+      .gestao-body {
+        padding: 18px;
+      }
+
+      .mandato-membros {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -63,48 +551,107 @@
 
   <section>
     <h2>Sobre a Corporação</h2>
-    <p>A <strong>Polícia Civil do Estado do Rio de Janeiro</strong> é a instituição de polícia judiciária responsável
-      por conduzir investigações criminais, elaborar inquéritos, realizar perícias e cumprir mandados judiciais. No
-      cenário do servidor <strong>Revoada RJ</strong>, nossa corporação atua como força essencial no combate ao crime
-      organizado, ao tráfico de entorpecentes e a facções que ameaçam a ordem pública.</p>
-    <br>
-    <p>Nossa missão é investigar, identificar e responsabilizar criminalmente os infratores, sempre respeitando os
-      direitos constitucionais do cidadão e agindo com base na lei. Somos a porta de entrada do sistema de justiça
-      criminal — é através do nosso trabalho que os casos chegam ao Ministério Público e ao Poder Judiciário.</p>
-  </section>
 
-  <section>
-    <h2>Missão, Visão e Valores</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-bullseye"></i></div>
-        <h3>Missão</h3>
-        <p>Investigar crimes com excelência técnica, proteger a população de Revoada RJ e contribuir para uma sociedade
-          mais justa e segura.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
-        <h3>Visão</h3>
-        <p>Ser reconhecida como a corporação mais eficiente e respeitada do estado, referência em inteligência policial
-          e investigação criminal.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
-        <h3>Valores</h3>
-        <p>Honra, disciplina, hierarquia, lealdade, ética, coragem e compromisso com a verdade e a justiça.</p>
-      </div>
+    <!-- TABS -->
+    <div class="sobre-tabs">
+      <button class="sobre-tab ativo" data-tab="historia">
+        <i class="fa-solid fa-book-open"></i> <span>Sobre</span>
+      </button>
+      <button class="sobre-tab" data-tab="hierarquia">
+        <i class="fa-solid fa-sitemap"></i> <span>Hierarquia</span>
+      </button>
+      <button class="sobre-tab" data-tab="memorial">
+        <i class="fa-solid fa-monument"></i> <span>Memorial</span>
+      </button>
     </div>
-  </section>
 
-  <section>
-    <h2>História da Instituição</h2>
-    <p>A Polícia Civil do Rio de Janeiro foi oficialmente criada em <strong>1808</strong>, com a vinda da Família Real
-      Portuguesa ao Brasil, sendo uma das instituições policiais mais antigas do país. Ao longo de mais de dois séculos,
-      a corporação se modernizou e se tornou referência nacional em investigação criminal, perícia e inteligência
-      policial.</p>
-    <br>
-    <p>No contexto do servidor Revoada RJ, adaptamos toda essa tradição histórica para a realidade do roleplay, mantendo
-      o compromisso com a hierarquia, o protocolo e a imersão que nossos membros buscam.</p>
+    <!-- ===================== SOBRE ===================== -->
+    <div class="sobre-painel ativo" id="historia">
+
+      <div class="sub-titulo">
+        <i class="fa-solid fa-landmark"></i> Nossa História
+      </div>
+      <p>A <strong>Polícia Civil do Estado do Rio de Janeiro</strong> é a instituição de polícia judiciária responsável
+        por conduzir investigações criminais, elaborar inquéritos, realizar perícias e cumprir mandados judiciais. No
+        cenário do servidor <strong>Revoada RJ</strong>, nossa corporação atua como força essencial no combate ao crime
+        organizado, ao tráfico de entorpecentes e a facções que ameaçam a ordem pública.</p>
+      <br>
+      <p>Nossa missão é investigar, identificar e responsabilizar criminalmente os infratores, sempre respeitando os
+        direitos constitucionais do cidadão e agindo com base na lei. Somos a porta de entrada do sistema de justiça
+        criminal — é através do nosso trabalho que os casos chegam ao Ministério Público e ao Poder Judiciário.</p>
+
+      <div class="sub-titulo">
+        <i class="fa-solid fa-bullseye"></i> Missão, Visão e Valores
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h3>Missão</h3>
+          <p>Investigar crimes com excelência técnica, proteger a população de Revoada RJ e contribuir para uma
+            sociedade mais justa e segura.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+          <h3>Visão</h3>
+          <p>Ser reconhecida como a corporação mais eficiente e respeitada do estado, referência em inteligência
+            policial e investigação criminal.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
+          <h3>Valores</h3>
+          <p>Honra, disciplina, hierarquia, lealdade, ética, coragem e compromisso com a verdade e a justiça.</p>
+        </div>
+      </div>
+
+      <div class="sub-titulo">
+        <i class="fa-solid fa-clock-rotate-left"></i> Origem da Instituição
+      </div>
+      <p>A Polícia Civil do Rio de Janeiro foi oficialmente criada em <strong>1808</strong>, com a vinda da Família Real
+        Portuguesa ao Brasil, sendo uma das instituições policiais mais antigas do país. Ao longo de mais de dois
+        séculos, a corporação se modernizou e se tornou referência nacional em investigação criminal, perícia e
+        inteligência policial.</p>
+      <br>
+      <p>No contexto do servidor Revoada RJ, adaptamos toda essa tradição histórica para a realidade do roleplay,
+        mantendo o compromisso com a hierarquia, o protocolo e a imersão que nossos membros buscam.</p>
+
+    </div>
+
+    <!-- ===================== HIERARQUIA ===================== -->
+    <div class="sobre-painel" id="hierarquia">
+
+      <!-- COMANDO ATUAL (gerado via JS) -->
+      <div class="comando-atual" id="comandoAtual"></div>
+
+      <!-- LISTA DE HIERARQUIA (gerada via JS) -->
+      <div id="hierarquiaLista"></div>
+
+      <p style="text-align: center; color: var(--texto-muted); font-size: 12px; margin-top: 30px;">
+        <i class="fa-solid fa-clock"></i>
+        Hierarquia atualizada em: <span id="hierarquiaData">—</span>
+      </p>
+
+    </div>
+
+    <!-- ===================== MEMORIAL ===================== -->
+    <div class="sobre-painel" id="memorial">
+
+      <div class="memorial-intro">
+        <p><i class="fa-solid fa-quote-left"></i> <strong>Honra e dedicação:</strong> um tributo aos delegados que
+          defenderam a justiça e a segurança pública através de sua coragem e compromisso na Polícia Civil.</p>
+        <br>
+        <p>Memorial em homenagem a todos os Delegados que fizeram parte do departamento, desde a fundação da cidade em
+          sua primeira temporada. Pessoas que dedicaram anos, meses, dias, horas e minutos para manter a excelência
+          daquela que viria a ser uma das melhores corporações da cidade — sempre pautada por um padrão de excelência.
+        </p>
+        <br>
+        <p>Esperamos que, assim como nós, outros possam dar prosseguimento ao memorial, lembrando sempre de quem já
+          passou por aqui.</p>
+      </div>
+
+      <div id="memorialLista"></div>
+
+    </div>
+
   </section>
 
   <footer>
@@ -113,6 +660,571 @@
 
   <script src="js/main.js"></script>
   <script src="js/login.js"></script>
+
+  <script>
+    /* ============================================================
+       DADOS DA HIERARQUIA
+       ------------------------------------------------------------
+       ATENÇÃO — INTEGRAÇÃO FUTURA COM PAINEL ADMINISTRATIVO:
+       Quando o painel existir, basta substituir o objeto abaixo por:
+       
+         const HIERARQUIA_DATA = await fetch('/api/hierarquia').then(r => r.json());
+       
+       O restante do código (renderização) NÃO precisa mudar.
+       O painel só precisa devolver o mesmo formato JSON.
+       ============================================================ */
+    const HIERARQUIA_DATA = {
+      atualizadoEm: "29/09/2026, 00:18:58",
+      totalMembros: 77,
+      comandoAtual: [
+        { cargo: "Secretário de Segurança Pública", nome: "Tonin", id: "SSP", icon: "fa-user-tie", foto: "assets/img/comando/tonin.jpg" },
+        { cargo: "Comandante Geral", nome: "Dede Tenebras", id: "CMD", icon: "fa-crown", foto: "assets/img/comando/dede.jpg" },
+        { cargo: "Subcomandante Geral", nome: "Lzin Tenebras", id: "SUB CMD", icon: "fa-star", foto: "assets/img/comando/lzin.jpg" },
+        { cargo: "Delegado PCERJ", nome: "Macedo Tenebras", id: "DEL G.", icon: "fa-user-shield", foto: "assets/img/comando/macedo.jpg" }
+      ],
+      niveis: [
+        {
+          cargo: "Delegado Adj. PCERJ",
+          icon: "fa-user-shield",
+          membros: []
+        },
+        {
+          cargo: "Comando CORE",
+          icon: "fa-crosshairs",
+          comandoEspecial: true,
+          membros: [
+            { nome: "Tavares", id: "SUB CMD CORE" },
+            { nome: "Zeus", id: "CMD CORE" }
+          ]
+        },
+        {
+          cargo: "Comando CGPC",
+          icon: "fa-clipboard-check",
+          comandoEspecial: true,
+          membros: [
+            { nome: "Jinx", id: "SUB CMD CGPC" },
+            { nome: "Vivi", id: "CMD CGPC" }
+          ]
+        },
+        {
+          cargo: "Comando SAER",
+          icon: "fa-helicopter",
+          comandoEspecial: true,
+          membros: [
+            { nome: "Scott", id: "CMD SAER" },
+            { nome: "Carpa", id: "SUB CMD SAER" }
+          ]
+        },
+        {
+          cargo: "Comando GEM",
+          icon: "fa-motorcycle",
+          comandoEspecial: true,
+          membros: [
+            { nome: "Serjão", id: "SUB CMD GEM" },
+            { nome: "Zorro", id: "CMD GEM" }
+          ]
+        },
+        {
+          cargo: "Coordenador Civil",
+          icon: "fa-diagram-project",
+          membros: [
+            { nome: "Jeffin", id: "COORD" },
+            { nome: "Lena", id: "COORD" },
+            { nome: "Flavio", id: "COORD" }
+          ]
+        },
+        {
+          cargo: "Supervisor Geral Civil",
+          icon: "fa-user-check",
+          membros: [
+            { nome: "Zod Tenebras", id: "SPV" }
+          ]
+        },
+        {
+          cargo: "Comissário de Polícia",
+          icon: "fa-clipboard-list",
+          membros: [
+            { nome: "Osama", id: "CMSP CORE" },
+            { nome: "Martins", id: "CMSP CORE" },
+            { nome: "Rocha", id: "CMSP CORE" },
+            { nome: "Marcelo", id: "CMSP · 112" }
+          ]
+        },
+        {
+          cargo: "Investigador de Operações Especiais",
+          icon: "fa-bullseye",
+          membros: [
+            { nome: "FrestFtw", id: "INV OP ESP CORE" }
+          ]
+        },
+        {
+          cargo: "Inspetor Civil",
+          icon: "fa-user-police",
+          membros: [
+            { nome: "Mason", id: "INSP · 1597" }
+          ]
+        },
+        {
+          cargo: "Investigador Operacional Civil",
+          icon: "fa-person-running",
+          membros: [
+            { nome: "Manoel", id: "INV OP CORE" }
+          ]
+        },
+        {
+          cargo: "Escrivão Civil",
+          icon: "fa-file-signature",
+          membros: [
+            { nome: "Marcola", id: "ESC · 50138" },
+            { nome: "Klaus", id: "ESC CORE" },
+            { nome: "Boddy", id: "ESC · 40364" },
+            { nome: "Éfize", id: "ESC · 1359" },
+            { nome: "Smith", id: "ESC · 30243" },
+            { nome: "Delacruz", id: "ESC · 22459" },
+            { nome: "Teaser", id: "ESC · 27380" },
+            { nome: "Billy", id: "ESC · 25223" }
+          ]
+        },
+        {
+          cargo: "Investigador Especial",
+          icon: "fa-star",
+          membros: [
+            { nome: "Husupreme", id: "INV ESP CORE" },
+            { nome: "Henrique", id: "INV ESP CORE" },
+            { nome: "Todyn", id: "INV ESP · 1314" }
+          ]
+        },
+        {
+          cargo: "Investigador 1ª Classe",
+          icon: "fa-medal",
+          membros: [
+            { nome: "Flink", id: "INV 1ª · 2370" },
+            { nome: "Wesley", id: "INV 1ª · 1030" },
+            { nome: "Ditadala", id: "INV 1ª · 16730" }
+          ]
+        },
+        {
+          cargo: "Investigador 2ª Classe",
+          icon: "fa-award",
+          membros: [
+            { nome: "Wolf", id: "INV 2ª · 1197" },
+            { nome: "Panda Tenebras", id: "INV 2ª · 2111" },
+            { nome: "Fernandes", id: "INV 2ª · 25956" },
+            { nome: "Grifo", id: "INV 2ª · 1234" },
+            { nome: "Lima", id: "INV 2ª · 6312" },
+            { nome: "Águia", id: "INV 2ª · 32240" },
+            { nome: "Scruggs", id: "INV 2ª · 17500" },
+            { nome: "Iank", id: "INV 2ª · 41923" },
+            { nome: "Lobão", id: "INV 2ª · 34279" },
+            { nome: "Kaori", id: "INV 2ª · 1459" },
+            { nome: "Souza", id: "INV 2ª · 10271" },
+            { nome: "Tcharles", id: "INV 2ª · 17306" },
+            { nome: "Linda", id: "INV 2ª · 1584" },
+            { nome: "Ribeiro", id: "INV 2ª · 50320" },
+            { nome: "RealCapone", id: "INV 2ª · 2538" }
+          ]
+        },
+        {
+          cargo: "Investigador 3ª Classe",
+          icon: "fa-certificate",
+          membros: [
+            { nome: "Levi", id: "INV 3ª · 14752" },
+            { nome: "Magrin", id: "INV 3ª · 51924" },
+            { nome: "Pac", id: "INV 3ª · 52443" },
+            { nome: "Nzin", id: "INV 3ª · 53053" },
+            { nome: "brazuca", id: "INV 3ª · 52677" },
+            { nome: "Lólo", id: "INV 3ª · 46083" },
+            { nome: "Tokyo", id: "INV 3ª · 47185" },
+            { nome: "Kaolho", id: "INV 3ª · 49342" },
+            { nome: "Pantera", id: "INV 3ª · 7074" },
+            { nome: "Paiva", id: "INV 3ª · 1653" },
+            { nome: "Chico", id: "INV 3ª · 1224" }
+          ]
+        },
+        {
+          cargo: "Aluno PCERJ",
+          icon: "fa-graduation-cap",
+          membros: [
+            { nome: "Dores", id: "ALN PCERJ · 51928" },
+            { nome: "teaga", id: "ALN PCERJ · 52919" },
+            { nome: "Silver", id: "ALN PCERJ · 5843" },
+            { nome: "nacimento", id: "ALN PCERJ · 45190" },
+            { nome: "Raze", id: "ALN PCERJ · 52797" },
+            { nome: "Cruz", id: "ALN PCERJ · 1731" },
+            { nome: "SPK", id: "ALN PCERJ · 52871" },
+            { nome: "Arantes", id: "ALN PCERJ · 52533" },
+            { nome: "Aguiar", id: "ALN PCERJ · 12935" },
+            { nome: "zuckerberg", id: "ALN PCERJ · 28082" },
+            { nome: "Jade", id: "ALN PCERJ · 3564" },
+            { nome: "Mayke", id: "ALN PCERJ · 20391" },
+            { nome: "Jett", id: "ALN PCERJ · 53922" },
+            { nome: "lula", id: "ALN PCERJ · 54443" }
+          ]
+        }
+      ]
+    };
+
+    /* ============================================================
+       DADOS DO MEMORIAL (estático — delegados por gestão)
+       ============================================================ */
+    const MEMORIAL_DATA = [
+      {
+        gestao: "GESTÃO ALPHA",
+        icon: "fa-a",
+        mandatos: [
+          {
+            codigo: "α.1", membros: [
+              { nome: "Nicolas Vilar", apelido: "Nike", cargo: "Delegado PCERJ" },
+              { nome: "Natasha Vilar", apelido: "—", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "α.2", membros: [
+              { nome: "Nicolas Vilar", apelido: "Nike", cargo: "Delegado PCERJ" },
+              { nome: "Fatal Enemy", apelido: "—", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "α.3", membros: [
+              { nome: "Nicolas Vilar", apelido: "Nike", cargo: "Delegado PCERJ" },
+              { nome: "Labaxurias Tenebras", apelido: "Lala", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO BRAVO",
+        icon: "fa-b",
+        mandatos: [
+          {
+            codigo: "β.1", membros: [
+              { nome: "Labaxurias Tenebras", apelido: "Lala", cargo: "Delegado PCERJ" },
+              { nome: "Decantas Tenebras", apelido: "Dede", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "β.2", membros: [
+              { nome: "Labaxurias Tenebras", apelido: "Lala", cargo: "Delegado PCERJ" },
+              { nome: "Decantas Tenebras", apelido: "Dede", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Hades Lestrange", apelido: "Habib", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "β.3", membros: [
+              { nome: "Labaxurias Tenebras", apelido: "Lala", cargo: "Delegado PCERJ" },
+              { nome: "Hades Lestrange", apelido: "Habib", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO CHARLIE",
+        icon: "fa-c",
+        mandatos: [
+          {
+            codigo: "c.1", membros: [
+              { nome: "Hades Lestrange", apelido: "Habib", cargo: "Delegado PCERJ" },
+              { nome: "Douglas Tenebras", apelido: "Caveira", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Henri Romanov Tenebras", apelido: "Karin", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO DELTA",
+        icon: "fa-d",
+        mandatos: [
+          {
+            codigo: "d.1", membros: [
+              { nome: "Kinder Tenebras", apelido: "KND", cargo: "Delegado PCERJ" },
+              { nome: "Lorris Moura", apelido: "Vuitton", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Vitor Hugo", apelido: "Redu", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "d.2", membros: [
+              { nome: "Kinder Tenebras", apelido: "KND", cargo: "Delegado PCERJ" },
+              { nome: "Vitor Hugo", apelido: "Redu", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Rafael Lewis", apelido: "Detroid", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "d.3", membros: [
+              { nome: "Kinder Tenebras", apelido: "KND", cargo: "Delegado PCERJ" },
+              { nome: "Sergio Marquina", apelido: "Professor", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Gabriel Monteiro", apelido: "Hunter", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "d.4", membros: [
+              { nome: "Kinder Tenebras", apelido: "KND", cargo: "Delegado PCERJ" },
+              { nome: "Gabriel Monteiro", apelido: "Hunter", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Red Tenebras", apelido: "França", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO ECHO",
+        icon: "fa-e",
+        mandatos: [
+          {
+            codigo: "e.1", membros: [
+              { nome: "Decantas Tenebras", apelido: "Dede", cargo: "Delegado PCERJ" },
+              { nome: "Samara Tenebras", apelido: "Sammy", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Henri Romanov Tenebras", apelido: "Karin", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "e.2", membros: [
+              { nome: "Decantas Tenebras", apelido: "Dede", cargo: "Delegado PCERJ" },
+              { nome: "Henri Romanov Tenebras", apelido: "Karin", cargo: "Delegado Adj. PCERJ" },
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "e.3", membros: [
+              { nome: "Decantas Tenebras", apelido: "Dede", cargo: "Delegado PCERJ" },
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Marcelo Tenebras", apelido: "Marcelin", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO FOXTROT",
+        icon: "fa-f",
+        mandatos: [
+          {
+            codigo: "f.1", membros: [
+              { nome: "Henry Romanov Tenebras", apelido: "Karin", cargo: "Delegado PCERJ" },
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Tedy Maximoff Tenebras", apelido: "Redy", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "f.2", membros: [
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado PCERJ" },
+              { nome: "Barba Tenebras", apelido: "Zod", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO GOLF",
+        icon: "fa-g",
+        mandatos: [
+          {
+            codigo: "g.1", membros: [
+              { nome: "Barba Tenebras", apelido: "Zod", cargo: "Delegado PCERJ" },
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Nebias Tenebras", apelido: "Lzin", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "g.2", membros: [
+              { nome: "Barba Tenebras", apelido: "Zod", cargo: "Delegado PCERJ" },
+              { nome: "Nebias Tenebras", apelido: "Lzin", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "g.3", membros: [
+              { nome: "Barba Tenebras", apelido: "Zod", cargo: "Delegado PCERJ" },
+              { nome: "Nebias Tenebras", apelido: "Lzin", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Nasty Tenebras", apelido: "Paiva", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO HOTEL",
+        icon: "fa-h",
+        mandatos: [
+          {
+            codigo: "h.1", membros: [
+              { nome: "Nebias Tenebras", apelido: "Lzin", cargo: "Delegado PCERJ" },
+              { nome: "Nasty Tenebras", apelido: "Paiva", cargo: "Delegado Adj. PCERJ" },
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado Adj. PCERJ" }
+            ]
+          },
+          {
+            codigo: "h.2", membros: [
+              { nome: "Nebias Tenebras", apelido: "Lzin", cargo: "Delegado PCERJ" },
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado Adj. PCERJ" },
+              { nome: "Gutierrez Tenebras", apelido: "Macedo", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      },
+      {
+        gestao: "GESTÃO INDIA",
+        icon: "fa-i",
+        mandatos: [
+          {
+            codigo: "i.1", membros: [
+              { nome: "John Romanov Tenebras", apelido: "Dark", cargo: "Delegado PCERJ" },
+              { nome: "Gutierrez Tenebras", apelido: "Macedo", cargo: "Delegado Adj. PCERJ" }
+            ]
+          }
+        ]
+      }
+    ];
+
+    /* ============================================================
+       RENDER — COMANDO ATUAL
+       ============================================================ */
+    function renderComandoAtual() {
+      const el = document.getElementById('comandoAtual');
+      if (!el) return;
+
+      function getIniciais(nome) {
+        const partes = nome.trim().split(' ').filter(Boolean);
+        if (partes.length === 1) return partes[0].substring(0, 2).toUpperCase();
+        return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+      }
+
+      let html = '<h3><i class="fa-solid fa-star"></i> Comando Atual da PCERJ</h3>';
+      html += '<div class="comando-grid">';
+
+      HIERARQUIA_DATA.comandoAtual.forEach(c => {
+        const temFoto = c.foto && c.foto.trim() !== '';
+        const iniciais = getIniciais(c.nome);
+
+        html += `
+      <div class="comando-card">
+        <div class="comando-avatar ${temFoto ? 'com-foto' : ''}">
+          ${temFoto
+            ? `<img src="${c.foto}" alt="${c.nome}" onerror="this.parentElement.classList.remove('com-foto'); this.parentElement.innerHTML='<span>${iniciais}</span>'; this.remove();">`
+            : `<span>${iniciais}</span>`
+          }
+        </div>
+        <div class="comando-info">
+          <h4>${c.nome}</h4>
+          <span>${c.cargo}</span>
+        </div>
+      </div>
+    `;
+      });
+
+      html += '</div>';
+      el.innerHTML = html;
+    }
+    /* ============================================================
+       RENDER — LISTA DE HIERARQUIA
+       ============================================================ */
+    function renderHierarquia() {
+      const el = document.getElementById('hierarquiaLista');
+      if (!el) return;
+
+      let html = '';
+
+      HIERARQUIA_DATA.niveis.forEach(nivel => {
+        const classeEspecial = nivel.comandoEspecial ? 'comando-especial' : '';
+        const total = nivel.membros.length;
+
+        html += `
+        <div class="hierarquia-nivel ${classeEspecial}">
+          <div class="nivel-header">
+            <div class="nivel-cargo">
+              <i class="fa-solid ${nivel.icon}"></i> ${nivel.cargo}
+            </div>
+            <span class="nivel-count"><i class="fa-solid fa-user"></i> ${total} ${total === 1 ? 'membro' : 'membros'}</span>
+          </div>
+      `;
+
+        if (total === 0) {
+          html += `<p class="vazio"><i class="fa-solid fa-circle-info"></i> Nenhum membro atualmente.</p>`;
+        } else {
+          html += '<div class="membros-lista">';
+          nivel.membros.forEach(m => {
+            html += `
+            <div class="membro-tag">
+              <i class="fa-solid fa-user"></i>
+              <span>${m.nome}</span>
+              <span class="membro-id">${m.id}</span>
+            </div>
+          `;
+          });
+          html += '</div>';
+        }
+
+        html += '</div>';
+      });
+
+      el.innerHTML = html;
+
+      // Atualiza data
+      const dataEl = document.getElementById('hierarquiaData');
+      if (dataEl) dataEl.textContent = HIERARQUIA_DATA.atualizadoEm;
+    }
+
+    /* ============================================================
+       RENDER — MEMORIAL
+       ============================================================ */
+    function renderMemorial() {
+      const el = document.getElementById('memorialLista');
+      if (!el) return;
+
+      let html = '';
+
+      MEMORIAL_DATA.forEach(gestao => {
+        html += `
+        <div class="gestao-bloco">
+          <div class="gestao-header">
+            <div class="gestao-icon"><i class="fa-solid fa-gavel"></i></div>
+            <h4>${gestao.gestao}</h4>
+          </div>
+          <div class="gestao-body">
+      `;
+
+        gestao.mandatos.forEach(m => {
+          html += `
+          <div class="mandato">
+            <span class="mandato-codigo">${m.codigo}</span>
+            <div class="mandato-membros">
+        `;
+
+          m.membros.forEach(mem => {
+            html += `
+            <div class="mandato-membro">
+              <i class="fa-solid fa-shield-halved"></i>
+              <div>
+                <span class="nome-real">${mem.nome}</span>
+                <span class="cargo-info">${mem.cargo}${mem.apelido && mem.apelido !== '—' ? ' · "' + mem.apelido + '"' : ''}</span>
+              </div>
+            </div>
+          `;
+          });
+
+          html += `</div></div>`;
+        });
+
+        html += `</div></div>`;
+      });
+
+      el.innerHTML = html;
+    }
+
+    /* ============================================================
+       TABS
+       ============================================================ */
+    document.querySelectorAll('.sobre-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.sobre-tab').forEach(t => t.classList.remove('ativo'));
+        document.querySelectorAll('.sobre-painel').forEach(p => p.classList.remove('ativo'));
+
+        tab.classList.add('ativo');
+        document.getElementById(tab.dataset.tab).classList.add('ativo');
+      });
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    renderComandoAtual();
+    renderHierarquia();
+    renderMemorial();
+  </script>
 </body>
 
 </html>

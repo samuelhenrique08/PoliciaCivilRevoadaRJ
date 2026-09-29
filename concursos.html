@@ -1,15 +1,444 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Concursos Internos | Polícia Civil RJ — Revoada RJ</title>
+  <title>Concursos | Polícia Civil RJ — Revoada RJ</title>
   <link rel="icon" href="assets/img/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
-</head>
+  <style>
+    /* ===== FILTROS ===== */
+    .concurso-filtros {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
 
+    .concurso-filtro {
+      background: transparent;
+      border: 1px solid var(--borda);
+      color: var(--texto);
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .concurso-filtro:hover,
+    .concurso-filtro.ativo {
+      background: var(--dourado);
+      color: #000;
+      border-color: var(--dourado);
+    }
+
+    /* ===== CARDS DE CONCURSO ===== */
+    .concurso-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
+    }
+
+    .concurso-card {
+      background: var(--preto-card);
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: .3s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .concurso-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--cor-categoria, var(--dourado)), var(--cor-categoria-dark, var(--dourado-hover)));
+      z-index: 2;
+    }
+
+    .concurso-card:hover {
+      border-color: var(--cor-categoria, var(--dourado));
+      transform: translateY(-6px);
+      box-shadow: 0 15px 35px rgba(201,162,39,.2);
+    }
+
+    /* Área da logo */
+    .concurso-logo {
+      height: 180px;
+      background: linear-gradient(135deg, #0a0a0a, var(--cor-categoria-dark, #1a1a1a));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 25px;
+    }
+
+    .concurso-logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, var(--cor-categoria, transparent) 0%, transparent 70%);
+      opacity: .25;
+    }
+
+    .concurso-logo img {
+      max-height: 130px;
+      max-width: 85%;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,.6));
+      position: relative;
+      z-index: 1;
+      transition: .4s;
+    }
+
+    .concurso-card:hover .concurso-logo img {
+      transform: scale(1.08);
+    }
+
+    /* Info no rodapé do logo */
+    .concurso-logo-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 10px 18px;
+      background: linear-gradient(to top, rgba(0,0,0,.95), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    .concurso-logo-info .sigla {
+      color: var(--dourado);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .concurso-logo-info .vagas-badge {
+      background: rgba(76,175,80,.2);
+      border: 1px solid rgba(76,175,80,.5);
+      color: #81c784;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: .5px;
+    }
+
+    /* Body do card */
+    .concurso-body {
+      padding: 20px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .concurso-body h3 {
+      color: var(--dourado);
+      font-size: 16px;
+      margin: 0 0 5px;
+      line-height: 1.3;
+      min-height: 42px;
+    }
+
+    .concurso-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--texto);
+      font-size: 13px;
+    }
+
+    .concurso-info i {
+      color: var(--cor-categoria, var(--dourado));
+      width: 16px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .concurso-footer {
+      padding: 16px 22px;
+      border-top: 1px solid var(--borda);
+      background: rgba(0,0,0,.2);
+    }
+
+    .btn-edital {
+      width: 100%;
+      background: var(--dourado);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .btn-edital:hover {
+      background: var(--dourado-hover);
+      transform: translateY(-2px);
+    }
+
+    /* ===== MODAL EDITAL ===== */
+    .edital-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.9);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      padding: 30px 20px;
+      overflow-y: auto;
+    }
+
+    .edital-modal.open { display: block; animation: fadeIn .3s; }
+
+    .edital-conteudo {
+      max-width: 900px;
+      margin: 30px auto;
+      background: var(--preto-card);
+      border: 2px solid var(--cor-categoria, var(--dourado));
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.7);
+    }
+
+    .edital-header {
+      background: linear-gradient(135deg, #0a0a0a, var(--cor-categoria-dark, var(--preto-suave)));
+      padding: 25px 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 3px solid var(--cor-categoria, var(--dourado));
+      position: relative;
+    }
+
+    .edital-header .edital-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.5);
+      border: 2px solid var(--cor-categoria, var(--dourado));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      flex-shrink: 0;
+    }
+
+    .edital-header .edital-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .edital-header-info { flex: 1; }
+
+    .edital-header-info h2 {
+      color: var(--dourado);
+      font-size: 22px;
+      margin: 0 0 5px;
+      line-height: 1.3;
+    }
+
+    .edital-header-info span {
+      color: var(--texto-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .edital-close {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: transparent;
+      border: none;
+      color: var(--dourado);
+      font-size: 26px;
+      cursor: pointer;
+      transition: .3s;
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+
+    .edital-close:hover {
+      background: var(--vermelho);
+      color: #fff;
+      transform: rotate(90deg);
+    }
+
+    .edital-body {
+      padding: 35px 40px;
+      color: var(--texto);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .edital-body h4 {
+      color: var(--dourado);
+      font-size: 17px;
+      margin: 25px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .edital-body h4:first-child { margin-top: 0; }
+
+    .edital-body p { margin-bottom: 12px; }
+
+    .edital-body ul {
+      list-style: none;
+      margin-bottom: 15px;
+    }
+
+    .edital-body ul li {
+      padding: 6px 0 6px 26px;
+      position: relative;
+      color: var(--texto);
+    }
+
+    .edital-body ul li::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      top: 8px;
+      color: var(--dourado);
+      font-size: 12px;
+    }
+
+    .edital-body strong { color: var(--dourado); }
+
+    /* Box de fardamento */
+    .fardamento-box {
+      background: var(--preto);
+      border: 1px solid var(--borda);
+      border-left: 4px solid var(--cor-categoria, var(--dourado));
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 15px 0;
+    }
+
+    .fardamento-box h5 {
+      color: var(--dourado);
+      font-size: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .fardamento-codigos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .fardamento-codigos span {
+      background: rgba(201,162,39,.08);
+      border: 1px solid rgba(201,162,39,.3);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-family: 'Courier New', monospace;
+      color: var(--texto);
+    }
+
+    .fardamento-codigos span b {
+      color: var(--dourado);
+    }
+
+    /* Box de avisos */
+    .aviso-edital {
+      background: rgba(183,28,28,.1);
+      border: 1px solid var(--vermelho);
+      border-left: 4px solid var(--vermelho);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 18px 0;
+      color: #ff8a80;
+      font-size: 14px;
+    }
+
+    .aviso-edital strong { color: #ff8a80; }
+
+    .aviso-edital i { color: var(--vermelho); margin-right: 8px; }
+
+    /* Link externo */
+    .edital-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--preto-suave);
+      border: 1px solid var(--borda);
+      color: var(--dourado);
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: .3s;
+      margin: 5px 5px 5px 0;
+    }
+
+    .edital-link:hover {
+      background: var(--dourado);
+      color: #000;
+      transform: translateY(-2px);
+    }
+
+    /* Assinatura */
+    .edital-assinatura {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--borda);
+      text-align: right;
+      color: var(--texto-muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .edital-assinatura strong { color: var(--dourado); }
+
+    /* ===== RESPONSIVO ===== */
+    @media (max-width: 700px) {
+      .concurso-grid { grid-template-columns: 1fr; }
+      .concurso-filtro span { display: none; }
+      .edital-body { padding: 25px 20px; }
+      .edital-header { padding: 20px; flex-wrap: wrap; }
+      .edital-header-info h2 { font-size: 17px; }
+      .edital-header .edital-logo { width: 65px; height: 65px; }
+      .concurso-logo { height: 150px; }
+      .concurso-logo img { max-height: 100px; }
+    }
+  </style>
+</head>
 <body>
 
   <header>
@@ -62,125 +491,50 @@
   </div>
 
   <section>
-    <h2>Concursos Internos Abertos</h2>
-    <p style="margin-bottom:30px;">A Polícia Civil de Revoada RJ oferece oportunidades de especialização para seus
-      membros através de concursos internos. Veja abaixo os grupamentos disponíveis e os requisitos para cada um.</p>
+    <h2>Concursos Internos</h2>
+    <p style="margin-bottom:25px;">A Polícia Civil de Revoada RJ oferece oportunidades de especialização para seus membros através de concursos internos. Todos os concursos são anunciados no Discord oficial.</p>
 
-    <div class="grid">
-
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-helicopter"></i></div>
-        <h3>SAER</h3>
-        <p><em>Serviço Aero Policial</em></p>
-        <p>Atuação em operações aéreas, resgate, patrulhamento aéreo e apoio tático a operações em solo.</p>
-        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
-        <ul class="lista">
-          <li>Ser Investigador há 30 dias</li>
-          <li>Ter brevê de pilotagem no RP</li>
-          <li>Aprovação em prova tática aérea</li>
-          <li>Boa conduta comprovada</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-motorcycle"></i></div>
-        <h3>GEM</h3>
-        <p><em>Grupamento Especial de Motocicletas</em></p>
-        <p>Patrulhamento tático urbano, perseguições em alta velocidade e apoio rápido em operações.</p>
-        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
-        <ul class="lista">
-          <li>Ter CNH categoria A no RP</li>
-          <li>Prova prática de pilotagem</li>
-          <li>Treinamento tático motorizado</li>
-          <li>Disponibilidade para plantões noturnos</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-        <h3>CGPC</h3>
-        <p><em>Controladoria Geral da Polícia Civil</em></p>
-        <p>Fiscalização interna, auditoria de conduta e apuração de irregularidades na corporação.</p>
-        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas — Auditor Pericial / Prisional</span></p>
-        <ul class="lista">
-          <li>Mínimo 60 dias de corporação</li>
-          <li>Sem punições no histórico</li>
-          <li>Conhecimento do código disciplinar</li>
-          <li>Perfil analítico e imparcial</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-pen-fancy"></i></div>
-        <h3>Escrivão</h3>
-        <p><em>Carreira Administrativa Policial</em></p>
-        <p>Ingresso no quadro efetivo de escrivães, com responsabilidade sobre registros oficiais e autos.</p>
-        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
-        <ul class="lista">
-          <li>Mínimo 45 dias como Investigador</li>
-          <li>Prova escrita de legislação RP</li>
-          <li>Boa redação e organização</li>
-          <li>Indicação de superior imediato</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-crosshairs"></i></div>
-        <h3>CORE</h3>
-        <p><em>Coordenadoria de Recursos Especiais</em></p>
-        <p>Tropa de elite da Polícia Civil. Operações de alto risco, resgate de reféns e combate a facções armadas.</p>
-        <p><strong>Vagas:</strong> <span style="color:#c9a227;">Processo Seletivo Rigoroso</span></p>
-        <ul class="lista">
-          <li>Mínimo 90 dias de corporação</li>
-          <li>Zero punições disciplinares</li>
-          <li>Provas físicas e táticas eliminatórias</li>
-          <li>Aprovação em teste psicológico RP</li>
-          <li>Disponibilidade total</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-        <h3>Ensino</h3>
-        <p><em>Academia de Formação Policial</em></p>
-        <p>Atuação como instrutor na formação de novos recrutas e no aperfeiçoamento contínuo da tropa.</p>
-        <p><strong>Vagas:</strong> <span style="color:#4caf50;">Abertas</span></p>
-        <ul class="lista">
-          <li>Mínimo 90 dias de corporação</li>
-          <li>Domínio das normas internas</li>
-          <li>Boa comunicação e didática</li>
-          <li>Aprovação em prova de instrutor</li>
-        </ul>
-      </div>
-
+    <div class="concurso-filtros">
+      <button class="concurso-filtro ativo" data-filtro="todos">
+        <i class="fa-solid fa-list"></i> <span>Todos</span>
+      </button>
+      <button class="concurso-filtro" data-filtro="saer">
+        <i class="fa-solid fa-helicopter"></i> <span>SAER</span>
+      </button>
+      <button class="concurso-filtro" data-filtro="gem">
+        <i class="fa-solid fa-motorcycle"></i> <span>GEM</span>
+      </button>
+      <button class="concurso-filtro" data-filtro="escrivao">
+        <i class="fa-solid fa-pen-fancy"></i> <span>Escrivães</span>
+      </button>
+      <button class="concurso-filtro" data-filtro="core">
+        <i class="fa-solid fa-crosshairs"></i> <span>CORE</span>
+      </button>
+      <button class="concurso-filtro" data-filtro="cgpc">
+        <i class="fa-solid fa-clipboard-check"></i> <span>CGPC</span>
+      </button>
     </div>
+
+    <div class="concurso-grid" id="concursoGrid"></div>
   </section>
 
-  <section>
-    <h2>Como se Inscrever</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-list-check"></i></div>
-        <h3>1. Verifique os Requisitos</h3>
-        <p>Confirme se você cumpre todos os pré-requisitos exigidos para o grupamento desejado.</p>
+  <div class="edital-modal" id="editalModal">
+    <div class="edital-conteudo" id="editalConteudo">
+      <div class="edital-header">
+        <div class="edital-logo" id="editalLogo">
+          <img src="" alt="Logo" id="editalLogoImg">
+        </div>
+        <div class="edital-header-info">
+          <h2 id="editalTitulo">Edital</h2>
+          <span id="editalSubtitulo">Concurso Interno PCERJ</span>
+        </div>
+        <button class="edital-close" id="editalClose" aria-label="Fechar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div class="card">
-        <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
-        <h3>2. Acesse o Discord</h3>
-        <p>Entre no canal <strong>#concursos-internos</strong> e pegue o formulário oficial.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-hourglass-half"></i></div>
-        <h3>3. Aguarde a Convocação</h3>
-        <p>Após enviar, você será convocado por um superior para as etapas seguintes.</p>
-      </div>
+      <div class="edital-body" id="editalBody"></div>
     </div>
-    <div style="text-align:center; margin-top:40px;">
-      <a href="#" class="btn btn-primary">
-        <i class="fa-brands fa-discord"></i> Entrar no Discord
-      </a>
-    </div>
-  </section>
+  </div>
 
   <footer>
     <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
@@ -188,6 +542,500 @@
 
   <script src="js/main.js"></script>
   <script src="js/login.js"></script>
-</body>
 
+  <script>
+  /* ============================================================
+     DADOS DOS CONCURSOS
+     ------------------------------------------------------------
+     INTEGRAÇÃO FUTURA COM PAINEL/FIREBASE:
+     Substituir este array por um fetch('/api/concursos') ou
+     onSnapshot(collection(db, 'concursos')) — mesmo formato.
+     ============================================================ */
+  const CONCURSOS_DATA = [
+
+    /* ==================== SAER ==================== */
+    {
+      id: "saer-17",
+      categoria: "saer",
+      cor: "#a8841a",
+      corDark: "#1a1408",
+      logo: "assets/img/concursos/saer.png",
+      sigla: "SAER",
+      nome: "SAER",
+      titulo: "Concurso do Serviço Aeropolicial",
+      vagas: "Vagas Abertas",
+      data: "xx/xx/xxxx",
+      hora: "xx:xx",
+      local: "Heliporto da P.C.E.R.J.",
+      conteudo: `
+        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
+        <p>É com muita honra que anunciamos o <strong>Concurso do Serviço Aeropolicial</strong>.</p>
+        <ul>
+          <li><strong>Data:</strong> xx/xx/xxxx</li>
+          <li><strong>Hora:</strong> xx:xx</li>
+          <li><strong>Formação:</strong> Heliporto da P.C.E.R.J.</li>
+          <li><strong>Inscrição:</strong> No tópico do Discord</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-list-check"></i> Requisitos</h4>
+        <ul>
+          <li>Patente mínima <strong>Investigador 3ª Classe</strong></li>
+          <li>Concluir todos os Cursos Obrigatórios</li>
+          <li>Boa conduta</li>
+          <li>Bom controle emocional</li>
+          <li>Não ter nenhuma Advertência</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-shirt"></i> Fardamento</h4>
+
+        <div class="fardamento-box">
+          <h5><i class="fa-solid fa-person"></i> Masculino</h5>
+          <div class="fardamento-codigos">
+            <span><b>mascara</b> 62 0</span>
+            <span><b>maos</b> 0 0</span>
+            <span><b>calca</b> 313 0</span>
+            <span><b>mochila</b> 150 0</span>
+            <span><b>sapatos</b> 56 0</span>
+            <span><b>acessorios</b> 228 0</span>
+            <span><b>blusa</b> 15 0</span>
+            <span><b>colete</b> 159 0</span>
+            <span><b>adesivo</b> 0 0</span>
+            <span><b>jaqueta</b> 836 0</span>
+            <span><b>chapeu</b> 128 0</span>
+            <span><b>oculos</b> 33 0</span>
+          </div>
+        </div>
+
+        <div class="fardamento-box">
+          <h5><i class="fa-solid fa-person-dress"></i> Feminino</h5>
+          <div class="fardamento-codigos">
+            <span><b>mascara</b> 50 0</span>
+            <span><b>maos</b> 75 0</span>
+            <span><b>calca</b> 321 11</span>
+            <span><b>mochila</b> 158 0</span>
+            <span><b>sapatos</b> 49 0</span>
+            <span><b>acessorios</b> 230 0</span>
+            <span><b>blusa</b> 3 0</span>
+            <span><b>colete</b> 193 0</span>
+            <span><b>adesivo</b> 0 0</span>
+            <span><b>jaqueta</b> 942 2</span>
+            <span><b>chapeu</b> 120 0</span>
+            <span><b>oculos</b> 48 0</span>
+          </div>
+        </div>
+
+        <h4><i class="fa-solid fa-bullhorn"></i> Avisos</h4>
+        <div class="aviso-edital">
+          <p><i class="fa-solid fa-exclamation-triangle"></i> <strong>Curso obrigatório</strong> para realizar o concurso da CORE.</p>
+        </div>
+
+        <h4><i class="fa-solid fa-link"></i> Links Úteis</h4>
+        <a href="https://www.youtube.com/watch?v=2Mly-6RMmwM&t=5s" target="_blank" class="edital-link">
+          <i class="fa-brands fa-youtube"></i> Vídeo do Percurso
+        </a>
+        <a href="https://scotthzx.github.io/SaerRevoadaRJ/public/tutoriais.html" target="_blank" class="edital-link">
+          <i class="fa-solid fa-book"></i> Aba Tutoriais
+        </a>
+
+        <div class="aviso-edital" style="margin-top: 20px;">
+          <p><i class="fa-solid fa-motorcycle"></i> Todos estão liberados a pegar o <strong>Phoenix</strong> com intuito de <strong>somente treinar</strong> o percurso. Caso seja pego em PTR, será punido.</p>
+        </div>
+
+        <div class="edital-assinatura">
+          <strong>Comando SAER</strong><br>
+          [CMD SAER] Scott 🦅 · [SUB CMD SAER] Carpa 🦅<br><br>
+          <strong>Administração SAER</strong><br>
+          [INV ESP CORE] Henrique 🦅 · [ESC CORE] Klaus 🦅
+        </div>
+      `
+    },
+
+    /* ==================== GEM ==================== */
+    {
+      id: "gem-16",
+      categoria: "gem",
+      cor: "#bdbdbd",
+      corDark: "#1a1a1a",
+      logo: "assets/img/concursos/gem.png",
+      sigla: "GEM",
+      nome: "GEM",
+      titulo: "Concurso do Grupamento Especial de Motocicletas",
+      vagas: "Vagas Abertas",
+      data: "xx/xx/xxxx",
+      hora: "xx:xx",
+      local: "Estacionamento da P.C.E.R.J.",
+      conteudo: `
+        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
+        <p>É com muita honra que anunciamos o <strong>Concurso do Grupamento Especial de Motocicletas</strong>.</p>
+        <ul>
+          <li><strong>Data:</strong> xx/xx/xxxx</li>
+          <li><strong>Hora:</strong> xx:xx</li>
+          <li><strong>Formação:</strong> Estacionamento da P.C.E.R.J.</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-list-check"></i> Requisitos Básicos</h4>
+        <ul>
+          <li>Possuir patente mínima de <strong>Investigador 3ª Classe</strong></li>
+          <li>Demonstrar respeito à hierarquia e aos superiores</li>
+          <li>Manter boa conduta dentro da corporação</li>
+          <li>Concluir todos os Cursos Obrigatórios</li>
+          <li>Bom controle emocional</li>
+          <li>Obrigatório levar Kit Reparo</li>
+          <li>Proibido fixvip</li>
+          <li>Não ter nenhuma Advertência</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-shirt"></i> Fardamento</h4>
+
+        <div class="fardamento-box">
+          <h5><i class="fa-solid fa-person"></i> Masculino</h5>
+          <div class="fardamento-codigos">
+            <span><b>mascara</b> 179 0</span>
+            <span><b>maos</b> 49 0</span>
+            <span><b>calca</b> 297 0</span>
+            <span><b>mochila</b> 0 0</span>
+            <span><b>sapatos</b> 208 1</span>
+            <span><b>acessorios</b> 234 1</span>
+            <span><b>blusa</b> 15 0</span>
+            <span><b>colete</b> 122 0</span>
+            <span><b>adesivo</b> 0 0</span>
+            <span><b>jaqueta</b> 829 1</span>
+            <span><b>oculos</b> 21 5</span>
+            <span><b>chapeu</b> 295 0</span>
+          </div>
+        </div>
+
+        <div class="fardamento-box">
+          <h5><i class="fa-solid fa-person-dress"></i> Feminino</h5>
+          <div class="fardamento-codigos">
+            <span><b>mascara</b> 184 13</span>
+            <span><b>maos</b> 65 0</span>
+            <span><b>calca</b> 317 22</span>
+            <span><b>mochila</b> 0 0</span>
+            <span><b>sapatos</b> 50 0</span>
+            <span><b>acessorios</b> 236 1</span>
+            <span><b>blusa</b> 3 0</span>
+            <span><b>colete</b> 125 0</span>
+            <span><b>adesivo</b> 0 0</span>
+            <span><b>jaqueta</b> 918 0</span>
+            <span><b>chapeu</b> 269 0</span>
+            <span><b>oculos</b> 9 10</span>
+          </div>
+        </div>
+
+        <h4><i class="fa-solid fa-bullhorn"></i> Avisos</h4>
+        <div class="aviso-edital">
+          <p><i class="fa-solid fa-motorcycle"></i> Todos têm autorização para pegar a <strong>XT 660</strong> e usar o fardamento, com intuito de <strong>SOMENTE TREINAR</strong> no percurso, ficando restrito o uso da motocicleta para patrulha.</p>
+          <p style="margin-top: 10px;">Aqueles que forem pegos com uso da motocicleta para patrulha ao invés de treino <strong>serão advertidos</strong>.</p>
+        </div>
+
+        <h4><i class="fa-solid fa-link"></i> Vídeo do Percurso</h4>
+        <a href="#" target="_blank" class="edital-link">
+          <i class="fa-brands fa-youtube"></i> Clique aqui
+        </a>
+
+        <div class="edital-assinatura">
+          <strong>Comando GEM</strong><br>
+          [CMD GEM] Zorro 🦅 · [SUB CMD GEM] Serjão 🦅<br><br>
+          <strong>Administração GEM</strong><br>
+          [SPV] Zod Tenebras 🦅 · [INV ESP CORE] Husupreme 🦅
+        </div>
+      `
+    },
+
+    /* ==================== ESCRIVÃES ==================== */
+    {
+      id: "escrivao-10",
+      categoria: "escrivao",
+      cor: "#c9a227",
+      corDark: "#0a3a7a",
+      logo: "assets/img/concursos/pc-rj.png",
+      sigla: "ESCRIVÃES",
+      nome: "Escrivães",
+      titulo: "10º Concurso de Escrivães",
+      vagas: "Vagas Abertas",
+      data: "xx/xx/xxxx",
+      hora: "xx:xx",
+      local: "Call: Aguardando CMD",
+      conteudo: `
+        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
+        <p>É com muita honra que anunciamos o <strong>Concurso de Escrivães</strong> da Polícia Civil do Estado do Rio de Janeiro.</p>
+        <p>Para este concurso é necessário <strong>muito preparo, estudo e conduta</strong>. Somente os melhores passam...</p>
+
+        <h4><i class="fa-solid fa-list-check"></i> Requisitos</h4>
+        <ul>
+          <li>Ser <strong>Investigador 2ª Classe</strong> ou acima</li>
+          <li>Possuir boa conduta</li>
+          <li>Ter concluído todos os Cursos Básicos e Complementares da P.C.E.R.J.</li>
+          <li>Ser responsável</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-clipboard-list"></i> Informações da Prova</h4>
+        <ul>
+          <li><strong>Data:</strong> xx/xx/xxxx</li>
+          <li><strong>Horário:</strong> xx:xx</li>
+          <li><strong>Local:</strong> Call — Aguardando CMD</li>
+          <li><strong>Obs:</strong> Chegar com 15 minutos de antecedência</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-book"></i> Material de Estudo</h4>
+        <a href="https://www.canva.com/design/DAGZ25aL5Oc/K-emV8aAWlfBqu_WFignjw/view" target="_blank" class="edital-link">
+          <i class="fa-solid fa-graduation-cap"></i> Acessar material no Canva
+        </a>
+
+        <div class="edital-assinatura">
+          <strong>Delegado PCERJ</strong><br>
+          [DEL G.] Macedo Tenebras 🦅<br><br>
+          <strong>Coordenador Civil</strong><br>
+          [COORD] Jeffin 🦅
+        </div>
+      `
+    },
+
+    /* ==================== CORE ==================== */
+    {
+      id: "core-7",
+      categoria: "core",
+      cor: "#b71c1c",
+      corDark: "#0a0a0a",
+      logo: "assets/img/concursos/core.png",
+      sigla: "CORE",
+      nome: "CORE",
+      titulo: "Concurso da Coordenadoria de Recursos Especiais",
+      vagas: "Processo Seletivo Rigoroso",
+      data: "xx/xx/xxxx",
+      hora: "xx:xx",
+      local: "Formação ao lado do prédio da PCERJ",
+      conteudo: `
+        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
+        <p><strong>Com ódio anunciamos</strong> o Concurso da Coordenadoria de Recursos Especiais.</p>
+        <ul>
+          <li><strong>Data:</strong> xx/xx/xxxx</li>
+          <li><strong>Hora:</strong> xx:xx</li>
+          <li><strong>Local:</strong> Formação ao lado do prédio da PCERJ</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-list-check"></i> Requisitos</h4>
+        <ul>
+          <li>Ser <strong>Investigador 2ª Classe</strong> ou superior</li>
+          <li>Fazer parte da <strong>『 EQP 』CGPC</strong> ou <strong>Ensino PCERJ</strong> e estar com metas em dia</li>
+          <li>Fazer parte do <strong>『 EQP 』SAER</strong></li>
+        </ul>
+
+        <h4><i class="fa-solid fa-shirt"></i> Fardamento</h4>
+
+        <div class="fardamento-box">
+          <h5><i class="fa-solid fa-person"></i> Masculino</h5>
+          <div class="fardamento-codigos">
+            <span><b>mascara</b> 282 9</span>
+            <span><b>maos</b> 4 0</span>
+            <span><b>calca</b> 294 0</span>
+            <span><b>mochila</b> 0 0</span>
+            <span><b>sapatos</b> 66 0</span>
+            <span><b>acessorios</b> 234 0</span>
+            <span><b>blusa</b> 15 0</span>
+            <span><b>colete</b> 94 0</span>
+            <span><b>adesivo</b> 0 0</span>
+            <span><b>jaqueta</b> 860 0</span>
+            <span><b>chapeu</b> 275 0</span>
+          </div>
+        </div>
+
+        <div class="fardamento-box">
+          <h5><i class="fa-solid fa-person-dress"></i> Feminino</h5>
+          <div class="fardamento-codigos">
+            <span><b>mascara</b> 303 5</span>
+            <span><b>maos</b> 3 0</span>
+            <span><b>calca</b> 309 0</span>
+            <span><b>mochila</b> -1 0</span>
+            <span><b>sapatos</b> 61 0</span>
+            <span><b>acessorios</b> 201 0</span>
+            <span><b>blusa</b> 14 0</span>
+            <span><b>colete</b> 110 0</span>
+            <span><b>adesivo</b> 0 0</span>
+            <span><b>jaqueta</b> 969 0</span>
+            <span><b>oculos</b> -1 0</span>
+            <span><b>chapeu</b> 232 0</span>
+          </div>
+        </div>
+
+        <div class="aviso-edital">
+          <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>Comparecer devidamente uniformizado.</strong></p>
+        </div>
+
+        <h4><i class="fa-solid fa-circle-question"></i> O que é a CORE?</h4>
+        <p>A CORE (Coordenadoria de Recursos Especiais) é uma unidade da Polícia Civil do Rio de Janeiro que atua em <strong>operações policiais especiais</strong>:</p>
+        <ul>
+          <li>Intervir em ocorrências complexas e de alto risco</li>
+          <li>Preparar os policiais para lidar com situações de risco</li>
+          <li>Priorizar a segurança pública e a integridade dos envolvidos</li>
+        </ul>
+
+        <p style="color: var(--dourado); font-weight: bold; text-align: center; margin: 25px 0; font-size: 16px;">
+          🔥 ESTÃO PREPARADOS PARA A MELHOR GUARNIÇÃO ESPECIAL QUE ESSA CIDADE JÁ VIU?
+        </p>
+
+        <h4><i class="fa-solid fa-link"></i> Vídeo</h4>
+        <a href="https://www.youtube.com/watch?v=eVdSBI9y_24" target="_blank" class="edital-link">
+          <i class="fa-brands fa-youtube"></i> Assistir no YouTube
+        </a>
+
+        <div class="edital-assinatura">
+          <strong>Comando CORE</strong><br>
+          [CMD CORE] Zeus 🦅<br>
+          [SUB CMD CORE] Tavares 🦅
+        </div>
+      `
+    },
+
+    /* ==================== CGPC ==================== */
+    {
+      id: "cgpc-prisional",
+      categoria: "cgpc",
+      cor: "#c0c0c0",
+      corDark: "#1a1a1a",
+      logo: "assets/img/concursos/cgpc.png",
+      sigla: "CGPC",
+      nome: "CGPC",
+      titulo: "Vagas Abertas — Setor Prisional",
+      vagas: "Vagas Abertas",
+      data: "Contínuo",
+      hora: "—",
+      local: "Contato direto com o responsável",
+      conteudo: `
+        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
+        <p style="font-size: 16px; color: var(--dourado); font-weight: bold;">
+          QUER FAZER PARTE DA CGPC? ENTÃO ESSA É A SUA OPORTUNIDADE!
+        </p>
+        <p>A CGPC está com vagas abertas para o <strong>PRISIONAL</strong> para quem busca crescer dentro da corporação, adquirir experiência e fazer parte de uma equipe comprometida com a excelência.</p>
+        <p>Se você tem <strong>dedicação, disciplina e vontade de evoluir</strong>, venha fazer parte da nossa equipe!</p>
+
+        <h4><i class="fa-solid fa-triangle-exclamation"></i> Importante</h4>
+        <div class="aviso-edital">
+          <p><i class="fa-solid fa-circle-exclamation"></i> Para ingressar na <strong>CORE</strong>, é necessário fazer parte da <strong>CGPC</strong> ou do <strong>Ensino</strong>.</p>
+        </div>
+
+        <h4><i class="fa-solid fa-envelope"></i> Como se Inscrever</h4>
+        <p>Interessado(a)? Entre em contato diretamente com o responsável pelo Discord.</p>
+
+        <h4><i class="fa-solid fa-medal"></i> Requisito Mínimo</h4>
+        <ul>
+          <li>Patente mínima: <strong>Investigador 3ª Classe</strong></li>
+        </ul>
+      `
+    }
+
+  ];
+
+  /* ============================================================
+     RENDER — CARDS DE CONCURSO
+     ============================================================ */
+  function renderConcursos(filtro = 'todos') {
+    const grid = document.getElementById('concursoGrid');
+    if (!grid) return;
+
+    const filtrados = filtro === 'todos'
+      ? CONCURSOS_DATA
+      : CONCURSOS_DATA.filter(c => c.categoria === filtro);
+
+    if (filtrados.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--texto-muted);">
+          <i class="fa-solid fa-inbox" style="font-size: 48px; color: var(--dourado); margin-bottom: 15px; display: block;"></i>
+          <p>Nenhum concurso encontrado nesta categoria.</p>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = filtrados.map(c => `
+      <div class="concurso-card" style="--cor-categoria: ${c.cor}; --cor-categoria-dark: ${c.corDark};">
+        <div class="concurso-logo">
+          <img src="${c.logo}" alt="Logo ${c.sigla}">
+          <div class="concurso-logo-info">
+            <span class="sigla">${c.sigla}</span>
+            <span class="vagas-badge">${c.vagas}</span>
+          </div>
+        </div>
+        <div class="concurso-body">
+          <h3>${c.titulo}</h3>
+          <div class="concurso-info">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>${c.data}</span>
+          </div>
+          <div class="concurso-info">
+            <i class="fa-solid fa-clock"></i>
+            <span>${c.hora}</span>
+          </div>
+          <div class="concurso-info">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>${c.local}</span>
+          </div>
+        </div>
+        <div class="concurso-footer">
+          <button class="btn-edital" data-id="${c.id}">
+            <i class="fa-solid fa-file-contract"></i> Ver Edital Completo
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('.btn-edital').forEach(btn => {
+      btn.addEventListener('click', () => abrirEdital(btn.dataset.id));
+    });
+  }
+
+  /* ============================================================
+     MODAL — ABRIR EDITAL
+     ============================================================ */
+  function abrirEdital(id) {
+    const concurso = CONCURSOS_DATA.find(c => c.id === id);
+    if (!concurso) return;
+
+    // Aplica a cor da categoria no modal
+    document.getElementById('editalConteudo').style.setProperty('--cor-categoria', concurso.cor);
+
+    document.getElementById('editalLogoImg').src = concurso.logo;
+    document.getElementById('editalLogoImg').alt = concurso.sigla;
+    document.getElementById('editalTitulo').textContent = concurso.titulo;
+    document.getElementById('editalSubtitulo').textContent = `${concurso.nome} · Concurso Interno PCERJ`;
+    document.getElementById('editalBody').innerHTML = concurso.conteudo;
+
+    document.getElementById('editalModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ============================================================
+     MODAL — FECHAR
+     ============================================================ */
+  function fecharEdital() {
+    document.getElementById('editalModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('editalClose')?.addEventListener('click', fecharEdital);
+  document.getElementById('editalModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'editalModal') fecharEdital();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') fecharEdital();
+  });
+
+  /* ============================================================
+     FILTROS
+     ============================================================ */
+  document.querySelectorAll('.concurso-filtro').forEach(filtro => {
+    filtro.addEventListener('click', () => {
+      document.querySelectorAll('.concurso-filtro').forEach(f => f.classList.remove('ativo'));
+      filtro.classList.add('ativo');
+      renderConcursos(filtro.dataset.filtro);
+    });
+  });
+
+  /* ============================================================
+     INIT
+     ============================================================ */
+  renderConcursos();
+  </script>
+</body>
 </html>
