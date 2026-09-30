@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,8 +61,10 @@
     .concurso-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 4px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
       background: linear-gradient(90deg, var(--cor-categoria, var(--dourado)), var(--cor-categoria-dark, var(--dourado-hover)));
       z-index: 2;
     }
@@ -69,7 +72,7 @@
     .concurso-card:hover {
       border-color: var(--cor-categoria, var(--dourado));
       transform: translateY(-6px);
-      box-shadow: 0 15px 35px rgba(201,162,39,.2);
+      box-shadow: 0 15px 35px rgba(201, 162, 39, .2);
     }
 
     /* Área da logo */
@@ -96,7 +99,7 @@
       max-height: 130px;
       max-width: 85%;
       object-fit: contain;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,.6));
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .6));
       position: relative;
       z-index: 1;
       transition: .4s;
@@ -109,9 +112,11 @@
     /* Info no rodapé do logo */
     .concurso-logo-info {
       position: absolute;
-      bottom: 0; left: 0; right: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
       padding: 10px 18px;
-      background: linear-gradient(to top, rgba(0,0,0,.95), transparent);
+      background: linear-gradient(to top, rgba(0, 0, 0, .95), transparent);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -127,8 +132,8 @@
     }
 
     .concurso-logo-info .vagas-badge {
-      background: rgba(76,175,80,.2);
-      border: 1px solid rgba(76,175,80,.5);
+      background: rgba(76, 175, 80, .2);
+      border: 1px solid rgba(76, 175, 80, .5);
       color: #81c784;
       padding: 3px 10px;
       border-radius: 20px;
@@ -172,7 +177,7 @@
     .concurso-footer {
       padding: 16px 22px;
       border-top: 1px solid var(--borda);
-      background: rgba(0,0,0,.2);
+      background: rgba(0, 0, 0, .2);
     }
 
     .btn-edital {
@@ -202,14 +207,17 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.9);
+      background: rgba(0, 0, 0, .9);
       backdrop-filter: blur(8px);
       z-index: 9999;
       padding: 30px 20px;
       overflow-y: auto;
     }
 
-    .edital-modal.open { display: block; animation: fadeIn .3s; }
+    .edital-modal.open {
+      display: block;
+      animation: fadeIn .3s;
+    }
 
     .edital-conteudo {
       max-width: 900px;
@@ -218,7 +226,7 @@
       border: 2px solid var(--cor-categoria, var(--dourado));
       border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,.7);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .7);
     }
 
     .edital-header {
@@ -235,7 +243,7 @@
       width: 90px;
       height: 90px;
       border-radius: 12px;
-      background: rgba(0,0,0,.5);
+      background: rgba(0, 0, 0, .5);
       border: 2px solid var(--cor-categoria, var(--dourado));
       display: flex;
       align-items: center;
@@ -250,7 +258,9 @@
       object-fit: contain;
     }
 
-    .edital-header-info { flex: 1; }
+    .edital-header-info {
+      flex: 1;
+    }
 
     .edital-header-info h2 {
       color: var(--dourado);
@@ -305,9 +315,13 @@
       border-bottom: 1px solid var(--borda);
     }
 
-    .edital-body h4:first-child { margin-top: 0; }
+    .edital-body h4:first-child {
+      margin-top: 0;
+    }
 
-    .edital-body p { margin-bottom: 12px; }
+    .edital-body p {
+      margin-bottom: 12px;
+    }
 
     .edital-body ul {
       list-style: none;
@@ -331,7 +345,9 @@
       font-size: 12px;
     }
 
-    .edital-body strong { color: var(--dourado); }
+    .edital-body strong {
+      color: var(--dourado);
+    }
 
     /* Box de fardamento */
     .fardamento-box {
@@ -361,8 +377,8 @@
     }
 
     .fardamento-codigos span {
-      background: rgba(201,162,39,.08);
-      border: 1px solid rgba(201,162,39,.3);
+      background: rgba(201, 162, 39, .08);
+      border: 1px solid rgba(201, 162, 39, .3);
       padding: 4px 10px;
       border-radius: 4px;
       font-size: 11.5px;
@@ -376,7 +392,7 @@
 
     /* Box de avisos */
     .aviso-edital {
-      background: rgba(183,28,28,.1);
+      background: rgba(183, 28, 28, .1);
       border: 1px solid var(--vermelho);
       border-left: 4px solid var(--vermelho);
       border-radius: 8px;
@@ -386,9 +402,14 @@
       font-size: 14px;
     }
 
-    .aviso-edital strong { color: #ff8a80; }
+    .aviso-edital strong {
+      color: #ff8a80;
+    }
 
-    .aviso-edital i { color: var(--vermelho); margin-right: 8px; }
+    .aviso-edital i {
+      color: var(--vermelho);
+      margin-right: 8px;
+    }
 
     /* Link externo */
     .edital-link {
@@ -424,21 +445,49 @@
       line-height: 1.9;
     }
 
-    .edital-assinatura strong { color: var(--dourado); }
+    .edital-assinatura strong {
+      color: var(--dourado);
+    }
 
     /* ===== RESPONSIVO ===== */
     @media (max-width: 700px) {
-      .concurso-grid { grid-template-columns: 1fr; }
-      .concurso-filtro span { display: none; }
-      .edital-body { padding: 25px 20px; }
-      .edital-header { padding: 20px; flex-wrap: wrap; }
-      .edital-header-info h2 { font-size: 17px; }
-      .edital-header .edital-logo { width: 65px; height: 65px; }
-      .concurso-logo { height: 150px; }
-      .concurso-logo img { max-height: 100px; }
+      .concurso-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .concurso-filtro span {
+        display: none;
+      }
+
+      .edital-body {
+        padding: 25px 20px;
+      }
+
+      .edital-header {
+        padding: 20px;
+        flex-wrap: wrap;
+      }
+
+      .edital-header-info h2 {
+        font-size: 17px;
+      }
+
+      .edital-header .edital-logo {
+        width: 65px;
+        height: 65px;
+      }
+
+      .concurso-logo {
+        height: 150px;
+      }
+
+      .concurso-logo img {
+        max-height: 100px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -492,7 +541,8 @@
 
   <section>
     <h2>Concursos Internos</h2>
-    <p style="margin-bottom:25px;">A Polícia Civil de Revoada RJ oferece oportunidades de especialização para seus membros através de concursos internos. Todos os concursos são anunciados no Discord oficial.</p>
+    <p style="margin-bottom:25px;">A Polícia Civil de Revoada RJ oferece oportunidades de especialização para seus
+      membros através de concursos internos. Todos os concursos são anunciados no Discord oficial.</p>
 
     <div class="concurso-filtros">
       <button class="concurso-filtro ativo" data-filtro="todos">
@@ -512,6 +562,9 @@
       </button>
       <button class="concurso-filtro" data-filtro="cgpc">
         <i class="fa-solid fa-clipboard-check"></i> <span>CGPC</span>
+      </button>
+      <button class="concurso-filtro" data-filtro="ensino">
+        <i class="fa-solid fa-chalkboard-user"></i> <span>Ensino</span>
       </button>
     </div>
 
@@ -544,30 +597,30 @@
   <script src="js/login.js"></script>
 
   <script>
-  /* ============================================================
-     DADOS DOS CONCURSOS
-     ------------------------------------------------------------
-     INTEGRAÇÃO FUTURA COM PAINEL/FIREBASE:
-     Substituir este array por um fetch('/api/concursos') ou
-     onSnapshot(collection(db, 'concursos')) — mesmo formato.
-     ============================================================ */
-  const CONCURSOS_DATA = [
+    /* ============================================================
+       DADOS DOS CONCURSOS
+       ------------------------------------------------------------
+       INTEGRAÇÃO FUTURA COM PAINEL/FIREBASE:
+       Substituir este array por um fetch('/api/concursos') ou
+       onSnapshot(collection(db, 'concursos')) — mesmo formato.
+       ============================================================ */
+    const CONCURSOS_DATA = [
 
-    /* ==================== SAER ==================== */
-    {
-      id: "saer-17",
-      categoria: "saer",
-      cor: "#a8841a",
-      corDark: "#1a1408",
-      logo: "assets/img/concursos/saer.png",
-      sigla: "SAER",
-      nome: "SAER",
-      titulo: "Concurso do Serviço Aeropolicial",
-      vagas: "Vagas Abertas",
-      data: "xx/xx/xxxx",
-      hora: "xx:xx",
-      local: "Heliporto da P.C.E.R.J.",
-      conteudo: `
+      /* ==================== SAER ==================== */
+      {
+        id: "saer-17",
+        categoria: "saer",
+        cor: "#a8841a",
+        corDark: "#1a1408",
+        logo: "assets/img/concursos/saer.png",
+        sigla: "SAER",
+        nome: "SAER",
+        titulo: "Concurso do Serviço Aeropolicial",
+        vagas: "Vagas Abertas",
+        data: "xx/xx/xxxx",
+        hora: "xx:xx",
+        local: "Heliporto da P.C.E.R.J.",
+        conteudo: `
         <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
         <p>É com muita honra que anunciamos o <strong>Concurso do Serviço Aeropolicial</strong>.</p>
         <ul>
@@ -648,23 +701,23 @@
           [INV ESP CORE] Henrique 🦅 · [ESC CORE] Klaus 🦅
         </div>
       `
-    },
+      },
 
-    /* ==================== GEM ==================== */
-    {
-      id: "gem-16",
-      categoria: "gem",
-      cor: "#bdbdbd",
-      corDark: "#1a1a1a",
-      logo: "assets/img/concursos/gem.png",
-      sigla: "GEM",
-      nome: "GEM",
-      titulo: "Concurso do Grupamento Especial de Motocicletas",
-      vagas: "Vagas Abertas",
-      data: "xx/xx/xxxx",
-      hora: "xx:xx",
-      local: "Estacionamento da P.C.E.R.J.",
-      conteudo: `
+      /* ==================== GEM ==================== */
+      {
+        id: "gem-16",
+        categoria: "gem",
+        cor: "#bdbdbd",
+        corDark: "#1a1a1a",
+        logo: "assets/img/concursos/gem.png",
+        sigla: "GEM",
+        nome: "GEM",
+        titulo: "Concurso do Grupamento Especial de Motocicletas",
+        vagas: "Vagas Abertas",
+        data: "xx/xx/xxxx",
+        hora: "xx:xx",
+        local: "Estacionamento da P.C.E.R.J.",
+        conteudo: `
         <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
         <p>É com muita honra que anunciamos o <strong>Concurso do Grupamento Especial de Motocicletas</strong>.</p>
         <ul>
@@ -741,23 +794,23 @@
           [SPV] Zod Tenebras 🦅 · [INV ESP CORE] Husupreme 🦅
         </div>
       `
-    },
+      },
 
-    /* ==================== ESCRIVÃES ==================== */
-    {
-      id: "escrivao-10",
-      categoria: "escrivao",
-      cor: "#c9a227",
-      corDark: "#0a3a7a",
-      logo: "assets/img/concursos/pc-rj.png",
-      sigla: "ESCRIVÃES",
-      nome: "Escrivães",
-      titulo: "10º Concurso de Escrivães",
-      vagas: "Vagas Abertas",
-      data: "xx/xx/xxxx",
-      hora: "xx:xx",
-      local: "Call: Aguardando CMD",
-      conteudo: `
+      /* ==================== ESCRIVÃES ==================== */
+      {
+        id: "escrivao-10",
+        categoria: "escrivao",
+        cor: "#c9a227",
+        corDark: "#0a3a7a",
+        logo: "assets/img/concursos/pc-rj.png",
+        sigla: "ESCRIVÃES",
+        nome: "Escrivães",
+        titulo: "Concurso de Escrivães",
+        vagas: "Vagas Abertas",
+        data: "xx/xx/xxxx",
+        hora: "xx:xx",
+        local: "Call: Aguardando CMD",
+        conteudo: `
         <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
         <p>É com muita honra que anunciamos o <strong>Concurso de Escrivães</strong> da Polícia Civil do Estado do Rio de Janeiro.</p>
         <p>Para este concurso é necessário <strong>muito preparo, estudo e conduta</strong>. Somente os melhores passam...</p>
@@ -790,23 +843,23 @@
           [COORD] Jeffin 🦅
         </div>
       `
-    },
+      },
 
-    /* ==================== CORE ==================== */
-    {
-      id: "core-7",
-      categoria: "core",
-      cor: "#b71c1c",
-      corDark: "#0a0a0a",
-      logo: "assets/img/concursos/core.png",
-      sigla: "CORE",
-      nome: "CORE",
-      titulo: "Concurso da Coordenadoria de Recursos Especiais",
-      vagas: "Processo Seletivo Rigoroso",
-      data: "xx/xx/xxxx",
-      hora: "xx:xx",
-      local: "Formação ao lado do prédio da PCERJ",
-      conteudo: `
+      /* ==================== CORE ==================== */
+      {
+        id: "core-7",
+        categoria: "core",
+        cor: "#b71c1c",
+        corDark: "#0a0a0a",
+        logo: "assets/img/concursos/core.png",
+        sigla: "CORE",
+        nome: "CORE",
+        titulo: "Concurso da Coordenadoria de Recursos Especiais",
+        vagas: "Processo Seletivo Rigoroso",
+        data: "xx/xx/xxxx",
+        hora: "xx:xx",
+        local: "Formação ao lado do prédio da PCERJ",
+        conteudo: `
         <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
         <p><strong>Com ódio anunciamos</strong> o Concurso da Coordenadoria de Recursos Especiais.</p>
         <ul>
@@ -886,23 +939,23 @@
           [SUB CMD CORE] Tavares 🦅
         </div>
       `
-    },
+      },
 
-    /* ==================== CGPC ==================== */
-    {
-      id: "cgpc-prisional",
-      categoria: "cgpc",
-      cor: "#c0c0c0",
-      corDark: "#1a1a1a",
-      logo: "assets/img/concursos/cgpc.png",
-      sigla: "CGPC",
-      nome: "CGPC",
-      titulo: "Vagas Abertas — Setor Prisional",
-      vagas: "Vagas Abertas",
-      data: "Contínuo",
-      hora: "—",
-      local: "Contato direto com o responsável",
-      conteudo: `
+      /* ==================== CGPC ==================== */
+      {
+        id: "cgpc-prisional",
+        categoria: "cgpc",
+        cor: "#c0c0c0",
+        corDark: "#1a1a1a",
+        logo: "assets/img/concursos/cgpc.png",
+        sigla: "CGPC",
+        nome: "CGPC",
+        titulo: "Auditor Prisional e Pericial",
+        vagas: "Vagas Abertas",
+        data: "Contínuo",
+        hora: "—",
+        local: "Contato direto com o responsável",
+        conteudo: `
         <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
         <p style="font-size: 16px; color: var(--dourado); font-weight: bold;">
           QUER FAZER PARTE DA CGPC? ENTÃO ESSA É A SUA OPORTUNIDADE!
@@ -923,32 +976,69 @@
           <li>Patente mínima: <strong>Investigador 3ª Classe</strong></li>
         </ul>
       `
-    }
+      },
 
-  ];
+      /* ==================== ENSINO ==================== */
+      {
+        id: "ensino-vagas",
+        categoria: "ensino",
+        cor: "#c9a227",
+        corDark: "#0a3a7a",
+        logo: "assets/img/concursos/pc-rj.png",
+        sigla: "ENSINO",
+        nome: "Ensino",
+        titulo: "Instrutor de Recrutamento e Cursos",
+        vagas: "Vagas Abertas",
+        data: "Contínuo",
+        hora: "—",
+        local: "Contato direto com o responsável",
+        conteudo: `
+        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
+        <p style="font-size: 16px; color: var(--dourado); font-weight: bold;">
+          QUER FAZER PARTE DO ENSINO? ENTÃO ESSA É A SUA OPORTUNIDADE!
+        </p>
+        <p>O Ensino está com vagas abertas para quem busca crescer dentro da corporação, adquirir experiência e fazer parte de uma equipe comprometida com a excelência.</p>
+        <p>Se você tem <strong>dedicação, disciplina e vontade de evoluir</strong>, venha fazer parte da nossa equipe!</p>
 
-  /* ============================================================
-     RENDER — CARDS DE CONCURSO
-     ============================================================ */
-  function renderConcursos(filtro = 'todos') {
-    const grid = document.getElementById('concursoGrid');
-    if (!grid) return;
+        <h4><i class="fa-solid fa-triangle-exclamation"></i> Importante</h4>
+        <div class="aviso-edital">  
+          <p><i class="fa-solid fa-circle-exclamation"></i> Para ingressar na <strong>CORE</strong>, é necessário fazer parte da <strong>CGPC</strong> ou do <strong>Ensino</strong>.</p>
+        </div>
 
-    const filtrados = filtro === 'todos'
-      ? CONCURSOS_DATA
-      : CONCURSOS_DATA.filter(c => c.categoria === filtro);
+        <h4><i class="fa-solid fa-envelope"></i> Como se Inscrever</h4>
+        <p>Interessado(a)? Entre em contato diretamente com o responsável pelo Discord.</p>
 
-    if (filtrados.length === 0) {
-      grid.innerHTML = `
+        <h4><i class="fa-solid fa-medal"></i> Requisito Mínimo</h4>
+        <ul>
+          <li>Patente mínima: <strong>Investigador 3ª Classe</strong></li>
+        </ul>
+      `
+      }
+
+    ];
+
+    /* ============================================================
+       RENDER — CARDS DE CONCURSO
+       ============================================================ */
+    function renderConcursos(filtro = 'todos') {
+      const grid = document.getElementById('concursoGrid');
+      if (!grid) return;
+
+      const filtrados = filtro === 'todos'
+        ? CONCURSOS_DATA
+        : CONCURSOS_DATA.filter(c => c.categoria === filtro);
+
+      if (filtrados.length === 0) {
+        grid.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--texto-muted);">
           <i class="fa-solid fa-inbox" style="font-size: 48px; color: var(--dourado); margin-bottom: 15px; display: block;"></i>
           <p>Nenhum concurso encontrado nesta categoria.</p>
         </div>
       `;
-      return;
-    }
+        return;
+      }
 
-    grid.innerHTML = filtrados.map(c => `
+      grid.innerHTML = filtrados.map(c => `
       <div class="concurso-card" style="--cor-categoria: ${c.cor}; --cor-categoria-dark: ${c.corDark};">
         <div class="concurso-logo">
           <img src="${c.logo}" alt="Logo ${c.sigla}">
@@ -980,62 +1070,63 @@
       </div>
     `).join('');
 
-    document.querySelectorAll('.btn-edital').forEach(btn => {
-      btn.addEventListener('click', () => abrirEdital(btn.dataset.id));
+      document.querySelectorAll('.btn-edital').forEach(btn => {
+        btn.addEventListener('click', () => abrirEdital(btn.dataset.id));
+      });
+    }
+
+    /* ============================================================
+       MODAL — ABRIR EDITAL
+       ============================================================ */
+    function abrirEdital(id) {
+      const concurso = CONCURSOS_DATA.find(c => c.id === id);
+      if (!concurso) return;
+
+      // Aplica a cor da categoria no modal
+      document.getElementById('editalConteudo').style.setProperty('--cor-categoria', concurso.cor);
+
+      document.getElementById('editalLogoImg').src = concurso.logo;
+      document.getElementById('editalLogoImg').alt = concurso.sigla;
+      document.getElementById('editalTitulo').textContent = concurso.titulo;
+      document.getElementById('editalSubtitulo').textContent = `${concurso.nome} · Concurso Interno PCERJ`;
+      document.getElementById('editalBody').innerHTML = concurso.conteudo;
+
+      document.getElementById('editalModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    /* ============================================================
+       MODAL — FECHAR
+       ============================================================ */
+    function fecharEdital() {
+      document.getElementById('editalModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('editalClose')?.addEventListener('click', fecharEdital);
+    document.getElementById('editalModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'editalModal') fecharEdital();
     });
-  }
-
-  /* ============================================================
-     MODAL — ABRIR EDITAL
-     ============================================================ */
-  function abrirEdital(id) {
-    const concurso = CONCURSOS_DATA.find(c => c.id === id);
-    if (!concurso) return;
-
-    // Aplica a cor da categoria no modal
-    document.getElementById('editalConteudo').style.setProperty('--cor-categoria', concurso.cor);
-
-    document.getElementById('editalLogoImg').src = concurso.logo;
-    document.getElementById('editalLogoImg').alt = concurso.sigla;
-    document.getElementById('editalTitulo').textContent = concurso.titulo;
-    document.getElementById('editalSubtitulo').textContent = `${concurso.nome} · Concurso Interno PCERJ`;
-    document.getElementById('editalBody').innerHTML = concurso.conteudo;
-
-    document.getElementById('editalModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  /* ============================================================
-     MODAL — FECHAR
-     ============================================================ */
-  function fecharEdital() {
-    document.getElementById('editalModal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('editalClose')?.addEventListener('click', fecharEdital);
-  document.getElementById('editalModal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'editalModal') fecharEdital();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') fecharEdital();
-  });
-
-  /* ============================================================
-     FILTROS
-     ============================================================ */
-  document.querySelectorAll('.concurso-filtro').forEach(filtro => {
-    filtro.addEventListener('click', () => {
-      document.querySelectorAll('.concurso-filtro').forEach(f => f.classList.remove('ativo'));
-      filtro.classList.add('ativo');
-      renderConcursos(filtro.dataset.filtro);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') fecharEdital();
     });
-  });
 
-  /* ============================================================
-     INIT
-     ============================================================ */
-  renderConcursos();
+    /* ============================================================
+       FILTROS
+       ============================================================ */
+    document.querySelectorAll('.concurso-filtro').forEach(filtro => {
+      filtro.addEventListener('click', () => {
+        document.querySelectorAll('.concurso-filtro').forEach(f => f.classList.remove('ativo'));
+        filtro.classList.add('ativo');
+        renderConcursos(filtro.dataset.filtro);
+      });
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    renderConcursos();
   </script>
 </body>
+
 </html>
