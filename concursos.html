@@ -40,6 +40,32 @@
       border-color: var(--dourado);
     }
 
+    /* Logo dentro do filtro */
+    .filtro-logo {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      transition: .3s;
+      flex-shrink: 0;
+    }
+
+    /* Quando ativo, a logo fica colorida */
+    .concurso-filtro.ativo .filtro-logo {
+      filter: none;
+      transform: scale(1.15);
+    }
+
+    /* Hover: logo dá uma leve clareada */
+    .concurso-filtro:hover .filtro-logo {
+      filter: grayscale(0) brightness(1);
+    }
+
+    /* Ajuste pra alinhar a logo com o texto */
+    .concurso-filtro {
+      /* ...regras já existentes... */
+      padding: 8px 18px;
+    }
+
     /* ===== CARDS DE CONCURSO ===== */
     .concurso-grid {
       display: grid;
@@ -485,6 +511,17 @@
         max-height: 100px;
       }
     }
+
+    @media (max-width: 700px) {
+      .filtro-logo {
+        width: 26px;
+        height: 26px;
+      }
+
+      .concurso-filtro {
+        padding: 10px 14px;
+      }
+    }
   </style>
 </head>
 
@@ -549,22 +586,22 @@
         <i class="fa-solid fa-list"></i> <span>Todos</span>
       </button>
       <button class="concurso-filtro" data-filtro="saer">
-        <i class="fa-solid fa-helicopter"></i> <span>SAER</span>
+        <img src="assets/img/concursos/saer.png" alt="SAER" class="filtro-logo"> <span>SAER</span>
       </button>
       <button class="concurso-filtro" data-filtro="gem">
-        <i class="fa-solid fa-motorcycle"></i> <span>GEM</span>
+        <img src="assets/img/concursos/gem.png" alt="GEM" class="filtro-logo"> <span>GEM</span>
       </button>
       <button class="concurso-filtro" data-filtro="escrivao">
-        <i class="fa-solid fa-pen-fancy"></i> <span>Escrivães</span>
+        <img src="assets/img/concursos/pc-rj.png" alt="Escrivães" class="filtro-logo"> <span>Escrivães</span>
       </button>
       <button class="concurso-filtro" data-filtro="core">
-        <i class="fa-solid fa-crosshairs"></i> <span>CORE</span>
+        <img src="assets/img/concursos/core.png" alt="CORE" class="filtro-logo"> <span>CORE</span>
       </button>
       <button class="concurso-filtro" data-filtro="cgpc">
-        <i class="fa-solid fa-clipboard-check"></i> <span>CGPC</span>
+        <img src="assets/img/concursos/cgpc.png" alt="CGPC" class="filtro-logo"> <span>CGPC</span>
       </button>
       <button class="concurso-filtro" data-filtro="ensino">
-        <i class="fa-solid fa-chalkboard-user"></i> <span>Ensino</span>
+        <img src="assets/img/concursos/pc-rj.png" alt="Ensino" class="filtro-logo"> <span>Ensino</span>
       </button>
     </div>
 
