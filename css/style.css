@@ -35,7 +35,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 20px rgba(0,0,0,.8);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, .8);
 }
 
 .header-container {
@@ -124,6 +124,8 @@ nav a.active {
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  text-decoration: none;
+  /* ← garante que não fica sublinhado */
 }
 
 .btn-login:hover {
@@ -145,7 +147,7 @@ nav a.active {
 }
 
 .menu-toggle:hover {
-  background: rgba(201,162,39,.15);
+  background: rgba(201, 162, 39, .15);
 }
 
 /* ===================== BOTÕES GENÉRICOS ===================== */
@@ -162,15 +164,26 @@ nav a.active {
   margin-top: 10px;
 }
 
-.btn-primary { background: var(--dourado); color: #000; }
-.btn-primary:hover { background: var(--dourado-hover); transform: translateY(-2px); }
+.btn-primary {
+  background: var(--dourado);
+  color: #000;
+}
+
+.btn-primary:hover {
+  background: var(--dourado-hover);
+  transform: translateY(-2px);
+}
 
 .btn-outline {
   background: transparent;
   color: var(--dourado);
   border: 2px solid var(--dourado);
 }
-.btn-outline:hover { background: var(--dourado); color: #000; }
+
+.btn-outline:hover {
+  background: var(--dourado);
+  color: #000;
+}
 
 /* ===================== SEÇÕES ===================== */
 section {
@@ -187,7 +200,9 @@ section h2 {
   padding-left: 15px;
 }
 
-section p { margin-bottom: 15px; }
+section p {
+  margin-bottom: 15px;
+}
 
 /* ===================== GRID & CARDS ===================== */
 .grid {
@@ -209,24 +224,36 @@ section p { margin-bottom: 15px; }
 .card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0;
-  width: 4px; height: 100%;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
   background: var(--dourado);
   transform: scaleY(0);
   transition: .3s;
   transform-origin: bottom;
 }
 
-.card:hover::before { transform: scaleY(1); }
+.card:hover::before {
+  transform: scaleY(1);
+}
 
 .card:hover {
   border-color: var(--dourado);
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(201,162,39,.2);
+  box-shadow: 0 10px 30px rgba(201, 162, 39, .2);
 }
 
-.card h3, .card h4 { color: var(--dourado); margin-bottom: 12px; }
-.card p { margin-bottom: 8px; font-size: 15px; }
+.card h3,
+.card h4 {
+  color: var(--dourado);
+  margin-bottom: 12px;
+}
+
+.card p {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
 
 .card-icon {
   font-size: 42px;
@@ -242,14 +269,21 @@ section p { margin-bottom: 15px; }
 }
 
 /* ===================== LISTAS ===================== */
-.lista { list-style: none; }
+.lista {
+  list-style: none;
+}
+
 .lista li {
   padding: 8px 0 8px 25px;
   position: relative;
   font-size: 15px;
   border-bottom: 1px solid var(--borda);
 }
-.lista li:last-child { border-bottom: none; }
+
+.lista li:last-child {
+  border-bottom: none;
+}
+
 .lista li::before {
   content: '▸';
   position: absolute;
@@ -295,7 +329,7 @@ section p { margin-bottom: 15px; }
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.85);
+  background: rgba(0, 0, 0, .85);
   backdrop-filter: blur(6px);
   z-index: 9999;
   justify-content: center;
@@ -303,7 +337,10 @@ section p { margin-bottom: 15px; }
   padding: 20px;
 }
 
-.modal.open { display: flex; animation: fadeIn .3s; }
+.modal.open {
+  display: flex;
+  animation: fadeIn .3s;
+}
 
 .modal-content {
   background: var(--preto-card);
@@ -314,7 +351,7 @@ section p { margin-bottom: 15px; }
   width: 100%;
   text-align: center;
   position: relative;
-  box-shadow: 0 20px 60px rgba(201,162,39,.3);
+  box-shadow: 0 20px 60px rgba(201, 162, 39, .3);
 }
 
 .modal-close {
@@ -328,12 +365,28 @@ section p { margin-bottom: 15px; }
   background: none;
   border: none;
 }
-.modal-close:hover { color: var(--vermelho); transform: rotate(90deg); }
 
-.modal-logo { width: 80px; height: 80px; margin-bottom: 15px; }
+.modal-close:hover {
+  color: var(--vermelho);
+  transform: rotate(90deg);
+}
 
-.modal-content h2 { color: var(--dourado); margin-bottom: 5px; }
-.modal-sub { color: var(--texto-muted); font-size: 14px; margin-bottom: 25px; }
+.modal-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.modal-content h2 {
+  color: var(--dourado);
+  margin-bottom: 5px;
+}
+
+.modal-sub {
+  color: var(--texto-muted);
+  font-size: 14px;
+  margin-bottom: 25px;
+}
 
 .modal-content form {
   display: flex;
@@ -342,7 +395,11 @@ section p { margin-bottom: 15px; }
   text-align: left;
 }
 
-.modal-content label { color: var(--dourado); font-size: 13px; font-weight: bold; }
+.modal-content label {
+  color: var(--dourado);
+  font-size: 13px;
+  font-weight: bold;
+}
 
 .modal-content input {
   background: var(--preto);
@@ -354,9 +411,21 @@ section p { margin-bottom: 15px; }
   margin-bottom: 8px;
 }
 
-.modal-content input:focus { outline: none; border-color: var(--dourado); }
-.modal-content .btn { width: 100%; margin-top: 10px; }
-.modal-footer { margin-top: 20px; font-size: 12px; color: var(--texto-muted); }
+.modal-content input:focus {
+  outline: none;
+  border-color: var(--dourado);
+}
+
+.modal-content .btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.modal-footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--texto-muted);
+}
 
 /* ===================== ANIMAÇÕES ===================== */
 .fade-in {
@@ -364,11 +433,22 @@ section p { margin-bottom: 15px; }
   transform: translateY(30px);
   transition: opacity .8s ease, transform .8s ease;
 }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(.95); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* ===================== FOOTER ===================== */
@@ -380,17 +460,34 @@ footer {
   color: var(--texto-muted);
   margin-top: 60px;
 }
-footer strong { color: var(--dourado); }
+
+footer strong {
+  color: var(--dourado);
+}
 
 /* ============================================================
    RESPONSIVO
    ============================================================ */
 
 @media (max-width: 1150px) {
-  nav a { padding: 9px 10px; font-size: 13px; }
-  .logo span { font-size: 14px; }
-  .logo img { height: 45px; width: 45px; }
-  .btn-login { padding: 9px 13px; font-size: 12px; }
+  nav a {
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+
+  .logo span {
+    font-size: 14px;
+  }
+
+  .logo img {
+    height: 45px;
+    width: 45px;
+  }
+
+  .btn-login {
+    padding: 9px 13px;
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 950px) {
@@ -400,11 +497,23 @@ footer strong { color: var(--dourado); }
     flex-wrap: nowrap;
   }
 
-  .logo { flex: 1; }
-  .logo span { font-size: 14px; letter-spacing: 1px; }
-  .logo img { height: 42px; width: 42px; }
+  .logo {
+    flex: 1;
+  }
 
-  .menu-toggle { display: block; }
+  .logo span {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .logo img {
+    height: 42px;
+    width: 42px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
 
   nav {
     position: absolute;
@@ -434,7 +543,9 @@ footer strong { color: var(--dourado); }
     width: 100%;
   }
 
-  nav ul li { width: 100%; }
+  nav ul li {
+    width: 100%;
+  }
 
   nav a {
     display: block;
@@ -445,7 +556,9 @@ footer strong { color: var(--dourado); }
     text-align: left;
   }
 
-  nav a:last-of-type { border-bottom: none; }
+  nav a:last-of-type {
+    border-bottom: none;
+  }
 
   nav a:hover,
   nav a.active {
@@ -471,12 +584,27 @@ footer strong { color: var(--dourado); }
     justify-content: center;
   }
 
-  section { padding: 50px 18px; }
-  section h2 { font-size: 24px; }
+  section {
+    padding: 50px 18px;
+  }
+
+  section h2 {
+    font-size: 24px;
+  }
 }
 
 @media (max-width: 480px) {
-  .logo span { font-size: 12px; letter-spacing: .5px; }
-  .logo img { height: 38px; width: 38px; }
-  section h2 { font-size: 22px; }
+  .logo span {
+    font-size: 12px;
+    letter-spacing: .5px;
+  }
+
+  .logo img {
+    height: 38px;
+    width: 38px;
+  }
+
+  section h2 {
+    font-size: 22px;
+  }
 }

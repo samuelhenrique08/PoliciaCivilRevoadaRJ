@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central Policial | PCERJ — Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="painel/css/painel.css">
+</head>
+
+<body>
+
+    <!-- ==================== TELA DE LOGIN ==================== -->
+    <div class="login-tela" id="loginTela">
+        <div class="login-box">
+            <img src="assets/img/logo.png" alt="Logo PCERJ" class="login-logo">
+            <h1>CENTRAL POLICIAL</h1>
+            <p class="login-sub">PCERJ — Revoada RJ</p>
+
+            <form id="formLogin">
+                <div class="campo-login">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="loginEmail" placeholder="E-mail institucional" required
+                        autocomplete="email">
+                </div>
+
+                <div class="campo-login">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="loginSenha" placeholder="Senha" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn-login-painel" id="btnEntrar">
+                    <i class="fa-solid fa-right-to-bracket"></i> Acessar Painel
+                </button>
+            </form>
+
+            <p class="login-aviso">
+                Acesso restrito a Delegados, Comandos e Coordenadores.
+            </p>
+
+            <a href="index.html" class="login-voltar">
+                <i class="fa-solid fa-arrow-left"></i> Voltar ao site
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== APLICAÇÃO DO PAINEL ==================== -->
+    <div class="painel-app" id="painelApp">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/img/logo.png" alt="Logo">
+                <div class="sidebar-header-info">
+                    <h2>CENTRAL POLICIAL</h2>
+                    <span>PCERJ · Revoada RJ</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-grupo">
+                    <div class="nav-grupo-titulo">Painel</div>
+                    <a data-secao="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                </div>
+
+                <div class="nav-grupo">
+                    <div class="nav-grupo-titulo">Gestão</div>
+                    <a data-secao="comando"><i class="fa-solid fa-star"></i> Comando Atual</a>
+                    <a data-secao="membros"><i class="fa-solid fa-users"></i> Membros</a>
+                </div>
+
+                <div class="nav-grupo">
+                    <div class="nav-grupo-titulo">Conteúdo</div>
+                    <a data-secao="avisos"><i class="fa-solid fa-newspaper"></i> Mural de Avisos</a>
+                    <a data-secao="concursos"><i class="fa-solid fa-file-contract"></i> Concursos</a>
+                    <a data-secao="galeria"><i class="fa-solid fa-images"></i> Galeria</a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-avatar" id="userAvatar">--</div>
+                    <div class="sidebar-user-info">
+                        <strong id="userNome">Carregando...</strong>
+                        <span id="userCargo">—</span>
+                    </div>
+                </div>
+                <button class="btn-logout" id="btnLogout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO -->
+        <main class="conteudo">
+            <header class="conteudo-header">
+                <div class="conteudo-titulo">
+                    <button class="menu-mobile-btn" id="menuMobileBtn">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1>CENTRAL <span>POLICIAL</span></h1>
+                </div>
+
+                <div class="header-actions">
+                    <div class="badge-status">Sincronizado</div>
+                </div>
+            </header>
+
+            <div class="painel-conteudo">
+
+                <!-- SEÇÃO: DASHBOARD -->
+                <section class="painel-secao ativa" id="secao-dashboard">
+                    <div class="welcome-card">
+                        <h2>Bem-vindo(a), <span id="welcomeNome">—</span>!</h2>
+                        <p>Este é o painel administrativo da Polícia Civil de Revoada RJ.</p>
+                        <p>Selecione uma seção no menu ao lado para começar.</p>
+                    </div>
+
+                    <div class="aviso-info">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <p>As demais seções serão carregadas conforme você navegar. Cada uma tem seu próprio formulário
+                            de edição e salva direto no Firebase.</p>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO: COMANDO (placeholder) -->
+                <section class="painel-secao" id="secao-comando">
+                    <div class="welcome-card">
+                        <h2>Comando Atual</h2>
+                        <p>Em construção.</p>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO: MEMBROS (placeholder) -->
+                <section class="painel-secao" id="secao-membros">
+                    <div class="welcome-card">
+                        <h2>Membros da Corporação</h2>
+                        <p>Em construção.</p>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO: AVISOS (placeholder) -->
+                <section class="painel-secao" id="secao-avisos">
+                    <div class="welcome-card">
+                        <h2>Mural de Avisos</h2>
+                        <p>Em construção.</p>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO: CONCURSOS (placeholder) -->
+                <section class="painel-secao" id="secao-concursos">
+                    <div class="welcome-card">
+                        <h2>Concursos</h2>
+                        <p>Em construção.</p>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO: GALERIA (placeholder) -->
+                <section class="painel-secao" id="secao-galeria">
+                    <div class="welcome-card">
+                        <h2>Galeria</h2>
+                        <p>Em construção.</p>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- TOASTS -->
+    <div id="toastContainer"></div>
+
+    <!-- MODAL GENÉRICO -->
+    <div id="modalGenerico">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modalTitulo">Confirmação</h3>
+            </div>
+            <div class="modal-body" id="modalConteudo"></div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-modal-cancelar" id="modalCancelar">Cancelar</button>
+                <button class="btn-modal btn-modal-confirmar" id="modalConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script type="module">
+        import { observarAuth, login, logout, getUsuario } from './painel/js/auth.js';
+        import { initRouter } from './painel/js/router.js';
+        import { toast, iniciais } from './painel/js/utils.js';
+
+        /* -------- REFERÊNCIAS -------- */
+        const loginTela = document.getElementById('loginTela');
+        const painelApp = document.getElementById('painelApp');
+        const formLogin = document.getElementById('formLogin');
+        const btnEntrar = document.getElementById('btnEntrar');
+        const btnLogout = document.getElementById('btnLogout');
+
+        /* -------- LOGIN -------- */
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const senha = document.getElementById('loginSenha').value;
+
+            btnEntrar.disabled = true;
+            btnEntrar.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verificando...';
+
+            try {
+                await login(email, senha);
+                // O observarAuth vai detectar e mostrar o painel
+            } catch (err) {
+                console.error('Erro no login:', err);
+                const mensagens = {
+                    'auth/invalid-credential': 'E-mail ou senha incorretos.',
+                    'auth/user-not-found': 'Usuário não encontrado.',
+                    'auth/wrong-password': 'Senha incorreta.',
+                    'auth/invalid-email': 'E-mail inválido.',
+                    'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde.'
+                };
+                toast(mensagens[err.code] || 'Erro ao fazer login.', 'erro');
+                btnEntrar.disabled = false;
+                btnEntrar.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Acessar Painel';
+            }
+        });
+
+        /* -------- LOGOUT -------- */
+        btnLogout.addEventListener('click', async () => {
+            await logout();
+        });
+
+        /* -------- OBSERVAR SESSÃO -------- */
+        observarAuth(
+            (usuario) => {
+                // Logado
+                loginTela.style.display = 'none';
+                painelApp.classList.add('ativo');
+
+                document.getElementById('userNome').textContent = usuario.nome;
+                document.getElementById('userCargo').textContent = usuario.cargo || usuario.role;
+                document.getElementById('userAvatar').textContent = iniciais(usuario.nome);
+                document.getElementById('welcomeNome').textContent = usuario.nome;
+
+                initRouter();
+            },
+            () => {
+                // Deslogado
+                loginTela.style.display = 'flex';
+                painelApp.classList.remove('ativo');
+
+                btnEntrar.disabled = false;
+                btnEntrar.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Acessar Painel';
+            }
+        );
+
+        /* -------- MENU MOBILE -------- */
+        const menuMobileBtn = document.getElementById('menuMobileBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        menuMobileBtn?.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // Fechar sidebar ao clicar em um link (mobile)
+        document.querySelectorAll('.sidebar-nav a').forEach(a => {
+            a.addEventListener('click', () => {
+                if (window.innerWidth <= 900) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

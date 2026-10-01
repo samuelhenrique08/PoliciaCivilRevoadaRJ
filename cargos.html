@@ -407,35 +407,14 @@
                     <li><a href="utilidades.html">Utilidades</a></li>
                     <li><a href="contato.html">Contato</a></li>
                     <li class="nav-actions">
-                        <button id="loginBtn" class="btn-login">
+                        <a href="painel.html" class="btn-login">
                             <i class="fa-solid fa-lock"></i> Área Restrita
-                        </button>
+                        </a>
                     </li>
                 </ul>
             </nav>
         </div>
     </header>
-
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <button class="modal-close" id="closeModal" aria-label="Fechar">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <img src="assets/img/logo.png" alt="Logo" class="modal-logo">
-            <h2>Acesso Restrito</h2>
-            <p class="modal-sub">Exclusivo para membros da corporação</p>
-            <form id="loginForm">
-                <label>ID Policial</label>
-                <input type="text" id="userId" placeholder="Ex: PC-1234" required>
-                <label>Senha</label>
-                <input type="password" id="userPass" placeholder="••••••••" required>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-right-to-bracket"></i> Entrar
-                </button>
-            </form>
-            <p class="modal-footer">Esqueceu a senha? Contate a Corregedoria.</p>
-        </div>
-    </div>
 
     <section>
         <h2>Hierarquia da PCERJ</h2>
@@ -693,7 +672,6 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script src="js/login.js"></script>
 </body>
 
 </html>
