@@ -356,42 +356,6 @@
             color: var(--vermelho);
         }
 
-        /* ===== RESPONSIVO ===== */
-        @media (max-width: 700px) {
-            .util-tabs {
-                gap: 8px;
-            }
-
-            .util-tab {
-                padding: 10px 16px;
-                font-size: 13px;
-            }
-
-            .util-tab span {
-                display: none;
-            }
-
-            .util-tab i {
-                font-size: 18px;
-            }
-
-            .arsenal-card {
-                padding: 18px;
-            }
-
-            .viatura-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .regras-box {
-                padding: 22px 18px;
-            }
-
-            .viatura-item img {
-                height: 150px;
-            }
-        }
-
         /* ===== UNIFORMES ===== */
         .uniforme-filtros {
             display: flex;
@@ -438,7 +402,6 @@
             gap: 22px;
         }
 
-        /* Card de uniforme */
         .uniforme-card {
             background: var(--preto-card);
             border: 1px solid var(--borda);
@@ -512,7 +475,6 @@
             gap: 6px;
         }
 
-        /* Ficha de códigos */
         .uniforme-codigos {
             display: flex;
             flex-wrap: wrap;
@@ -537,7 +499,222 @@
             font-weight: bold;
         }
 
+        /* Ajustes finos de imagens */
+        #uf-feminino .uniforme-img img {
+            height: 220px;
+        }
+
+        #uf-cat .uniforme-img img {
+            height: 220px;
+        }
+
+        /* ===== REGRAS INTERNAS (nova seção) ===== */
+        .regras-grupo {
+            margin-bottom: 40px;
+        }
+
+        .regras-grupo-titulo {
+            color: var(--dourado);
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--borda);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .regras-grupo-titulo i {
+            color: var(--dourado);
+            font-size: 20px;
+        }
+
+        .regras-lista-pc {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .regra-item {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-left: 4px solid var(--dourado);
+            border-radius: 8px;
+            padding: 16px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            transition: .3s;
+        }
+
+        .regra-item:hover {
+            border-left-color: var(--vermelho);
+            transform: translateX(6px);
+            box-shadow: 0 6px 20px rgba(201, 162, 39, .12);
+        }
+
+        .regra-num {
+            background: linear-gradient(135deg, var(--dourado), var(--dourado-hover));
+            color: #000;
+            font-weight: bold;
+            font-size: 11px;
+            letter-spacing: .5px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            white-space: nowrap;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+        }
+
+        .regra-item p {
+            margin: 0;
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: var(--texto);
+        }
+
+        .regra-item p strong {
+            color: var(--dourado);
+            font-weight: 600;
+        }
+
+        .regra-item code {
+            background: rgba(201, 162, 39, .1);
+            border: 1px solid rgba(201, 162, 39, .3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--dourado-hover);
+        }
+
+        /* ===== TUTORIAIS ===== */
+        .tutorial-placeholder {
+            background: var(--preto-card);
+            border: 2px dashed var(--borda);
+            border-radius: 14px;
+            padding: 60px 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            transition: .3s;
+        }
+
+        .tutorial-placeholder:hover {
+            border-color: var(--dourado);
+        }
+
+        .tutorial-placeholder i {
+            font-size: 56px;
+            color: var(--dourado);
+            margin-bottom: 20px;
+            display: block;
+            opacity: .8;
+        }
+
+        .tutorial-placeholder h3 {
+            color: var(--dourado);
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .tutorial-placeholder p {
+            color: var(--texto);
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .tutorial-placeholder .tutorial-sub {
+            color: var(--texto-muted);
+            font-size: 13px;
+            max-width: 500px;
+            margin: 10px auto 0;
+        }
+
+        .tutorial-categorias-preview {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 25px 30px;
+        }
+
+        .tutorial-categorias-preview h4 {
+            color: var(--dourado);
+            font-size: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tutorial-cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .tutorial-cat-item {
+            background: var(--preto);
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--texto);
+            transition: .3s;
+        }
+
+        .tutorial-cat-item:hover {
+            border-color: var(--dourado);
+            background: var(--preto-suave);
+        }
+
+        .tutorial-cat-item i {
+            color: var(--dourado);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        /* ===== RESPONSIVO ===== */
         @media (max-width: 700px) {
+            .util-tabs {
+                gap: 8px;
+            }
+
+            .util-tab {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .util-tab span {
+                display: none;
+            }
+
+            .util-tab i {
+                font-size: 18px;
+            }
+
+            .arsenal-card {
+                padding: 18px;
+            }
+
+            .viatura-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .regras-box {
+                padding: 22px 18px;
+            }
+
+            .viatura-item img {
+                height: 150px;
+            }
+
             .uniforme-grid {
                 grid-template-columns: 1fr;
             }
@@ -549,16 +726,33 @@
             .uniforme-filtro span {
                 display: none;
             }
-        }
 
-        /* Ajuste fino para imagens femininas (mais largas) */
-        #uf-feminino .uniforme-img img {
-            height: 220px;
-        }
+            .regra-item {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px 18px;
+            }
 
-        /* Ajuste fino para imagens de C.A.T. */
-        #uf-cat .uniforme-img img {
-            height: 220px;
+            .regra-num {
+                font-size: 10px;
+                padding: 5px 10px;
+            }
+
+            .tutorial-placeholder {
+                padding: 40px 20px;
+            }
+
+            .tutorial-placeholder i {
+                font-size: 42px;
+            }
+
+            .tutorial-placeholder h3 {
+                font-size: 20px;
+            }
+
+            .tutorial-cat-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -616,8 +810,8 @@
 
     <section>
         <h2>Utilidades da Corporação</h2>
-        <p style="margin-bottom:25px;">Guias oficiais de armamento, viaturas, uniformes e regras internas da Polícia
-            Civil de Revoada RJ.</p>
+        <p style="margin-bottom:25px;">Guias oficiais de armamento, viaturas, uniformes, regras internas e tutoriais da
+            Polícia Civil de Revoada RJ.</p>
 
         <!-- TABS -->
         <div class="util-tabs">
@@ -630,6 +824,12 @@
             <button class="util-tab" data-tab="uniformes">
                 <i class="fa-solid fa-shirt"></i> <span>Uniformes</span>
             </button>
+            <button class="util-tab" data-tab="regras">
+                <i class="fa-solid fa-book"></i> <span>Regras</span>
+            </button>
+            <button class="util-tab" data-tab="tutoriais">
+                <i class="fa-solid fa-graduation-cap"></i> <span>Tutoriais</span>
+            </button>
         </div>
 
         <!-- ============ ARSENAL ============ -->
@@ -639,7 +839,6 @@
                 <i class="fa-solid fa-gun"></i> Armamentos por Cargo
             </div>
 
-            <!-- Todos liberados -->
             <div class="arsenal-card todos">
                 <div class="arsenal-cargos">
                     <span class="cargo-tag"><i class="fa-solid fa-crown"></i> Delegado PCERJ</span>
@@ -698,7 +897,6 @@
                 </div>
             </div>
 
-            <!-- Arsenal completo -->
             <div class="arsenal-card medio">
                 <div class="arsenal-cargos">
                     <span class="cargo-tag"><i class="fa-solid fa-person-running"></i> Investigador Operacional
@@ -803,7 +1001,6 @@
                 <i class="fa-solid fa-car"></i> Viaturas por Cargo
             </div>
 
-            <!-- Highlander -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-crown"></i></div>
@@ -818,7 +1015,6 @@
                 </div>
             </div>
 
-            <!-- SW4 -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-shield-halved"></i></div>
@@ -833,7 +1029,6 @@
                 </div>
             </div>
 
-            <!-- Ranger / Hilux -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-user-tie"></i></div>
@@ -854,7 +1049,6 @@
                 </div>
             </div>
 
-            <!-- Trailblazer 22 / 25 -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-star"></i></div>
@@ -874,7 +1068,6 @@
                 </div>
             </div>
 
-            <!-- S10 / A45 -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-medal"></i></div>
@@ -894,7 +1087,6 @@
                 </div>
             </div>
 
-            <!-- Focus -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-award"></i></div>
@@ -909,7 +1101,6 @@
                 </div>
             </div>
 
-            <!-- Versa / Duster -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-certificate"></i></div>
@@ -929,7 +1120,6 @@
                 </div>
             </div>
 
-            <!-- Corolla -->
             <div class="viatura-grupo">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -944,7 +1134,6 @@
                 </div>
             </div>
 
-            <!-- C.A.T. -->
             <div class="viatura-grupo" style="border-color: var(--vermelho);">
                 <div class="viatura-grupo-header">
                     <div class="grupo-icon" style="background: linear-gradient(135deg, #b71c1c, #d32f2f); color: #fff;">
@@ -976,7 +1165,6 @@
                 </div>
             </div>
 
-            <!-- REGRAS DE VIATURAS -->
             <div class="util-subtitulo" style="margin-top: 60px;">
                 <i class="fa-solid fa-triangle-exclamation"></i> Regras de Viaturas
             </div>
@@ -1019,7 +1207,6 @@
                 <i class="fa-solid fa-shirt"></i> Uniformes da Corporação
             </div>
 
-            <!-- Sub-filtros -->
             <div class="uniforme-filtros">
                 <button class="uniforme-filtro ativo" data-uf="masculino">
                     <i class="fa-solid fa-person"></i> Masculino
@@ -1037,7 +1224,6 @@
 
                 <div class="uniforme-grid">
 
-                    <!-- DELEGADO EXECUTIVO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-executivo.jpg" alt="Delegado Executivo">
@@ -1063,7 +1249,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADO GERAL OPERACIONAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-geral-operacional.jpg"
@@ -1090,7 +1275,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADO GERAL TÁTICO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-geral-tatico.jpg"
@@ -1117,7 +1301,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADO SOCIAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-social.jpg" alt="Delegado Social">
@@ -1143,7 +1326,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADO GERAL ADMINISTRATIVO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-geral-administrativo.jpg"
@@ -1170,7 +1352,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADO ADJ. ADMINISTRATIVO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-adj-administrativo.jpg"
@@ -1197,7 +1378,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADO ADJUNTO OPERACIONAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-adj-operacional.jpg"
@@ -1224,7 +1404,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADO ADJUNTO TÁTICO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/delegado-adj-tatico.jpg"
@@ -1251,7 +1430,6 @@
                         </div>
                     </div>
 
-                    <!-- COORDENADOR CAMUFLADO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/coordenador-camuflado.jpg"
@@ -1278,7 +1456,6 @@
                         </div>
                     </div>
 
-                    <!-- COORDENADOR CINZA -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/coordenador-cinza.jpg" alt="Coordenador Cinza">
@@ -1304,7 +1481,6 @@
                         </div>
                     </div>
 
-                    <!-- SUPERVISOR GERAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/supervisor-geral.jpg" alt="Supervisor Geral">
@@ -1330,7 +1506,6 @@
                         </div>
                     </div>
 
-                    <!-- COMISSÁRIO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/comissario.jpg" alt="Comissário">
@@ -1356,7 +1531,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADOR DE OPERAÇÕES ESPECIAIS -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/investigador-ops-especiais.jpg"
@@ -1383,7 +1557,6 @@
                         </div>
                     </div>
 
-                    <!-- INSPETOR -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/inspetor.jpg" alt="Inspetor">
@@ -1409,7 +1582,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADOR OPERACIONAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/investigador-operacional.jpg"
@@ -1436,7 +1608,6 @@
                         </div>
                     </div>
 
-                    <!-- ESCRIVÃO CAMUFLADO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/escrivao-camuflado.jpg" alt="Escrivão Camuflado">
@@ -1464,7 +1635,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADOR ESPECIAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/investigador-especial.jpg"
@@ -1493,7 +1663,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADOR 1ª CLASSE -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/investigador-1-classe.jpg"
@@ -1522,7 +1691,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADOR 2ª CLASSE -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/investigador-2-classe.jpg"
@@ -1551,7 +1719,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADOR 3ª CLASSE -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/investigador-3-classe.jpg"
@@ -1580,7 +1747,6 @@
                         </div>
                     </div>
 
-                    <!-- ALUNO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/masculino/aluno.jpg" alt="Aluno">
@@ -1610,7 +1776,6 @@
 
                 </div>
 
-                <!-- REGRAS DE FARDAMENTO -->
                 <div class="regras-box" style="margin-top: 40px;">
                     <h4><i class="fa-solid fa-book"></i> Regras de Fardamento PCERJ</h4>
                     <ul class="regras-lista">
@@ -1643,12 +1808,10 @@
             </div>
 
             <!-- ========== FEMININO ========== -->
-            <!-- ========== FEMININO ========== -->
             <div class="uniforme-grupo" id="uf-feminino">
 
                 <div class="uniforme-grid">
 
-                    <!-- DELEGADA GERAL OPERACIONAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/delegada_geral_op.jpg"
@@ -1677,7 +1840,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADA GERAL TÁTICO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/delegada_geral_tatico.jpg"
@@ -1706,7 +1868,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADA ADJUNTA OPERACIONAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/delegada_adj_op.jpg"
@@ -1735,7 +1896,6 @@
                         </div>
                     </div>
 
-                    <!-- DELEGADA ADJUNTA TÁTICO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/delegada_adj_tatico.jpg"
@@ -1764,7 +1924,6 @@
                         </div>
                     </div>
 
-                    <!-- COORDENADORA CAMUFLADO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/coordenadora_camuflado.jpg"
@@ -1793,7 +1952,6 @@
                         </div>
                     </div>
 
-                    <!-- SUPERVISORA GERAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/supervisora_geral.jpg" alt="Supervisora Geral">
@@ -1821,7 +1979,6 @@
                         </div>
                     </div>
 
-                    <!-- COMISSÁRIA -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/comissaria.jpg" alt="Comissária">
@@ -1849,7 +2006,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADORA DE OPERAÇÕES ESPECIAIS -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/invesgadora_op_esp.jpg"
@@ -1878,7 +2034,6 @@
                         </div>
                     </div>
 
-                    <!-- INSPETORA -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/inspetora.jpg" alt="Inspetora">
@@ -1906,7 +2061,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADORA OPERACIONAL -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/invesgadora_op.jpg" alt="Investigadora Operacional">
@@ -1934,7 +2088,6 @@
                         </div>
                     </div>
 
-                    <!-- ESCRIVÃ CAMUFLADO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/escriva.jpg" alt="Escrivã Camuflado">
@@ -1962,7 +2115,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADORA ESPECIAL / 1ª CLASSE -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/investigadora_1_classe.jpg"
@@ -1991,7 +2143,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADORA 2ª CLASSE -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/investigadora_2_classe.jpg"
@@ -2020,7 +2171,6 @@
                         </div>
                     </div>
 
-                    <!-- INVESTIGADORA 3ª CLASSE -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/investigadora_3_classe.jpg"
@@ -2049,7 +2199,6 @@
                         </div>
                     </div>
 
-                    <!-- ALUNA -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/feminino/aluna.jpg" alt="Aluna">
@@ -2079,7 +2228,6 @@
 
                 </div>
 
-                <!-- REGRAS DE FARDAMENTO (Feminino) -->
                 <div class="regras-box" style="margin-top: 40px;">
                     <h4><i class="fa-solid fa-book"></i> Regras de Fardamento PCERJ</h4>
                     <ul class="regras-lista">
@@ -2114,7 +2262,6 @@
             </div>
 
             <!-- ========== C.A.T. ========== -->
-            <!-- ========== C.A.T. ========== -->
             <div class="uniforme-grupo" id="uf-cat">
 
                 <div class="util-subtitulo">
@@ -2129,7 +2276,6 @@
 
                 <div class="uniforme-grid">
 
-                    <!-- C.A.T. MASCULINO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/cat/cat-masculino.jpg" alt="Uniforme C.A.T. Masculino">
@@ -2160,7 +2306,6 @@
                         </div>
                     </div>
 
-                    <!-- C.A.T. FEMININO -->
                     <div class="uniforme-card">
                         <div class="uniforme-img">
                             <img src="assets/img/uniformes/cat/cat-feminino.jpg" alt="Uniforme C.A.T. Feminino">
@@ -2193,7 +2338,6 @@
 
                 </div>
 
-                <!-- REGRAS DO C.A.T. -->
                 <div class="regras-box" style="margin-top: 40px; border-color: var(--vermelho);">
                     <h4 style="color: #ff8a80;"><i class="fa-solid fa-crosshairs"></i> Regras de Fardamento C.A.T.</h4>
                     <ul class="regras-lista">
@@ -2227,6 +2371,239 @@
 
             </div>
 
+        </div>
+
+        <!-- ============ REGRAS ============ -->
+        <div class="util-painel" id="regras">
+
+            <div class="util-subtitulo">
+                <i class="fa-solid fa-book"></i> Regras Internas da PCERJ
+            </div>
+
+            <p style="color: var(--texto-muted); font-size: 14px; margin-bottom: 30px; text-align: center;">
+                Toda a corporação deve <strong style="color: var(--dourado);">ler e conhecer</strong> as regras
+                internas.
+                <br>O desconhecimento <strong style="color: var(--dourado);">não isenta</strong> de responsabilidade.
+            </p>
+
+            <div class="aviso-edital" style="margin-bottom: 35px;">
+                <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>Art. 21</strong> — Todo policial civil tem
+                    obrigação de <strong>LER e CONHECER</strong> todas as regras da cidade e da PCERJ.</p>
+            </div>
+
+            <!-- CONDUTA E HIERARQUIA -->
+            <div class="regras-grupo">
+                <div class="regras-grupo-titulo">
+                    <i class="fa-solid fa-user-shield"></i> Conduta e Hierarquia
+                </div>
+                <div class="regras-lista-pc">
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 1°</span>
+                        <p>Proibido falta de conduta e quebra de hierarquia.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 3°</span>
+                        <p>Proibido fazer o mal uso dos canais <strong>PD</strong>, <strong>190</strong>,
+                            <strong>Chat</strong> e <strong>Chat Geral</strong> para fazer reclamações ou expor outros
+                            policiais. Deve ser reportado qualquer problema aos <strong>COMANDOS</strong> e
+                            <strong>DELEGADOS</strong>.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 6°</span>
+                        <p>Proibido ficar mais de <strong>5 dias ausentes</strong>.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 10</span>
+                        <p>Proibido <strong>zaralho</strong> na DP, brincar de "rolas" e/ou ficar efetuando disparos de
+                            armas e taser.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 11</span>
+                        <p>Proibido qualquer tipo de falta de respeito e/ou ficar <strong>gadando</strong> na DP ou
+                            fardado na rua.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 12</span>
+                        <p>Proibido aglomerações nas celas durante as prisões.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 20</span>
+                        <p>Proibido promover <strong>assédio</strong> ou gadar na DP e no e-mail.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 21</span>
+                        <p>Todo <strong>POLICIAL CIVIL</strong> tem obrigação de <strong>LER e CONHECER</strong> todas
+                            as regras da cidade e da PCERJ.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- FARDAMENTO, VIATURAS E ARMAMENTOS -->
+            <div class="regras-grupo">
+                <div class="regras-grupo-titulo">
+                    <i class="fa-solid fa-shirt"></i> Fardamento, Viaturas e Armamentos
+                </div>
+                <div class="regras-lista-pc">
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 2°</span>
+                        <p>Proibido usar <strong>VIATURAS</strong>, <strong>UNIFORMES</strong> e
+                            <strong>ARMAMENTOS</strong> fora da patente.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 9°</span>
+                        <p>Proibido sair com <strong>TOOGLE</strong> ligado a PAISANA.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 13</span>
+                        <p>Proibido abandonar viaturas encima do <strong>BLIP</strong> e/ou abandonar carros
+                            particulares fora da área demarcada como estacionamento.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 14</span>
+                        <p>Proibido ficar multando veículos aleatoriamente dentro do estacionamento.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 15</span>
+                        <p>O policial a paisana tem o dever de responder o <strong>QRA</strong> quando solicitado e/ou
+                            enquanto estiver andando dentro das dependências da DP.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 18</span>
+                        <p>Proibido arrombar veículos que não estejam envolvidos em uma ação.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- OPERACIONAL -->
+            <div class="regras-grupo">
+                <div class="regras-grupo-titulo">
+                    <i class="fa-solid fa-crosshairs"></i> Operacional e Comunicação
+                </div>
+                <div class="regras-lista-pc">
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 4°</span>
+                        <p>Proibido ficar fora das <strong>CALLS</strong> das patrulhas.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 5°</span>
+                        <p>Proibido poluir a rádio com modulações encima da outra ou assuntos inerentes a PTR.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 7°</span>
+                        <p>Todo policial que realizar <strong>arrombamento</strong> deve fazer registro.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 8°</span>
+                        <p>Todo policial que apreender itens bugados (colocar na mochila invés do
+                            <code>/apreender</code>) deve fazer <strong>registro no BAÚ</strong> dos itens pegos e
+                            depositados.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 16</span>
+                        <p>Proibido patrulhar <strong>sozinho</strong>.</p>
+                    </div>
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 19</span>
+                        <p>É proibido patrulhar sem possuir os seguintes cursos: <strong>Conduta</strong>,
+                            <strong>Modulação</strong> e <strong>Patrulha e Abordagem</strong>.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- FORMAÇÃO E ALUNOS -->
+            <div class="regras-grupo">
+                <div class="regras-grupo-titulo">
+                    <i class="fa-solid fa-graduation-cap"></i> Formação e Alunos
+                </div>
+                <div class="regras-lista-pc">
+
+                    <div class="regra-item">
+                        <span class="regra-num">Art. 17</span>
+                        <p>Todo aluno precisa fazer pelo menos <strong>1 curso básico em até 24h</strong> após o
+                            recrutamento, obter todos os cursos básicos + perícia em até <strong>5 dias</strong> da
+                            admissão — ou será <strong>exonerado</strong>.</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ TUTORIAIS ============ -->
+        <div class="util-painel" id="tutoriais">
+
+            <div class="util-subtitulo">
+                <i class="fa-solid fa-graduation-cap"></i> Tutoriais para Iniciantes
+            </div>
+
+            <p style="color: var(--texto-muted); font-size: 14px; margin-bottom: 30px; text-align: center;">
+                Vídeos e materiais de apoio para novos membros da corporação. Aprenda desde o básico até procedimentos
+                avançados.
+            </p>
+
+            <div class="tutorial-placeholder">
+                <i class="fa-solid fa-video"></i>
+                <h3>Em breve</h3>
+                <p>Os tutoriais em vídeo estão sendo produzidos pela Academia de Ensino da PCERJ.</p>
+                <p class="tutorial-sub">Assim que os primeiros vídeos estiverem prontos, eles aparecerão aqui
+                    organizados por categoria.</p>
+            </div>
+
+            <div class="tutorial-categorias-preview">
+                <h4><i class="fa-solid fa-list"></i> Categorias que virão:</h4>
+                <div class="tutorial-cat-grid">
+                    <div class="tutorial-cat-item">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Como ser um policial no RP</span>
+                    </div>
+                    <div class="tutorial-cat-item">
+                        <i class="fa-solid fa-radio"></i>
+                        <span>Modulação e Códigos Q</span>
+                    </div>
+                    <div class="tutorial-cat-item">
+                        <i class="fa-solid fa-hand"></i>
+                        <span>Abordagem e Patrulha</span>
+                    </div>
+                    <div class="tutorial-cat-item">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <span>Registros e Documentação</span>
+                    </div>
+                    <div class="tutorial-cat-item">
+                        <i class="fa-solid fa-car-burst"></i>
+                        <span>Perseguições Táticas</span>
+                    </div>
+                    <div class="tutorial-cat-item">
+                        <i class="fa-solid fa-microscope"></i>
+                        <span>Perícia e Investigação</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </section>
 
     <footer>
@@ -2246,10 +2623,6 @@
                 document.getElementById(tab.dataset.tab).classList.add('ativo');
             });
         });
-    </script>
-
-    <script>
-        // ... (tabs existentes)
 
         // ===== FILTROS DE UNIFORMES =====
         document.querySelectorAll('.uniforme-filtro').forEach(filtro => {
