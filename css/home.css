@@ -140,48 +140,81 @@
   letter-spacing: 1px;
 }
 
-/* ===== CTA ===== */
-.cta {
-  text-align: center;
-  background: linear-gradient(135deg, #000, var(--preto-suave));
-  border-radius: 12px;
-  border: 2px solid var(--dourado);
-  margin: 40px auto;
+/* ===== CTA BANNER ===== */
+.cta-banner {
   position: relative;
+  margin: 60px auto;
+  max-width: 1300px;
+  border-radius: 14px;
   overflow: hidden;
+  min-height: 420px;
+  border: 2px solid var(--dourado);
+  background: url('../assets/img/cta-home.jpg') center/cover no-repeat;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, .6);
+  /* REMOVIDO: display: flex, align-items, justify-content */
 }
 
-.cta::before {
-  content: '';
+/* Overlay escuro pra dar contraste ao texto */
+.cta-banner-overlay {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(from 0deg, transparent, rgba(201, 162, 39, .1), transparent);
-  animation: rotate 10s linear infinite;
-}
-
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.cta>* {
-  position: relative;
+  inset: 0;
+  /* cobre tudo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 70px 30px;
+  text-align: center;
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, .65) 0%,
+      rgba(0, 0, 0, .75) 50%,
+      rgba(0, 0, 0, .85) 100%);
   z-index: 2;
 }
 
-.cta h2 {
+.cta-banner-overlay h2 {
+  color: var(--dourado);
+  font-size: 42px;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, .9);
+  margin: 0;
   border: none;
   padding: 0;
-  font-size: 34px;
 }
 
-.cta p {
-  margin-bottom: 30px;
+.cta-banner-overlay p {
+  color: #e6edf3;
   font-size: 17px;
+  max-width: 600px;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .9);
+}
+
+.cta-banner-overlay .btn {
+  margin-top: 15px;
+}
+
+/* ===== RESPONSIVO CTA BANNER ===== */
+@media (max-width: 700px) {
+  .cta-banner {
+    min-height: 360px;
+    margin: 40px 18px;
+    border-radius: 10px;
+  }
+
+  .cta-banner-overlay {
+    padding: 50px 20px;
+  }
+
+  .cta-banner-overlay h2 {
+    font-size: 26px;
+    letter-spacing: 1px;
+  }
+
+  .cta-banner-overlay p {
+    font-size: 14px;
+  }
 }
 
 /* ===== RESPONSIVO ===== */
