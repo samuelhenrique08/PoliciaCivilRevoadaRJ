@@ -157,15 +157,29 @@
       text-transform: uppercase;
     }
 
-    .concurso-logo-info .vagas-badge {
+    /* Badge de vagas — verde quando abertas, vermelho quando fechadas */
+    .vagas-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .vagas-badge.vagas-abertas {
       background: rgba(76, 175, 80, .2);
       border: 1px solid rgba(76, 175, 80, .5);
       color: #81c784;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: .5px;
+    }
+
+    .vagas-badge.vagas-fechadas {
+      background: rgba(183, 28, 28, .2);
+      border: 1px solid rgba(183, 28, 28, .6);
+      color: #ff8a80;
     }
 
     /* Body do card */
@@ -734,7 +748,7 @@
           <img src="${c.logo}" alt="Logo ${c.sigla}" onerror="this.style.display='none';">
           <div class="concurso-logo-info">
             <span class="sigla">${c.sigla}</span>
-            <span class="vagas-badge">${c.vagas}</span>
+            <span class="vagas-badge ${c.vagas === 'Vagas Abertas' ? 'vagas-abertas' : 'vagas-fechadas'}">${c.vagas}</span>
           </div>
         </div>
         <div class="concurso-body">
