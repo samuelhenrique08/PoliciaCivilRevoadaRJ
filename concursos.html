@@ -522,6 +522,43 @@
         padding: 10px 14px;
       }
     }
+
+    /* Ajuste no header do fardamento (para caber o botão) */
+    .fardamento-box h5 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-copiar-fardamento {
+      background: rgba(201, 162, 39, .15);
+      border: 1px solid var(--dourado);
+      color: var(--dourado);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+
+    .btn-copiar-fardamento:hover {
+      background: var(--dourado);
+      color: #000;
+      transform: translateY(-1px);
+    }
+
+    .btn-copiar-fardamento.copiado {
+      background: #1b5e20;
+      border-color: #2e7d32;
+      color: #fff;
+    }
   </style>
 </head>
 
@@ -611,426 +648,64 @@
 
   <script src="js/main.js"></script>
 
-  <script>
+  <script type="module">
     /* ============================================================
-       DADOS DOS CONCURSOS
-       ------------------------------------------------------------
-       INTEGRAÇÃO FUTURA COM PAINEL/FIREBASE:
-       Substituir este array por um fetch('/api/concursos') ou
-       onSnapshot(collection(db, 'concursos')) — mesmo formato.
+       SUPABASE
        ============================================================ */
-    const CONCURSOS_DATA = [
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-      /* ==================== SAER ==================== */
-      {
-        id: "saer-17",
-        categoria: "saer",
-        cor: "#a8841a",
-        corDark: "#1a1408",
-        logo: "assets/img/concursos/saer.png",
-        sigla: "SAER",
-        nome: "SAER",
-        titulo: "Concurso do Serviço Aeropolicial",
-        vagas: "Vagas Abertas",
-        data: "xx/xx/xxxx",
-        hora: "xx:xx",
-        local: "Heliporto da P.C.E.R.J.",
-        conteudo: `
-        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
-        <p>É com muita honra que anunciamos o <strong>Concurso do Serviço Aeropolicial</strong>.</p>
-        <ul>
-          <li><strong>Data:</strong> xx/xx/xxxx</li>
-          <li><strong>Hora:</strong> xx:xx</li>
-          <li><strong>Formação:</strong> Heliporto da P.C.E.R.J.</li>
-          <li><strong>Inscrição:</strong> No tópico do Discord</li>
-        </ul>
+    const supabase = createClient(
+      'https://tiokyomdsfgdloyxiazc.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpb2t5b21kc2ZnZGxveXhpYXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4OTMyMDksImV4cCI6MjEwNjQ2OTIwOX0.HJwTC3sgDfofEHaidpM2H3O7dGDnpcUdGttM5dTsLR8'
+    );
 
-        <h4><i class="fa-solid fa-list-check"></i> Requisitos</h4>
-        <ul>
-          <li>Patente mínima <strong>Investigador 3ª Classe</strong></li>
-          <li>Concluir todos os Cursos Obrigatórios</li>
-          <li>Boa conduta</li>
-          <li>Bom controle emocional</li>
-          <li>Não ter nenhuma Advertência</li>
-        </ul>
+    /* ============================================================
+       DADOS DOS CONCURSOS — carregados do Supabase
+       ============================================================ */
+    let CONCURSOS_DATA = [];
 
-        <h4><i class="fa-solid fa-shirt"></i> Fardamento</h4>
+    async function carregarConcursos() {
+      try {
+        const { data, error } = await supabase
+          .from('concursos')
+          .select('*')
+          .order('ordem', { ascending: true })
+          .limit(100);
 
-        <div class="fardamento-box">
-          <h5><i class="fa-solid fa-person"></i> Masculino</h5>
-          <div class="fardamento-codigos">
-            <span><b>mascara</b> 62 0</span>
-            <span><b>maos</b> 0 0</span>
-            <span><b>calca</b> 313 0</span>
-            <span><b>mochila</b> 150 0</span>
-            <span><b>sapatos</b> 56 0</span>
-            <span><b>acessorios</b> 228 0</span>
-            <span><b>blusa</b> 15 0</span>
-            <span><b>colete</b> 159 0</span>
-            <span><b>adesivo</b> 0 0</span>
-            <span><b>jaqueta</b> 836 0</span>
-            <span><b>chapeu</b> 128 0</span>
-            <span><b>oculos</b> 33 0</span>
-          </div>
-        </div>
+        if (error) throw error;
 
-        <div class="fardamento-box">
-          <h5><i class="fa-solid fa-person-dress"></i> Feminino</h5>
-          <div class="fardamento-codigos">
-            <span><b>mascara</b> 50 0</span>
-            <span><b>maos</b> 75 0</span>
-            <span><b>calca</b> 321 11</span>
-            <span><b>mochila</b> 158 0</span>
-            <span><b>sapatos</b> 49 0</span>
-            <span><b>acessorios</b> 230 0</span>
-            <span><b>blusa</b> 3 0</span>
-            <span><b>colete</b> 193 0</span>
-            <span><b>adesivo</b> 0 0</span>
-            <span><b>jaqueta</b> 942 2</span>
-            <span><b>chapeu</b> 120 0</span>
-            <span><b>oculos</b> 48 0</span>
-          </div>
-        </div>
+        console.log('📦 Dados brutos do Supabase:', data);
 
-        <h4><i class="fa-solid fa-bullhorn"></i> Avisos</h4>
-        <div class="aviso-edital">
-          <p><i class="fa-solid fa-exclamation-triangle"></i> <strong>Curso obrigatório</strong> para realizar o concurso da CORE.</p>
-        </div>
+        CONCURSOS_DATA = (data || []).map(c => {
+          // Normalizar o status (tira espaços, minúsculo)
+          const status = (c.vagas_status || '').toString().trim().toLowerCase();
+          const ehAbertas = status === 'abertas';
 
-        <h4><i class="fa-solid fa-link"></i> Links Úteis</h4>
-        <a href="https://www.youtube.com/watch?v=2Mly-6RMmwM&t=5s" target="_blank" class="edital-link">
-          <i class="fa-brands fa-youtube"></i> Vídeo do Percurso
-        </a>
-        <a href="https://scotthzx.github.io/SaerRevoadaRJ/public/tutoriais.html" target="_blank" class="edital-link">
-          <i class="fa-solid fa-book"></i> Aba Tutoriais
-        </a>
+          console.log(`🔍 ${c.slug}: vagas_status="${c.vagas_status}" → ${ehAbertas ? 'ABERTAS' : 'FECHADAS'}`);
 
-        <div class="aviso-edital" style="margin-top: 20px;">
-          <p><i class="fa-solid fa-motorcycle"></i> Todos estão liberados a pegar o <strong>Phoenix</strong> com intuito de <strong>somente treinar</strong> o percurso. Caso seja pego em PTR, será punido.</p>
-        </div>
+          return {
+            id: c.slug,
+            categoria: c.categoria,
+            cor: c.cor || '#c9a227',
+            corDark: c.cor_dark || '#1a1a1a',
+            logo: c.logo_url,
+            sigla: c.sigla,
+            nome: c.nome,
+            titulo: c.titulo,
+            vagas: ehAbertas ? 'Vagas Abertas' : 'Vagas Fechadas',
+            data: c.data_evento || 'xx/xx/xxxx',
+            hora: c.hora_evento || 'xx:xx',
+            local: c.local_evento || '—',
+            conteudo: c.conteudo || '<p>Sem conteúdo disponível.</p>'
+          };
+        });
 
-        <div class="edital-assinatura">
-          <strong>Comando SAER</strong><br>
-          [CMD SAER] Scott 🦅 · [SUB CMD SAER] Carpa 🦅<br><br>
-          <strong>Administração SAER</strong><br>
-          [INV ESP CORE] Henrique 🦅 · [ESC CORE] Klaus 🦅
-        </div>
-      `
-      },
-
-      /* ==================== GEM ==================== */
-      {
-        id: "gem-16",
-        categoria: "gem",
-        cor: "#bdbdbd",
-        corDark: "#1a1a1a",
-        logo: "assets/img/concursos/gem.png",
-        sigla: "GEM",
-        nome: "GEM",
-        titulo: "Concurso do Grupamento Especial de Motocicletas",
-        vagas: "Vagas Abertas",
-        data: "xx/xx/xxxx",
-        hora: "xx:xx",
-        local: "Estacionamento da P.C.E.R.J.",
-        conteudo: `
-        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
-        <p>É com muita honra que anunciamos o <strong>Concurso do Grupamento Especial de Motocicletas</strong>.</p>
-        <ul>
-          <li><strong>Data:</strong> xx/xx/xxxx</li>
-          <li><strong>Hora:</strong> xx:xx</li>
-          <li><strong>Formação:</strong> Estacionamento da P.C.E.R.J.</li>
-        </ul>
-
-        <h4><i class="fa-solid fa-list-check"></i> Requisitos Básicos</h4>
-        <ul>
-          <li>Possuir patente mínima de <strong>Investigador 3ª Classe</strong></li>
-          <li>Demonstrar respeito à hierarquia e aos superiores</li>
-          <li>Manter boa conduta dentro da corporação</li>
-          <li>Concluir todos os Cursos Obrigatórios</li>
-          <li>Bom controle emocional</li>
-          <li>Obrigatório levar Kit Reparo</li>
-          <li>Proibido fixvip</li>
-          <li>Não ter nenhuma Advertência</li>
-        </ul>
-
-        <h4><i class="fa-solid fa-shirt"></i> Fardamento</h4>
-
-        <div class="fardamento-box">
-          <h5><i class="fa-solid fa-person"></i> Masculino</h5>
-          <div class="fardamento-codigos">
-            <span><b>mascara</b> 179 0</span>
-            <span><b>maos</b> 49 0</span>
-            <span><b>calca</b> 297 0</span>
-            <span><b>mochila</b> 0 0</span>
-            <span><b>sapatos</b> 208 1</span>
-            <span><b>acessorios</b> 234 1</span>
-            <span><b>blusa</b> 15 0</span>
-            <span><b>colete</b> 122 0</span>
-            <span><b>adesivo</b> 0 0</span>
-            <span><b>jaqueta</b> 829 1</span>
-            <span><b>oculos</b> 21 5</span>
-            <span><b>chapeu</b> 295 0</span>
-          </div>
-        </div>
-
-        <div class="fardamento-box">
-          <h5><i class="fa-solid fa-person-dress"></i> Feminino</h5>
-          <div class="fardamento-codigos">
-            <span><b>mascara</b> 184 13</span>
-            <span><b>maos</b> 65 0</span>
-            <span><b>calca</b> 317 22</span>
-            <span><b>mochila</b> 0 0</span>
-            <span><b>sapatos</b> 50 0</span>
-            <span><b>acessorios</b> 236 1</span>
-            <span><b>blusa</b> 3 0</span>
-            <span><b>colete</b> 125 0</span>
-            <span><b>adesivo</b> 0 0</span>
-            <span><b>jaqueta</b> 918 0</span>
-            <span><b>chapeu</b> 269 0</span>
-            <span><b>oculos</b> 9 10</span>
-          </div>
-        </div>
-
-        <h4><i class="fa-solid fa-bullhorn"></i> Avisos</h4>
-        <div class="aviso-edital">
-          <p><i class="fa-solid fa-motorcycle"></i> Todos têm autorização para pegar a <strong>XT 660</strong> e usar o fardamento, com intuito de <strong>SOMENTE TREINAR</strong> no percurso, ficando restrito o uso da motocicleta para patrulha.</p>
-          <p style="margin-top: 10px;">Aqueles que forem pegos com uso da motocicleta para patrulha ao invés de treino <strong>serão advertidos</strong>.</p>
-        </div>
-
-        <h4><i class="fa-solid fa-link"></i> Vídeo do Percurso</h4>
-        <a href="#" target="_blank" class="edital-link">
-          <i class="fa-brands fa-youtube"></i> Clique aqui
-        </a>
-
-        <div class="edital-assinatura">
-          <strong>Comando GEM</strong><br>
-          [CMD GEM] Zorro 🦅 · [SUB CMD GEM] Serjão 🦅<br><br>
-          <strong>Administração GEM</strong><br>
-          [SPV] Zod Tenebras 🦅 · [INV ESP CORE] Husupreme 🦅
-        </div>
-      `
-      },
-
-      /* ==================== ESCRIVÃES ==================== */
-      {
-        id: "escrivao-10",
-        categoria: "escrivao",
-        cor: "#c9a227",
-        corDark: "#0a3a7a",
-        logo: "assets/img/concursos/pc-rj.png",
-        sigla: "ESCRIVÃES",
-        nome: "Escrivães",
-        titulo: "Concurso de Escrivães",
-        vagas: "Vagas Abertas",
-        data: "xx/xx/xxxx",
-        hora: "xx:xx",
-        local: "Call: Aguardando CMD",
-        conteudo: `
-        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
-        <p>É com muita honra que anunciamos o <strong>Concurso de Escrivães</strong> da Polícia Civil do Estado do Rio de Janeiro.</p>
-        <p>Para este concurso é necessário <strong>muito preparo, estudo e conduta</strong>. Somente os melhores passam...</p>
-
-        <h4><i class="fa-solid fa-list-check"></i> Requisitos</h4>
-        <ul>
-          <li>Ser <strong>Investigador 2ª Classe</strong> ou acima</li>
-          <li>Possuir boa conduta</li>
-          <li>Ter concluído todos os Cursos Básicos e Complementares da P.C.E.R.J.</li>
-          <li>Ser responsável</li>
-        </ul>
-
-        <h4><i class="fa-solid fa-clipboard-list"></i> Informações da Prova</h4>
-        <ul>
-          <li><strong>Data:</strong> xx/xx/xxxx</li>
-          <li><strong>Horário:</strong> xx:xx</li>
-          <li><strong>Local:</strong> Call — Aguardando CMD</li>
-          <li><strong>Obs:</strong> Chegar com 15 minutos de antecedência</li>
-        </ul>
-
-        <h4><i class="fa-solid fa-book"></i> Material de Estudo</h4>
-        <a href="https://www.canva.com/design/DAGZ25aL5Oc/K-emV8aAWlfBqu_WFignjw/view" target="_blank" class="edital-link">
-          <i class="fa-solid fa-graduation-cap"></i> Acessar material no Canva
-        </a>
-
-        <div class="edital-assinatura">
-          <strong>Delegado PCERJ</strong><br>
-          [DEL G.] Macedo Tenebras 🦅<br><br>
-          <strong>Coordenador Civil</strong><br>
-          [COORD] Jeffin 🦅
-        </div>
-      `
-      },
-
-      /* ==================== CORE ==================== */
-      {
-        id: "core-7",
-        categoria: "core",
-        cor: "#b71c1c",
-        corDark: "#0a0a0a",
-        logo: "assets/img/concursos/core.png",
-        sigla: "CORE",
-        nome: "CORE",
-        titulo: "Concurso da Coordenadoria de Recursos Especiais",
-        vagas: "Processo Seletivo Rigoroso",
-        data: "xx/xx/xxxx",
-        hora: "xx:xx",
-        local: "Formação ao lado do prédio da PCERJ",
-        conteudo: `
-        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
-        <p><strong>Com ódio anunciamos</strong> o Concurso da Coordenadoria de Recursos Especiais.</p>
-        <ul>
-          <li><strong>Data:</strong> xx/xx/xxxx</li>
-          <li><strong>Hora:</strong> xx:xx</li>
-          <li><strong>Local:</strong> Formação ao lado do prédio da PCERJ</li>
-        </ul>
-
-        <h4><i class="fa-solid fa-list-check"></i> Requisitos</h4>
-        <ul>
-          <li>Ser <strong>Investigador 2ª Classe</strong> ou superior</li>
-          <li>Fazer parte da <strong>『 EQP 』CGPC</strong> ou <strong>Ensino PCERJ</strong> e estar com metas em dia</li>
-          <li>Fazer parte do <strong>『 EQP 』SAER</strong></li>
-        </ul>
-
-        <h4><i class="fa-solid fa-shirt"></i> Fardamento</h4>
-
-        <div class="fardamento-box">
-          <h5><i class="fa-solid fa-person"></i> Masculino</h5>
-          <div class="fardamento-codigos">
-            <span><b>mascara</b> 282 9</span>
-            <span><b>maos</b> 4 0</span>
-            <span><b>calca</b> 294 0</span>
-            <span><b>mochila</b> 0 0</span>
-            <span><b>sapatos</b> 66 0</span>
-            <span><b>acessorios</b> 234 0</span>
-            <span><b>blusa</b> 15 0</span>
-            <span><b>colete</b> 94 0</span>
-            <span><b>adesivo</b> 0 0</span>
-            <span><b>jaqueta</b> 860 0</span>
-            <span><b>chapeu</b> 275 0</span>
-          </div>
-        </div>
-
-        <div class="fardamento-box">
-          <h5><i class="fa-solid fa-person-dress"></i> Feminino</h5>
-          <div class="fardamento-codigos">
-            <span><b>mascara</b> 303 5</span>
-            <span><b>maos</b> 3 0</span>
-            <span><b>calca</b> 309 0</span>
-            <span><b>mochila</b> -1 0</span>
-            <span><b>sapatos</b> 61 0</span>
-            <span><b>acessorios</b> 201 0</span>
-            <span><b>blusa</b> 14 0</span>
-            <span><b>colete</b> 110 0</span>
-            <span><b>adesivo</b> 0 0</span>
-            <span><b>jaqueta</b> 969 0</span>
-            <span><b>oculos</b> -1 0</span>
-            <span><b>chapeu</b> 232 0</span>
-          </div>
-        </div>
-
-        <div class="aviso-edital">
-          <p><i class="fa-solid fa-triangle-exclamation"></i> <strong>Comparecer devidamente uniformizado.</strong></p>
-        </div>
-
-        <h4><i class="fa-solid fa-circle-question"></i> O que é a CORE?</h4>
-        <p>A CORE (Coordenadoria de Recursos Especiais) é uma unidade da Polícia Civil do Rio de Janeiro que atua em <strong>operações policiais especiais</strong>:</p>
-        <ul>
-          <li>Intervir em ocorrências complexas e de alto risco</li>
-          <li>Preparar os policiais para lidar com situações de risco</li>
-          <li>Priorizar a segurança pública e a integridade dos envolvidos</li>
-        </ul>
-
-        <p style="color: var(--dourado); font-weight: bold; text-align: center; margin: 25px 0; font-size: 16px;">
-          🔥 ESTÃO PREPARADOS PARA A MELHOR GUARNIÇÃO ESPECIAL QUE ESSA CIDADE JÁ VIU?
-        </p>
-
-        <h4><i class="fa-solid fa-link"></i> Vídeo</h4>
-        <a href="https://www.youtube.com/watch?v=eVdSBI9y_24" target="_blank" class="edital-link">
-          <i class="fa-brands fa-youtube"></i> Assistir no YouTube
-        </a>
-
-        <div class="edital-assinatura">
-          <strong>Comando CORE</strong><br>
-          [CMD CORE] Zeus 🦅<br>
-          [SUB CMD CORE] Tavares 🦅
-        </div>
-      `
-      },
-
-      /* ==================== CGPC ==================== */
-      {
-        id: "cgpc-prisional",
-        categoria: "cgpc",
-        cor: "#c0c0c0",
-        corDark: "#1a1a1a",
-        logo: "assets/img/concursos/cgpc.png",
-        sigla: "CGPC",
-        nome: "CGPC",
-        titulo: "Auditor Prisional e Pericial",
-        vagas: "Vagas Abertas",
-        data: "Contínuo",
-        hora: "—",
-        local: "Contato direto com o responsável",
-        conteudo: `
-        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
-        <p style="font-size: 16px; color: var(--dourado); font-weight: bold;">
-          QUER FAZER PARTE DA CGPC? ENTÃO ESSA É A SUA OPORTUNIDADE!
-        </p>
-        <p>A CGPC está com vagas abertas para o <strong>PRISIONAL</strong> para quem busca crescer dentro da corporação, adquirir experiência e fazer parte de uma equipe comprometida com a excelência.</p>
-        <p>Se você tem <strong>dedicação, disciplina e vontade de evoluir</strong>, venha fazer parte da nossa equipe!</p>
-
-        <h4><i class="fa-solid fa-triangle-exclamation"></i> Importante</h4>
-        <div class="aviso-edital">
-          <p><i class="fa-solid fa-circle-exclamation"></i> Para ingressar na <strong>CORE</strong>, é necessário fazer parte da <strong>CGPC</strong> ou do <strong>Ensino</strong>.</p>
-        </div>
-
-        <h4><i class="fa-solid fa-envelope"></i> Como se Inscrever</h4>
-        <p>Interessado(a)? Entre em contato diretamente com o responsável pelo Discord.</p>
-
-        <h4><i class="fa-solid fa-medal"></i> Requisito Mínimo</h4>
-        <ul>
-          <li>Patente mínima: <strong>Investigador 3ª Classe</strong></li>
-        </ul>
-      `
-      },
-
-      /* ==================== ENSINO ==================== */
-      {
-        id: "ensino-vagas",
-        categoria: "ensino",
-        cor: "#c9a227",
-        corDark: "#0a3a7a",
-        logo: "assets/img/concursos/pc-rj.png",
-        sigla: "ENSINO",
-        nome: "Ensino",
-        titulo: "Instrutor de Recrutamento e Cursos",
-        vagas: "Vagas Abertas",
-        data: "Contínuo",
-        hora: "—",
-        local: "Contato direto com o responsável",
-        conteudo: `
-        <h4><i class="fa-solid fa-circle-info"></i> Informações</h4>
-        <p style="font-size: 16px; color: var(--dourado); font-weight: bold;">
-          QUER FAZER PARTE DO ENSINO? ENTÃO ESSA É A SUA OPORTUNIDADE!
-        </p>
-        <p>O Ensino está com vagas abertas para quem busca crescer dentro da corporação, adquirir experiência e fazer parte de uma equipe comprometida com a excelência.</p>
-        <p>Se você tem <strong>dedicação, disciplina e vontade de evoluir</strong>, venha fazer parte da nossa equipe!</p>
-
-        <h4><i class="fa-solid fa-triangle-exclamation"></i> Importante</h4>
-        <div class="aviso-edital">  
-          <p><i class="fa-solid fa-circle-exclamation"></i> Para ingressar na <strong>CORE</strong>, é necessário fazer parte da <strong>CGPC</strong> ou do <strong>Ensino</strong>.</p>
-        </div>
-
-        <h4><i class="fa-solid fa-envelope"></i> Como se Inscrever</h4>
-        <p>Interessado(a)? Entre em contato diretamente com o responsável pelo Discord.</p>
-
-        <h4><i class="fa-solid fa-medal"></i> Requisito Mínimo</h4>
-        <ul>
-          <li>Patente mínima: <strong>Investigador 3ª Classe</strong></li>
-        </ul>
-      `
+        console.log('✅ Dados processados:', CONCURSOS_DATA);
+      } catch (err) {
+        console.error('❌ Erro ao carregar concursos:', err);
+        CONCURSOS_DATA = [];
       }
-
-    ];
+    }
 
     /* ============================================================
        RENDER — CARDS DE CONCURSO
@@ -1056,7 +731,7 @@
       grid.innerHTML = filtrados.map(c => `
       <div class="concurso-card" style="--cor-categoria: ${c.cor}; --cor-categoria-dark: ${c.corDark};">
         <div class="concurso-logo">
-          <img src="${c.logo}" alt="Logo ${c.sigla}">
+          <img src="${c.logo}" alt="Logo ${c.sigla}" onerror="this.style.display='none';">
           <div class="concurso-logo-info">
             <span class="sigla">${c.sigla}</span>
             <span class="vagas-badge">${c.vagas}</span>
@@ -1097,7 +772,6 @@
       const concurso = CONCURSOS_DATA.find(c => c.id === id);
       if (!concurso) return;
 
-      // Aplica a cor da categoria no modal
       document.getElementById('editalConteudo').style.setProperty('--cor-categoria', concurso.cor);
 
       document.getElementById('editalLogoImg').src = concurso.logo;
@@ -1105,6 +779,43 @@
       document.getElementById('editalTitulo').textContent = concurso.titulo;
       document.getElementById('editalSubtitulo').textContent = `${concurso.nome} · Concurso Interno PCERJ`;
       document.getElementById('editalBody').innerHTML = concurso.conteudo;
+
+      // Adiciona listeners nos botões de copiar fardamento
+      document.querySelectorAll('.btn-copiar-fardamento').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const codigos = btn.dataset.codigos;
+          try {
+            await navigator.clipboard.writeText(codigos);
+
+            // Feedback visual
+            const htmlOriginal = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+            btn.classList.add('copiado');
+
+            setTimeout(() => {
+              btn.innerHTML = htmlOriginal;
+              btn.classList.remove('copiado');
+            }, 2000);
+          } catch (err) {
+            console.error('Erro ao copiar:', err);
+            // Fallback pra navegadores antigos
+            const textarea = document.createElement('textarea');
+            textarea.value = codigos;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            const htmlOriginal = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+            btn.classList.add('copiado');
+            setTimeout(() => {
+              btn.innerHTML = htmlOriginal;
+              btn.classList.remove('copiado');
+            }, 2000);
+          }
+        });
+      });
 
       document.getElementById('editalModal').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -1140,7 +851,10 @@
     /* ============================================================
        INIT
        ============================================================ */
-    renderConcursos();
+    (async () => {
+      await carregarConcursos();
+      renderConcursos();
+    })();
   </script>
 </body>
 

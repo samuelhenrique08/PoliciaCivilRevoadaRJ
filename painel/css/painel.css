@@ -1716,3 +1716,565 @@ body {
         padding: 15px 20px;
     }
 }
+
+/* ============================================================
+   SEÇÃO CONCURSOS
+   ============================================================ */
+
+.concursos-lista-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.concurso-edit-card {
+    background: var(--preto-card);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 22px;
+    transition: .3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.concurso-edit-card:hover {
+    border-color: var(--cor-cat, var(--dourado));
+    box-shadow: 0 8px 25px rgba(201, 162, 39, .15);
+}
+
+.concurso-edit-barra {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--cor-cat, var(--dourado));
+}
+
+.concurso-edit-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid var(--borda);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.concurso-edit-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.concurso-edit-conteudo {
+    flex: 1;
+    min-width: 0;
+}
+
+.concurso-edit-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.concurso-edit-sigla {
+    color: var(--dourado);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.concurso-edit-vagas {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 11px;
+    border-radius: 20px;
+    border: 1px solid;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.concurso-edit-titulo {
+    color: var(--texto);
+    font-size: 16px;
+    margin: 0 0 8px;
+    line-height: 1.3;
+}
+
+.concurso-edit-meta {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    color: var(--texto-muted);
+}
+
+.concurso-edit-meta i {
+    color: var(--dourado);
+    margin-right: 5px;
+    font-size: 11px;
+}
+
+.concurso-edit-acoes {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* Preview no form */
+.concurso-form-preview {
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    padding: 15px 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.concurso-form-preview img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 8px;
+    padding: 5px;
+    flex-shrink: 0;
+}
+
+.concurso-form-preview strong {
+    display: block;
+    color: var(--dourado);
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.concurso-form-preview span {
+    color: var(--texto-muted);
+    font-size: 12px;
+}
+
+/* Responsivo */
+@media (max-width: 700px) {
+    .concurso-edit-card {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+    }
+
+    .concurso-edit-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .concurso-edit-acoes {
+        margin-top: 5px;
+    }
+
+    .concurso-edit-acoes .btn-acao {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ============================================================
+   EDITOR DE EDITAL (Concursos)
+   ============================================================ */
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.editor-botoes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-editor {
+    background: linear-gradient(135deg, #5865F2, #4752C4);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-editor:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(88, 101, 242, .4);
+}
+
+.btn-editor-alt {
+    background: transparent;
+    border: 1px solid var(--borda);
+    color: var(--texto-muted);
+}
+
+.btn-editor-alt:hover {
+    background: var(--preto-suave);
+    border-color: var(--dourado);
+    color: var(--dourado);
+    box-shadow: none;
+}
+
+.editor-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.editor-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--texto-muted);
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: .3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: -1px;
+}
+
+.editor-tab:hover {
+    color: var(--dourado);
+}
+
+.editor-tab.ativo {
+    color: var(--dourado);
+    border-bottom-color: var(--dourado);
+}
+
+.editor-tab i {
+    font-size: 11px;
+}
+
+.concurso-preview-editor {
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--texto);
+}
+
+.concurso-preview-editor h4 {
+    color: var(--dourado);
+    font-size: 15px;
+    margin: 20px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--borda);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.concurso-preview-editor h4:first-child {
+    margin-top: 0;
+}
+
+.concurso-preview-editor h5 {
+    color: var(--dourado);
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.concurso-preview-editor p {
+    margin-bottom: 10px;
+}
+
+.concurso-preview-editor ul {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.concurso-preview-editor ul li {
+    padding: 5px 0 5px 22px;
+    position: relative;
+}
+
+.concurso-preview-editor ul li::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 7px;
+    color: var(--dourado);
+    font-size: 11px;
+}
+
+.concurso-preview-editor strong {
+    color: var(--dourado);
+}
+
+.concurso-preview-editor a {
+    color: #64b5f6;
+    text-decoration: underline;
+}
+
+.concurso-preview-editor .edital-link-inline {
+    color: #64b5f6;
+    word-break: break-all;
+}
+
+.concurso-preview-editor .fardamento-box {
+    background: rgba(201, 162, 39, .05);
+    border: 1px solid var(--borda);
+    border-left: 3px solid var(--dourado);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 15px 0;
+}
+
+.concurso-preview-editor .fardamento-codigos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.concurso-preview-editor .fardamento-codigos span {
+    background: rgba(0, 0, 0, .4);
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+}
+
+.concurso-preview-editor .fardamento-codigos span b {
+    color: var(--dourado);
+}
+
+.concurso-preview-editor .aviso-edital {
+    background: rgba(183, 28, 28, .1);
+    border: 1px solid var(--vermelho);
+    border-left: 3px solid var(--vermelho);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 15px 0;
+    color: #ff8a80;
+    font-size: 13px;
+}
+
+.concurso-preview-editor .edital-assinatura {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid var(--borda);
+    text-align: right;
+    color: var(--texto-muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.editor-dica {
+    color: var(--texto-muted);
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(201, 162, 39, .08);
+    border-left: 3px solid var(--dourado);
+    border-radius: 6px;
+}
+
+.editor-dica i {
+    color: var(--dourado);
+    margin-right: 6px;
+}
+
+.editor-dica strong {
+    color: var(--dourado);
+}
+
+/* ============================================================
+   FORMULÁRIO ESTRUTURADO DE CONCURSOS
+   ============================================================ */
+.form-secao {
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+}
+
+.form-secao-titulo {
+    color: var(--dourado);
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--borda);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-secao-titulo i {
+    font-size: 14px;
+}
+
+.form-linha-tripla {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+/* Links repetidor */
+.link-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.link-item input {
+    background: var(--preto-card);
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    padding: 9px 12px;
+    color: var(--texto);
+    font-size: 13px;
+}
+
+.link-item input:focus {
+    outline: none;
+    border-color: var(--dourado);
+}
+
+.btn-remover-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid var(--borda);
+    color: var(--texto-muted);
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.btn-remover-link:hover {
+    background: rgba(183, 28, 28, .15);
+    border-color: var(--vermelho);
+    color: #ff8a80;
+}
+
+.btn-add-link {
+    background: transparent;
+    border: 1px dashed var(--borda);
+    color: var(--texto-muted);
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-add-link:hover {
+    border-color: var(--dourado);
+    color: var(--dourado);
+    background: rgba(201, 162, 39, .05);
+}
+
+.vazio-links {
+    color: var(--texto-muted);
+    font-size: 13px;
+    font-style: italic;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Responsivo */
+@media (max-width: 700px) {
+    .form-linha-tripla {
+        grid-template-columns: 1fr;
+    }
+
+    .link-item {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-remover-link {
+        width: 100%;
+        height: 34px;
+    }
+}
+
+/* Botão de copiar fardamento (painel preview) */
+.btn-copiar-fardamento {
+    background: rgba(201, 162, 39, .15);
+    border: 1px solid var(--dourado);
+    color: var(--dourado);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+}
+
+.btn-copiar-fardamento:hover {
+    background: var(--dourado);
+    color: #000;
+}
+
+.btn-copiar-fardamento.copiado {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: #fff;
+}
