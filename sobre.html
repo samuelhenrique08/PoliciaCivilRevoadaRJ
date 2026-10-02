@@ -117,10 +117,13 @@
 
     .comando-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
+    /* ===== CARD DE COMANDO ===== */
     .comando-card {
       background: var(--preto-card);
       border: 1px solid var(--borda);
@@ -130,6 +133,7 @@
       align-items: center;
       gap: 16px;
       transition: .3s;
+      text-align: left;
     }
 
     .comando-card:hover {
@@ -184,7 +188,7 @@
     .comando-info h4 {
       color: var(--dourado);
       font-size: 16px;
-      margin-bottom: 4px;
+      margin: 0 0 4px;
       line-height: 1.3;
     }
 
@@ -194,6 +198,7 @@
       text-transform: uppercase;
       letter-spacing: .5px;
       display: block;
+      line-height: 1.3;
     }
 
     /* ===== HIERARQUIA ===== */
@@ -469,9 +474,13 @@
         font-size: 17px;
       }
 
+      .comando-grid {
+        grid-template-columns: 1fr;
+      }
+
       .comando-avatar {
-        width: 46px;
-        height: 46px;
+        width: 55px;
+        height: 55px;
         font-size: 18px;
       }
 
@@ -494,6 +503,13 @@
       .mandato-membros {
         grid-template-columns: 1fr;
       }
+    }
+
+    .nivel-cargo .nivel-logo-site {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -639,216 +655,35 @@
 
   <script src="js/main.js"></script>
 
-  <script>
+  <script type="module">
     /* ============================================================
-       DADOS DA HIERARQUIA
-       ------------------------------------------------------------
-       ATENÇÃO — INTEGRAÇÃO FUTURA COM PAINEL ADMINISTRATIVO:
-       Quando o painel existir, basta substituir o objeto abaixo por:
-       
-         const HIERARQUIA_DATA = await fetch('/api/hierarquia').then(r => r.json());
-       
-       O restante do código (renderização) NÃO precisa mudar.
-       O painel só precisa devolver o mesmo formato JSON.
+       SUPABASE
        ============================================================ */
-    const HIERARQUIA_DATA = {
-      atualizadoEm: "29/09/2026, 00:18:58",
-      totalMembros: 77,
-      comandoAtual: [
-        { cargo: "Secretário de Segurança Pública", nome: "Tonin", id: "SSP", icon: "fa-user-tie", foto: "assets/img/comando/tonin.jpg" },
-        { cargo: "Comandante Geral", nome: "Dede Tenebras", id: "CMD", icon: "fa-crown", foto: "assets/img/comando/dede.jpg" },
-        { cargo: "Subcomandante Geral", nome: "Lzin Tenebras", id: "SUB CMD", icon: "fa-star", foto: "assets/img/comando/lzin.jpg" },
-        { cargo: "Delegado PCERJ", nome: "Macedo Tenebras", id: "DEL G.", icon: "fa-user-shield", foto: "assets/img/comando/macedo.jpg" }
-      ],
-      niveis: [
-        {
-          cargo: "Delegado Adj. PCERJ",
-          icon: "fa-user-shield",
-          membros: []
-        },
-        {
-          cargo: "Comando CORE",
-          icon: "fa-crosshairs",
-          comandoEspecial: true,
-          membros: [
-            { nome: "Tavares", id: "SUB CMD CORE" },
-            { nome: "Zeus", id: "CMD CORE" }
-          ]
-        },
-        {
-          cargo: "Comando CGPC",
-          icon: "fa-clipboard-check",
-          comandoEspecial: true,
-          membros: [
-            { nome: "Jinx", id: "SUB CMD CGPC" },
-            { nome: "Vivi", id: "CMD CGPC" }
-          ]
-        },
-        {
-          cargo: "Comando SAER",
-          icon: "fa-helicopter",
-          comandoEspecial: true,
-          membros: [
-            { nome: "Scott", id: "CMD SAER" },
-            { nome: "Carpa", id: "SUB CMD SAER" }
-          ]
-        },
-        {
-          cargo: "Comando GEM",
-          icon: "fa-motorcycle",
-          comandoEspecial: true,
-          membros: [
-            { nome: "Serjão", id: "SUB CMD GEM" },
-            { nome: "Zorro", id: "CMD GEM" }
-          ]
-        },
-        {
-          cargo: "Coordenador Civil",
-          icon: "fa-diagram-project",
-          membros: [
-            { nome: "Jeffin", id: "COORD" },
-            { nome: "Lena", id: "COORD" },
-            { nome: "Flavio", id: "COORD" }
-          ]
-        },
-        {
-          cargo: "Supervisor Geral Civil",
-          icon: "fa-user-check",
-          membros: [
-            { nome: "Zod Tenebras", id: "SPV" }
-          ]
-        },
-        {
-          cargo: "Comissário de Polícia",
-          icon: "fa-clipboard-list",
-          membros: [
-            { nome: "Osama", id: "CMSP CORE" },
-            { nome: "Martins", id: "CMSP CORE" },
-            { nome: "Rocha", id: "CMSP CORE" },
-            { nome: "Marcelo", id: "CMSP · 112" }
-          ]
-        },
-        {
-          cargo: "Investigador de Operações Especiais",
-          icon: "fa-bullseye",
-          membros: [
-            { nome: "FrestFtw", id: "INV OP ESP CORE" }
-          ]
-        },
-        {
-          cargo: "Inspetor Civil",
-          icon: "fa-user-police",
-          membros: [
-            { nome: "Mason", id: "INSP · 1597" }
-          ]
-        },
-        {
-          cargo: "Investigador Operacional Civil",
-          icon: "fa-person-running",
-          membros: [
-            { nome: "Manoel", id: "INV OP CORE" }
-          ]
-        },
-        {
-          cargo: "Escrivão Civil",
-          icon: "fa-file-signature",
-          membros: [
-            { nome: "Marcola", id: "ESC · 50138" },
-            { nome: "Klaus", id: "ESC CORE" },
-            { nome: "Boddy", id: "ESC · 40364" },
-            { nome: "Éfize", id: "ESC · 1359" },
-            { nome: "Smith", id: "ESC · 30243" },
-            { nome: "Delacruz", id: "ESC · 22459" },
-            { nome: "Teaser", id: "ESC · 27380" },
-            { nome: "Billy", id: "ESC · 25223" }
-          ]
-        },
-        {
-          cargo: "Investigador Especial",
-          icon: "fa-star",
-          membros: [
-            { nome: "Husupreme", id: "INV ESP CORE" },
-            { nome: "Henrique", id: "INV ESP CORE" },
-            { nome: "Todyn", id: "INV ESP · 1314" }
-          ]
-        },
-        {
-          cargo: "Investigador 1ª Classe",
-          icon: "fa-medal",
-          membros: [
-            { nome: "Flink", id: "INV 1ª · 2370" },
-            { nome: "Wesley", id: "INV 1ª · 1030" },
-            { nome: "Ditadala", id: "INV 1ª · 16730" }
-          ]
-        },
-        {
-          cargo: "Investigador 2ª Classe",
-          icon: "fa-award",
-          membros: [
-            { nome: "Wolf", id: "INV 2ª · 1197" },
-            { nome: "Panda Tenebras", id: "INV 2ª · 2111" },
-            { nome: "Fernandes", id: "INV 2ª · 25956" },
-            { nome: "Grifo", id: "INV 2ª · 1234" },
-            { nome: "Lima", id: "INV 2ª · 6312" },
-            { nome: "Águia", id: "INV 2ª · 32240" },
-            { nome: "Scruggs", id: "INV 2ª · 17500" },
-            { nome: "Iank", id: "INV 2ª · 41923" },
-            { nome: "Lobão", id: "INV 2ª · 34279" },
-            { nome: "Kaori", id: "INV 2ª · 1459" },
-            { nome: "Souza", id: "INV 2ª · 10271" },
-            { nome: "Tcharles", id: "INV 2ª · 17306" },
-            { nome: "Linda", id: "INV 2ª · 1584" },
-            { nome: "Ribeiro", id: "INV 2ª · 50320" },
-            { nome: "RealCapone", id: "INV 2ª · 2538" }
-          ]
-        },
-        {
-          cargo: "Investigador 3ª Classe",
-          icon: "fa-certificate",
-          membros: [
-            { nome: "Levi", id: "INV 3ª · 14752" },
-            { nome: "Magrin", id: "INV 3ª · 51924" },
-            { nome: "Pac", id: "INV 3ª · 52443" },
-            { nome: "Nzin", id: "INV 3ª · 53053" },
-            { nome: "brazuca", id: "INV 3ª · 52677" },
-            { nome: "Lólo", id: "INV 3ª · 46083" },
-            { nome: "Tokyo", id: "INV 3ª · 47185" },
-            { nome: "Kaolho", id: "INV 3ª · 49342" },
-            { nome: "Pantera", id: "INV 3ª · 7074" },
-            { nome: "Paiva", id: "INV 3ª · 1653" },
-            { nome: "Chico", id: "INV 3ª · 1224" }
-          ]
-        },
-        {
-          cargo: "Aluno PCERJ",
-          icon: "fa-graduation-cap",
-          membros: [
-            { nome: "Dores", id: "ALN PCERJ · 51928" },
-            { nome: "teaga", id: "ALN PCERJ · 52919" },
-            { nome: "Silver", id: "ALN PCERJ · 5843" },
-            { nome: "nacimento", id: "ALN PCERJ · 45190" },
-            { nome: "Raze", id: "ALN PCERJ · 52797" },
-            { nome: "Cruz", id: "ALN PCERJ · 1731" },
-            { nome: "SPK", id: "ALN PCERJ · 52871" },
-            { nome: "Arantes", id: "ALN PCERJ · 52533" },
-            { nome: "Aguiar", id: "ALN PCERJ · 12935" },
-            { nome: "zuckerberg", id: "ALN PCERJ · 28082" },
-            { nome: "Jade", id: "ALN PCERJ · 3564" },
-            { nome: "Mayke", id: "ALN PCERJ · 20391" },
-            { nome: "Jett", id: "ALN PCERJ · 53922" },
-            { nome: "lula", id: "ALN PCERJ · 54443" }
-          ]
-        }
-      ]
-    };
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const supabase = createClient(
+      'https://tiokyomdsfgdloyxiazc.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpb2t5b21kc2ZnZGxveXhpYXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4OTMyMDksImV4cCI6MjEwNjQ2OTIwOX0.HJwTC3sgDfofEHaidpM2H3O7dGDnpcUdGttM5dTsLR8'
+    );
 
     /* ============================================================
-       DADOS DO MEMORIAL (estático — delegados por gestão)
+       TABS
+       ============================================================ */
+    document.querySelectorAll('.sobre-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.sobre-tab').forEach(t => t.classList.remove('ativo'));
+        document.querySelectorAll('.sobre-painel').forEach(p => p.classList.remove('ativo'));
+        tab.classList.add('ativo');
+        document.getElementById(tab.dataset.tab).classList.add('ativo');
+      });
+    });
+
+    /* ============================================================
+       MEMORIAL — estático
        ============================================================ */
     const MEMORIAL_DATA = [
       {
-        gestao: "GESTÃO ALPHA",
-        icon: "fa-a",
+        gestao: "GESTÃO ALPHA", icon: "fa-a",
         mandatos: [
           {
             codigo: "α.1", membros: [
@@ -871,8 +706,7 @@
         ]
       },
       {
-        gestao: "GESTÃO BRAVO",
-        icon: "fa-b",
+        gestao: "GESTÃO BRAVO", icon: "fa-b",
         mandatos: [
           {
             codigo: "β.1", membros: [
@@ -896,8 +730,7 @@
         ]
       },
       {
-        gestao: "GESTÃO CHARLIE",
-        icon: "fa-c",
+        gestao: "GESTÃO CHARLIE", icon: "fa-c",
         mandatos: [
           {
             codigo: "c.1", membros: [
@@ -909,8 +742,7 @@
         ]
       },
       {
-        gestao: "GESTÃO DELTA",
-        icon: "fa-d",
+        gestao: "GESTÃO DELTA", icon: "fa-d",
         mandatos: [
           {
             codigo: "d.1", membros: [
@@ -943,8 +775,7 @@
         ]
       },
       {
-        gestao: "GESTÃO ECHO",
-        icon: "fa-e",
+        gestao: "GESTÃO ECHO", icon: "fa-e",
         mandatos: [
           {
             codigo: "e.1", membros: [
@@ -970,8 +801,7 @@
         ]
       },
       {
-        gestao: "GESTÃO FOXTROT",
-        icon: "fa-f",
+        gestao: "GESTÃO FOXTROT", icon: "fa-f",
         mandatos: [
           {
             codigo: "f.1", membros: [
@@ -989,8 +819,7 @@
         ]
       },
       {
-        gestao: "GESTÃO GOLF",
-        icon: "fa-g",
+        gestao: "GESTÃO GOLF", icon: "fa-g",
         mandatos: [
           {
             codigo: "g.1", membros: [
@@ -1015,8 +844,7 @@
         ]
       },
       {
-        gestao: "GESTÃO HOTEL",
-        icon: "fa-h",
+        gestao: "GESTÃO HOTEL", icon: "fa-h",
         mandatos: [
           {
             codigo: "h.1", membros: [
@@ -1035,8 +863,7 @@
         ]
       },
       {
-        gestao: "GESTÃO INDIA",
-        icon: "fa-i",
+        gestao: "GESTÃO INDIA", icon: "fa-i",
         mandatos: [
           {
             codigo: "i.1", membros: [
@@ -1049,13 +876,32 @@
     ];
 
     /* ============================================================
-       RENDER — COMANDO ATUAL
+       RENDER COMANDO ATUAL — do Supabase
        ============================================================ */
-    function renderComandoAtual() {
+    async function renderComandoAtual() {
       const el = document.getElementById('comandoAtual');
       if (!el) return;
 
+      let comando = [];
+      try {
+        const { data, error } = await supabase
+          .from('comando_atual')
+          .select('*')
+          .order('ordem', { ascending: true });
+        if (error) throw error;
+        comando = data || [];
+      } catch (err) {
+        console.warn('Erro ao carregar comando:', err);
+        comando = [];
+      }
+
+      if (comando.length === 0) {
+        el.innerHTML = '<p style="text-align:center; color:var(--texto-muted);">Nenhum comandante cadastrado.</p>';
+        return;
+      }
+
       function getIniciais(nome) {
+        if (!nome) return '??';
         const partes = nome.trim().split(' ').filter(Boolean);
         if (partes.length === 1) return partes[0].substring(0, 2).toUpperCase();
         return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
@@ -1064,64 +910,93 @@
       let html = '<h3><i class="fa-solid fa-star"></i> Comando Atual da PCERJ</h3>';
       html += '<div class="comando-grid">';
 
-      HIERARQUIA_DATA.comandoAtual.forEach(c => {
-        const temFoto = c.foto && c.foto.trim() !== '';
+      comando.forEach(c => {
+        const temFoto = c.foto_url && c.foto_url.trim() !== '';
         const iniciais = getIniciais(c.nome);
-
         html += `
-      <div class="comando-card">
-        <div class="comando-avatar ${temFoto ? 'com-foto' : ''}">
-          ${temFoto
-            ? `<img src="${c.foto}" alt="${c.nome}" onerror="this.parentElement.classList.remove('com-foto'); this.parentElement.innerHTML='<span>${iniciais}</span>'; this.remove();">`
+        <div class="comando-card">
+          <div class="comando-avatar ${temFoto ? 'com-foto' : ''}">
+            ${temFoto
+            ? `<img src="${c.foto_url}" alt="${c.nome}" onerror="this.parentElement.classList.remove('com-foto'); this.parentElement.innerHTML='<span>${iniciais}</span>'; this.remove();">`
             : `<span>${iniciais}</span>`
           }
+          </div>
+          <div class="comando-info">
+            <h4>${c.nome}</h4>
+            <span>${c.cargo}</span>
+          </div>
         </div>
-        <div class="comando-info">
-          <h4>${c.nome}</h4>
-          <span>${c.cargo}</span>
-        </div>
-      </div>
-    `;
+      `;
       });
 
       html += '</div>';
       el.innerHTML = html;
     }
+
     /* ============================================================
-       RENDER — LISTA DE HIERARQUIA
+       RENDER HIERARQUIA — do Supabase
        ============================================================ */
-    function renderHierarquia() {
+    async function renderHierarquia() {
       const el = document.getElementById('hierarquiaLista');
       if (!el) return;
 
-      let html = '';
+      let niveis = [];
+      try {
+        const { data, error } = await supabase
+          .from('hierarquia')
+          .select('*')
+          .order('ordem', { ascending: true });
+        if (error) throw error;
+        niveis = data || [];
+      } catch (err) {
+        console.warn('Erro ao carregar hierarquia:', err);
+        el.innerHTML = '<p style="text-align:center; color:var(--texto-muted);">Nenhum dado cadastrado ainda.</p>';
+        return;
+      }
 
-      HIERARQUIA_DATA.niveis.forEach(nivel => {
-        const classeEspecial = nivel.comandoEspecial ? 'comando-especial' : '';
-        const total = nivel.membros.length;
+      if (niveis.length === 0) {
+        el.innerHTML = '<p style="text-align:center; color:var(--texto-muted);">Nenhum dado cadastrado ainda.</p>';
+        return;
+      }
+
+      let html = '';
+      niveis.forEach(nivel => {
+        const classeEspecial = nivel.comando_especial ? 'comando-especial' : '';
+        const membros = nivel.membros || [];
+        const total = membros.length;
+        const tipoVisual = nivel.tipo_visual || 'icone';
+
+        // Ícone ou logo no cabeçalho
+        let iconeHTML = '';
+        if (tipoVisual === 'logo' && nivel.logo_url) {
+          iconeHTML = `<img src="${nivel.logo_url}" alt="${nivel.cargo}" class="nivel-logo-site">`;
+        } else {
+          iconeHTML = `<i class="fa-solid ${nivel.icone || 'fa-user'}"></i>`;
+        }
 
         html += `
-        <div class="hierarquia-nivel ${classeEspecial}">
-          <div class="nivel-header">
-            <div class="nivel-cargo">
-              <i class="fa-solid ${nivel.icon}"></i> ${nivel.cargo}
-            </div>
-            <span class="nivel-count"><i class="fa-solid fa-user"></i> ${total} ${total === 1 ? 'membro' : 'membros'}</span>
+      <div class="hierarquia-nivel ${classeEspecial}">
+        <div class="nivel-header">
+          <div class="nivel-cargo">
+            ${iconeHTML}
+            ${nivel.cargo}
           </div>
-      `;
+          <span class="nivel-count"><i class="fa-solid fa-user"></i> ${total} ${total === 1 ? 'membro' : 'membros'}</span>
+        </div>
+    `;
 
         if (total === 0) {
           html += `<p class="vazio"><i class="fa-solid fa-circle-info"></i> Nenhum membro atualmente.</p>`;
         } else {
           html += '<div class="membros-lista">';
-          nivel.membros.forEach(m => {
+          membros.forEach(m => {
             html += `
-            <div class="membro-tag">
-              <i class="fa-solid fa-user"></i>
-              <span>${m.nome}</span>
-              <span class="membro-id">${m.id}</span>
-            </div>
-          `;
+          <div class="membro-tag">
+            <i class="fa-solid fa-user"></i>
+            <span>${m.nome}</span>
+            <span class="membro-id">${m.id || ''}</span>
+          </div>
+        `;
           });
           html += '</div>';
         }
@@ -1130,21 +1005,15 @@
       });
 
       el.innerHTML = html;
-
-      // Atualiza data
-      const dataEl = document.getElementById('hierarquiaData');
-      if (dataEl) dataEl.textContent = HIERARQUIA_DATA.atualizadoEm;
     }
-
     /* ============================================================
-       RENDER — MEMORIAL
+       RENDER MEMORIAL — estático
        ============================================================ */
     function renderMemorial() {
       const el = document.getElementById('memorialLista');
       if (!el) return;
 
       let html = '';
-
       MEMORIAL_DATA.forEach(gestao => {
         html += `
         <div class="gestao-bloco">
@@ -1161,7 +1030,6 @@
             <span class="mandato-codigo">${m.codigo}</span>
             <div class="mandato-membros">
         `;
-
           m.membros.forEach(mem => {
             html += `
             <div class="mandato-membro">
@@ -1173,7 +1041,6 @@
             </div>
           `;
           });
-
           html += `</div></div>`;
         });
 
@@ -1182,19 +1049,6 @@
 
       el.innerHTML = html;
     }
-
-    /* ============================================================
-       TABS
-       ============================================================ */
-    document.querySelectorAll('.sobre-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.sobre-tab').forEach(t => t.classList.remove('ativo'));
-        document.querySelectorAll('.sobre-painel').forEach(p => p.classList.remove('ativo'));
-
-        tab.classList.add('ativo');
-        document.getElementById(tab.dataset.tab).classList.add('ativo');
-      });
-    });
 
     /* ============================================================
        INIT

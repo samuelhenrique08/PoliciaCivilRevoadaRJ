@@ -87,6 +87,9 @@
                         <span id="userCargo">—</span>
                     </div>
                 </div>
+                <a href="index.html" class="btn-voltar-site">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar ao Site
+                </a>
                 <button class="btn-logout" id="btnLogout">
                     <i class="fa-solid fa-right-from-bracket"></i> Sair
                 </button>
@@ -121,7 +124,7 @@
                     <div class="aviso-info">
                         <i class="fa-solid fa-circle-info"></i>
                         <p>As demais seções serão carregadas conforme você navegar. Cada uma tem seu próprio formulário
-                            de edição e salva direto no Firebase.</p>
+                            de edição e salva direto no Banco de Dados.</p>
                     </div>
                 </section>
 
@@ -188,7 +191,7 @@
 
     <!-- SCRIPTS -->
     <script type="module">
-        import { observarAuth, login, logout, getUsuario } from './painel/js/auth.js';
+        import { observarAuth, login, logout } from './painel/js/auth.js';
         import { initRouter } from './painel/js/router.js';
         import { toast, iniciais } from './painel/js/utils.js';
 
@@ -210,17 +213,15 @@
 
             try {
                 await login(email, senha);
-                // O observarAuth vai detectar e mostrar o painel
             } catch (err) {
                 console.error('Erro no login:', err);
-                const mensagens = {
-                    'auth/invalid-credential': 'E-mail ou senha incorretos.',
-                    'auth/user-not-found': 'Usuário não encontrado.',
-                    'auth/wrong-password': 'Senha incorreta.',
-                    'auth/invalid-email': 'E-mail inválido.',
-                    'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde.'
-                };
-                toast(mensagens[err.code] || 'Erro ao fazer login.', 'erro');
+                const msg = err.message || '';
+                let msgFinal = 'Erro ao fazer login.';
+                if (msg.includes('Invalid login')) msgFinal = 'E-mail ou senha incorretos.';
+                if (msg.includes('Email not confirmed')) msgFinal = 'E-mail não confirmado.';
+                if (msg.includes('rate limit')) msgFinal = 'Muitas tentativas. Tente mais tarde.';
+
+                toast(msgFinal, 'erro');
                 btnEntrar.disabled = false;
                 btnEntrar.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Acessar Painel';
             }
@@ -234,7 +235,6 @@
         /* -------- OBSERVAR SESSÃO -------- */
         observarAuth(
             (usuario) => {
-                // Logado
                 loginTela.style.display = 'none';
                 painelApp.classList.add('ativo');
 
@@ -246,7 +246,6 @@
                 initRouter();
             },
             () => {
-                // Deslogado
                 loginTela.style.display = 'flex';
                 painelApp.classList.remove('ativo');
 
@@ -263,12 +262,9 @@
             sidebar.classList.toggle('open');
         });
 
-        // Fechar sidebar ao clicar em um link (mobile)
         document.querySelectorAll('.sidebar-nav a').forEach(a => {
             a.addEventListener('click', () => {
-                if (window.innerWidth <= 900) {
-                    sidebar.classList.remove('open');
-                }
+                if (window.innerWidth <= 900) sidebar.classList.remove('open');
             });
         });
     </script>

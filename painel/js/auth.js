@@ -1,99 +1,110 @@
 /* ============================================================
-   AUTENTICAÇÃO
+   AUTENTICAÇÃO — Supabase
    ============================================================ */
-import {
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import {
-  doc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-import { auth, db } from './firebase-config.js';
+import { supabase } from './supabase-config.js';
 import { toast } from './utils.js';
 
-/* -------- USUÁRIO ATUAL -------- */
 let usuarioAtual = null;
 
 export function getUsuario() {
-  return usuarioAtual;
+    return usuarioAtual;
 }
 
 export function temPermissao(secao) {
-  if (!usuarioAtual) return false;
-  const role = usuarioAtual.role;
+    if (!usuarioAtual) return false;
+    const role = usuarioAtual.role;
 
-  const permissoes = {
-    master: ['dashboard', 'comando', 'membros', 'avisos', 'concursos', 'galeria', 'usuarios'],
-    editor: ['dashboard', 'avisos', 'concursos']
-  };
+    const permissoes = {
+        master: ['dashboard', 'comando', 'membros', 'avisos', 'concursos', 'galeria'],
+        editor: ['dashboard', 'avisos', 'concursos']
+    };
 
-  return (permissoes[role] || []).includes(secao);
+    return (permissoes[role] || []).includes(secao);
 }
 
 /* -------- LOGIN -------- */
 export async function login(email, senha) {
-  const cred = await signInWithEmailAndPassword(auth, email, senha);
-  return cred.user;
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password: senha
+    });
+    if (error) throw error;
+    return data.user;
 }
 
 /* -------- LOGOUT -------- */
 export async function logout() {
-  await signOut(auth);
-  window.location.reload();
+    await supabase.auth.signOut();
+    window.location.reload();
 }
 
-/* -------- CARREGAR PERFIL DO FIRESTORE -------- */
-async function carregarPerfil(uid) {
-  try {
-    const ref = doc(db, 'usuarios', uid);
-    const snap = await getDoc(ref);
+/* -------- CARREGAR PERFIL -------- */
+async function carregarPerfil(userId) {
+    try {
+        const { data, error } = await supabase
+            .from('perfis')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle();
 
-    if (!snap.exists()) {
-      toast('Usuário não cadastrado no painel.', 'erro');
-      await signOut(auth);
-      return null;
+        if (error) throw error;
+
+        if (!data) {
+            toast('Usuário não cadastrado no painel.', 'erro');
+            await supabase.auth.signOut();
+            return null;
+        }
+
+        if (!['master', 'editor'].includes(data.role)) {
+            toast('Você não tem permissão para acessar o painel.', 'erro');
+            await supabase.auth.signOut();
+            return null;
+        }
+
+        return {
+            uid: userId,
+            email: (await supabase.auth.getUser()).data.user.email,
+            nome: data.nome || 'Usuário',
+            role: data.role,
+            cargo: data.cargo || ''
+        };
+    } catch (err) {
+        console.error('Erro ao carregar perfil:', err);
+        toast('Erro ao carregar perfil.', 'erro');
+        return null;
     }
-
-    const dados = snap.data();
-
-    // Verificar se tem role permitida
-    if (!['master', 'editor'].includes(dados.role)) {
-      toast('Você não tem permissão para acessar o painel.', 'erro');
-      await signOut(auth);
-      return null;
-    }
-
-    return {
-      uid,
-      email: auth.currentUser.email,
-      nome: dados.nome || 'Usuário',
-      role: dados.role,
-      cargo: dados.cargo || ''
-    };
-  } catch (err) {
-    console.error('Erro ao carregar perfil:', err);
-    toast('Erro ao carregar perfil.', 'erro');
-    return null;
-  }
 }
 
 /* -------- OBSERVAR SESSÃO -------- */
-export function observarAuth(callbackLogado, callbackDeslogado) {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const perfil = await carregarPerfil(user.uid);
-      if (perfil) {
-        usuarioAtual = perfil;
-        callbackLogado(perfil);
-      } else {
+export async function observarAuth(callbackLogado, callbackDeslogado) {
+    // Verifica sessão atual
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session?.user) {
+        const perfil = await carregarPerfil(session.user.id);
+        if (perfil) {
+            usuarioAtual = perfil;
+            callbackLogado(perfil);
+        } else {
+            usuarioAtual = null;
+            callbackDeslogado();
+        }
+    } else {
         usuarioAtual = null;
         callbackDeslogado();
-      }
-    } else {
-      usuarioAtual = null;
-      callbackDeslogado();
     }
-  });
+
+    // Escuta mudanças
+    supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+            const perfil = await carregarPerfil(session.user.id);
+            if (perfil) {
+                usuarioAtual = perfil;
+                callbackLogado(perfil);
+            }
+        } else if (event === 'SIGNED_OUT') {
+            usuarioAtual = null;
+            callbackDeslogado();
+        }
+    });
 }
