@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avisos e Notícias | Polícia Civil RJ — Revoada RJ</title>
+    <link rel="icon" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ===== FILTROS ===== */
+        .avisos-filtros {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .filtro-btn {
+            background: transparent;
+            border: 1px solid var(--borda);
+            color: var(--texto);
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.ativo {
+            background: var(--dourado);
+            color: #000;
+            border-color: var(--dourado);
+        }
+
+        /* ===== BUSCA ===== */
+        .avisos-busca {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto 35px;
+        }
+
+        .avisos-busca i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dourado);
+            font-size: 15px;
+            opacity: .7;
+        }
+
+        .avisos-busca input {
+            width: 100%;
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-radius: 30px;
+            padding: 14px 20px 14px 50px;
+            color: var(--texto);
+            font-size: 15px;
+            transition: .3s;
+        }
+
+        .avisos-busca input:focus {
+            outline: none;
+            border-color: var(--dourado);
+            background: var(--preto-suave);
+        }
+
+        /* ===== GRID DE AVISOS ===== */
+        .avisos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 22px;
+            margin-bottom: 40px;
+        }
+
+        /* Card de aviso */
+        .aviso-card {
+            background: var(--preto-card);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: .3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .aviso-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--cor-tipo, var(--dourado));
+            transition: .3s;
+            z-index: 3;
+        }
+
+        .aviso-card:hover {
+            border-color: var(--cor-tipo, var(--dourado));
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .4);
+        }
+
+        .aviso-card:hover::before {
+            width: 7px;
+        }
+
+        .aviso-card-imagem {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: #000;
+            border-bottom: 1px solid var(--borda);
+        }
+
+        .aviso-card-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .4s;
+        }
+
+        .aviso-card:hover .aviso-card-imagem img {
+            transform: scale(1.05);
+        }
+
+        .aviso-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 22px 14px;
+            border-bottom: 1px solid var(--borda);
+            gap: 10px;
+        }
+
+        .aviso-tipo {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 11px;
+            border-radius: 20px;
+            background: rgba(201, 162, 39, .15);
+            color: var(--dourado-hover);
+            border: 1px solid var(--dourado);
+        }
+
+        .aviso-tipo.noticia {
+            background: rgba(13, 71, 161, .2);
+            color: #64b5f6;
+            border-color: #1565c0;
+        }
+
+        .aviso-tipo.pacificacao {
+            background: rgba(183, 28, 28, .15);
+            color: #ff8a80;
+            border-color: var(--vermelho);
+        }
+
+        .aviso-tipo.operacao {
+            background: rgba(255, 152, 0, .15);
+            color: #ffb74d;
+            border-color: #ef6c00;
+        }
+
+        .aviso-tipo.promocao {
+            background: rgba(27, 94, 32, .2);
+            color: #81c784;
+            border-color: #2e7d32;
+        }
+
+        .aviso-categoria {
+            color: var(--texto-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .aviso-card-body {
+            padding: 20px 22px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .aviso-card-body h3 {
+            color: var(--dourado);
+            font-size: 17px;
+            line-height: 1.35;
+            margin: 0;
+        }
+
+        .aviso-card-body p {
+            color: var(--texto);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+            display: -webkit-box;
+            line-clamp: 3;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .aviso-card-footer {
+            padding: 14px 22px;
+            border-top: 1px solid var(--borda);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, .2);
+            font-size: 12px;
+            color: var(--texto-muted);
+        }
+
+        .aviso-autor,
+        .aviso-data {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .aviso-autor i,
+        .aviso-data i {
+            color: var(--dourado);
+            font-size: 11px;
+        }
+
+        /* Estado vazio */
+        .avisos-vazio {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--texto-muted);
+        }
+
+        .avisos-vazio i {
+            font-size: 56px;
+            color: var(--dourado);
+            opacity: .4;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .avisos-vazio p {
+            font-size: 15px;
+            margin: 5px 0;
+        }
+
+        /* Contador */
+        .avisos-contador {
+            text-align: center;
+            color: var(--texto-muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .avisos-contador strong {
+            color: var(--dourado);
+        }
+
+        /* ===== MODAL ===== */
+        .post-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .92);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            padding: 30px 20px;
+            overflow-y: auto;
+        }
+
+        .post-modal.open {
+            display: block;
+            animation: fadeIn .3s;
+        }
+
+        .post-conteudo {
+            max-width: 850px;
+            margin: 30px auto;
+            background: var(--preto-card);
+            border: 2px solid var(--cor-tipo, var(--dourado));
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .7);
+        }
+
+        .post-header {
+            background: linear-gradient(135deg, var(--preto-suave), var(--preto-card));
+            padding: 25px 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            border-bottom: 2px solid var(--cor-tipo, var(--dourado));
+            position: relative;
+        }
+
+        .post-header-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--cor-tipo, var(--dourado)), var(--dourado-hover));
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .post-header-info {
+            flex: 1;
+        }
+
+        .post-badge {
+            display: inline-block;
+            background: rgba(201, 162, 39, .15);
+            border: 1px solid var(--dourado);
+            color: var(--dourado);
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 11px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .post-header-info h2 {
+            color: var(--dourado);
+            font-size: 22px;
+            margin: 0 0 8px;
+            line-height: 1.3;
+        }
+
+        .post-meta {
+            color: var(--texto-muted);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .post-meta i {
+            color: var(--dourado);
+            font-size: 11px;
+        }
+
+        .post-close {
+            background: transparent;
+            border: none;
+            color: var(--dourado);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: .3s;
+            flex-shrink: 0;
+        }
+
+        .post-close:hover {
+            background: var(--vermelho);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .post-body {
+            padding: 30px 40px;
+            color: var(--texto);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .post-body p {
+            margin-bottom: 15px;
+        }
+
+        .post-body strong {
+            color: var(--dourado);
+        }
+
+        .post-body ul {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .post-body ul li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+        }
+
+        .post-body ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 8px;
+            color: var(--dourado);
+            font-size: 12px;
+        }
+
+        .post-imagem-modal {
+            width: 100%;
+            margin: 0 0 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--borda);
+            background: #000;
+        }
+
+        .post-imagem-modal img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Responsivo */
+        @media (max-width: 700px) {
+            .avisos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .aviso-card-imagem {
+                height: 150px;
+            }
+
+            .post-body {
+                padding: 22px 20px;
+            }
+
+            .post-header {
+                padding: 20px;
+                flex-wrap: wrap;
+            }
+
+            .post-header-info h2 {
+                font-size: 17px;
+            }
+
+            .filtro-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .filtro-btn span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/img/logo.png" alt="Logo PC-RJ">
+                <span>POLÍCIA CIVIL — RJ</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navList">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cargos.html">Cargos</a></li>
+                    <li><a href="concursos.html">Concursos</a></li>
+                    <li><a href="galeria.html">Galeria</a></li>
+                    <li><a href="utilidades.html">Utilidades</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li class="nav-actions">
+                        <a href="painel.html" class="btn-login">
+                            <i class="fa-solid fa-lock"></i> Área Restrita
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section>
+        <h2>Avisos e Notícias</h2>
+        <p style="margin-bottom:30px;">Todos os comunicados oficiais, operações, pacificações e notícias da PCERJ.</p>
+
+        <!-- CONTADOR -->
+        <div class="avisos-contador" id="avisosContador">
+            Carregando publicações...
+        </div>
+
+        <!-- BUSCA -->
+        <div class="avisos-busca">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="buscaInput" placeholder="Buscar por título ou conteúdo...">
+        </div>
+
+        <!-- FILTROS -->
+        <div class="avisos-filtros">
+            <button class="filtro-btn ativo" data-filtro="todos">
+                <i class="fa-solid fa-list"></i> <span>Todos</span>
+            </button>
+            <button class="filtro-btn" data-filtro="aviso">
+                <i class="fa-solid fa-bullhorn"></i> <span>Avisos</span>
+            </button>
+            <button class="filtro-btn" data-filtro="noticia">
+                <i class="fa-solid fa-newspaper"></i> <span>Notícias</span>
+            </button>
+            <button class="filtro-btn" data-filtro="pacificacao">
+                <i class="fa-solid fa-shield-halved"></i> <span>Pacific.</span>
+            </button>
+            <button class="filtro-btn" data-filtro="operacao">
+                <i class="fa-solid fa-crosshairs"></i> <span>Operações</span>
+            </button>
+            <button class="filtro-btn" data-filtro="promocao">
+                <i class="fa-solid fa-medal"></i> <span>Promoções</span>
+            </button>
+        </div>
+
+        <!-- GRID -->
+        <div class="avisos-grid" id="avisosGrid"></div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="post-modal" id="postModal">
+        <div class="post-conteudo">
+            <div class="post-header">
+                <div class="post-header-icon" id="postIcon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div class="post-header-info">
+                    <span class="post-badge" id="postBadge">AVISO</span>
+                    <h2 id="postTitulo">Título</h2>
+                    <span class="post-meta" id="postMeta">Autor · Data</span>
+                </div>
+                <button class="post-close" id="postClose" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="post-body" id="postBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Polícia Civil RJ — Revoada RJ | Todos os direitos reservados</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+
+    <script type="module">
+        /* ============================================================
+           SUPABASE
+           ============================================================ */
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabase = createClient(
+            'https://tiokyomdsfgdloyxiazc.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpb2t5b21kc2ZnZGxveXhpYXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4OTMyMDksImV4cCI6MjEwNjQ2OTIwOX0.HJwTC3sgDfofEHaidpM2H3O7dGDnpcUdGttM5dTsLR8'
+        );
+
+        /* ============================================================
+           TIPOS
+           ============================================================ */
+        const TIPOS_CONFIG = {
+            aviso: { cor: "#c9a227", icone: "fa-bullhorn", label: "AVISO" },
+            noticia: { cor: "#1565c0", icone: "fa-newspaper", label: "NOTÍCIA" },
+            pacificacao: { cor: "#b71c1c", icone: "fa-shield-halved", label: "PACIFICAÇÃO" },
+            operacao: { cor: "#ef6c00", icone: "fa-crosshairs", label: "OPERAÇÃO" },
+            promocao: { cor: "#2e7d32", icone: "fa-medal", label: "PROMOÇÃO" }
+        };
+
+        let POSTS_DATA = [];
+        let filtroAtual = 'todos';
+        let buscaAtual = '';
+
+        /* ============================================================
+           CARREGAR DO SUPABASE
+           ============================================================ */
+        async function carregarAvisos() {
+            try {
+                const { data, error } = await supabase
+                    .from('avisos')
+                    .select('*')
+                    .order('criado_em', { ascending: false });
+
+                if (error) throw error;
+
+                POSTS_DATA = (data || []).map(a => ({
+                    id: a.id,
+                    tipo: a.tipo,
+                    categoria: a.categoria || 'Geral',
+                    titulo: a.titulo,
+                    preview: a.preview || '',
+                    conteudo: a.conteudo || '<p>Sem conteúdo.</p>',
+                    autor: a.autor || 'Comando PCERJ',
+                    data: new Date(a.criado_em).toLocaleDateString('pt-BR'),
+                    hora: new Date(a.criado_em).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+                    imagem: a.imagem_url,
+                    destaque: a.destaque
+                }));
+            } catch (err) {
+                console.error('Erro ao carregar avisos:', err);
+                POSTS_DATA = [];
+            }
+        }
+
+        /* ============================================================
+           RENDER
+           ============================================================ */
+        function renderAvisos() {
+            const grid = document.getElementById('avisosGrid');
+            const contador = document.getElementById('avisosContador');
+            if (!grid) return;
+
+            // Filtrar
+            let filtrados = POSTS_DATA;
+
+            if (filtroAtual !== 'todos') {
+                filtrados = filtrados.filter(p => p.tipo === filtroAtual);
+            }
+
+            if (buscaAtual.trim()) {
+                const busca = buscaAtual.toLowerCase();
+                filtrados = filtrados.filter(p =>
+                    p.titulo.toLowerCase().includes(busca) ||
+                    (p.preview && p.preview.toLowerCase().includes(busca)) ||
+                    (p.categoria && p.categoria.toLowerCase().includes(busca)) ||
+                    (p.autor && p.autor.toLowerCase().includes(busca))
+                );
+            }
+
+            // Ordenar: destaque primeiro
+            filtrados = [...filtrados].sort((a, b) => {
+                if (a.destaque && !b.destaque) return -1;
+                if (!a.destaque && b.destaque) return 1;
+                return 0;
+            });
+
+            // Contador
+            const total = POSTS_DATA.length;
+            const mostrando = filtrados.length;
+            if (total === 0) {
+                contador.innerHTML = 'Nenhuma publicação cadastrada ainda.';
+            } else if (mostrando === total && !buscaAtual.trim() && filtroAtual === 'todos') {
+                contador.innerHTML = `Mostrando <strong>${total}</strong> ${total === 1 ? 'publicação' : 'publicações'}`;
+            } else {
+                contador.innerHTML = `Mostrando <strong>${mostrando}</strong> de <strong>${total}</strong> publicações`;
+            }
+
+            // Vazio
+            if (filtrados.length === 0) {
+                grid.innerHTML = `
+          <div class="avisos-vazio">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <p>Nenhuma publicação encontrada.</p>
+            <p style="font-size:13px; opacity:.7;">Tente outro filtro ou termo de busca.</p>
+          </div>
+        `;
+                return;
+            }
+
+            // Cards
+            grid.innerHTML = filtrados.map(p => {
+                const tipo = TIPOS_CONFIG[p.tipo] || TIPOS_CONFIG.aviso;
+                return `
+          <div class="aviso-card" data-id="${p.id}" style="--cor-tipo: ${tipo.cor};">
+            ${p.imagem ? `
+              <div class="aviso-card-imagem">
+                <img src="${p.imagem}" alt="${p.titulo}" onerror="this.parentElement.style.display='none';">
+              </div>
+            ` : ''}
+            <div class="aviso-card-header">
+              <span class="aviso-tipo ${p.tipo}">
+                <i class="fa-solid ${tipo.icone}"></i> ${tipo.label}
+              </span>
+              <span class="aviso-categoria">${p.categoria}</span>
+            </div>
+            <div class="aviso-card-body">
+              <h3>${p.titulo}</h3>
+              <p>${p.preview}</p>
+            </div>
+            <div class="aviso-card-footer">
+              <div class="aviso-autor">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>${p.autor}</span>
+              </div>
+              <div class="aviso-data">
+                <i class="fa-solid fa-clock"></i>
+                <span>${p.data}</span>
+              </div>
+            </div>
+          </div>
+        `;
+            }).join('');
+
+            // Listeners
+            grid.querySelectorAll('.aviso-card').forEach(card => {
+                card.addEventListener('click', () => abrirPost(card.dataset.id));
+            });
+        }
+
+        /* ============================================================
+           MODAL
+           ============================================================ */
+        function abrirPost(id) {
+            const post = POSTS_DATA.find(p => p.id === id);
+            if (!post) return;
+
+            const tipo = TIPOS_CONFIG[post.tipo] || TIPOS_CONFIG.aviso;
+
+            document.getElementById('postIcon').innerHTML = `<i class="fa-solid ${tipo.icone}"></i>`;
+            document.getElementById('postBadge').textContent = tipo.label;
+            document.getElementById('postTitulo').textContent = post.titulo;
+            document.getElementById('postMeta').innerHTML = `<i class="fa-solid fa-user-shield"></i> ${post.autor} &nbsp;·&nbsp; <i class="fa-solid fa-calendar"></i> ${post.data} às ${post.hora}`;
+
+            let bodyHTML = '';
+            if (post.imagem) {
+                bodyHTML += `
+          <div class="post-imagem-modal">
+            <img src="${post.imagem}" alt="${post.titulo}" onerror="this.parentElement.style.display='none';">
+          </div>
+        `;
+            }
+            bodyHTML += post.conteudo;
+
+            document.getElementById('postBody').innerHTML = bodyHTML;
+            document.getElementById('postBadge').style.borderColor = tipo.cor;
+            document.getElementById('postBadge').style.color = tipo.cor;
+            document.getElementById('postIcon').style.background = `linear-gradient(135deg, ${tipo.cor}, ${tipo.cor}cc)`;
+            document.querySelector('.post-conteudo').style.setProperty('--cor-tipo', tipo.cor);
+
+            document.getElementById('postModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharPost() {
+            document.getElementById('postModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('postClose')?.addEventListener('click', fecharPost);
+        document.getElementById('postModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'postModal') fecharPost();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') fecharPost();
+        });
+
+        /* ============================================================
+           FILTROS E BUSCA
+           ============================================================ */
+        document.querySelectorAll('.filtro-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
+                btn.classList.add('ativo');
+                filtroAtual = btn.dataset.filtro;
+                renderAvisos();
+            });
+        });
+
+        document.getElementById('buscaInput')?.addEventListener('input', (e) => {
+            buscaAtual = e.target.value;
+            renderAvisos();
+        });
+
+        /* ============================================================
+           INIT
+           ============================================================ */
+        (async () => {
+            await carregarAvisos();
+            renderAvisos();
+        })();
+    </script>
+</body>
+
+</html>

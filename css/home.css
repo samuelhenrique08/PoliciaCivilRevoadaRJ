@@ -607,3 +607,52 @@
     font-size: 17px;
   }
 }
+
+/* ===== IMAGEM NO CARD DE AVISO ===== */
+.post-card-imagem {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--borda);
+  background: #000;
+}
+
+.post-card-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: .4s;
+}
+
+.post-card:hover .post-card-imagem img {
+  transform: scale(1.05);
+}
+
+.post-pin {
+  color: var(--dourado);
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* ===== IMAGEM NO MODAL DO POST ===== */
+.post-imagem-modal {
+  width: 100%;
+  margin: -10px 0 25px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--borda);
+  background: #000;
+}
+
+.post-imagem-modal img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 700px) {
+  .post-imagem-modal img {
+    max-height: 250px;
+  }
+}

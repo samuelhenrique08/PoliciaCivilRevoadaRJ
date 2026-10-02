@@ -1405,3 +1405,314 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================================
+   SEÇÃO AVISOS
+   ============================================================ */
+
+.avisos-lista-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.aviso-edit-card {
+    background: var(--preto-card);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    display: flex;
+    overflow: hidden;
+    transition: .3s;
+    position: relative;
+}
+
+.aviso-edit-card:hover {
+    border-color: rgba(201, 162, 39, .5);
+}
+
+.aviso-edit-card.destaque {
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 1px rgba(201, 162, 39, .3);
+}
+
+.aviso-edit-barra {
+    width: 5px;
+    flex-shrink: 0;
+}
+
+.aviso-edit-conteudo {
+    flex: 1;
+    padding: 18px 22px;
+    min-width: 0;
+}
+
+.aviso-edit-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.aviso-edit-tipo {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.aviso-edit-categoria {
+    font-size: 11px;
+    color: var(--texto-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.aviso-edit-pin {
+    font-size: 11px;
+    color: var(--dourado);
+    background: rgba(201, 162, 39, .15);
+    border: 1px solid var(--dourado);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.aviso-edit-titulo {
+    color: var(--dourado);
+    font-size: 16px;
+    margin: 0 0 6px;
+    line-height: 1.3;
+}
+
+.aviso-edit-preview {
+    color: var(--texto);
+    font-size: 13.5px;
+    margin: 0 0 12px;
+    line-height: 1.5;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.aviso-edit-meta {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    color: var(--texto-muted);
+}
+
+.aviso-edit-meta i {
+    color: var(--dourado);
+    margin-right: 4px;
+    font-size: 10px;
+}
+
+.aviso-edit-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    background: rgba(0, 0, 0, .2);
+    border-left: 1px solid var(--borda);
+    justify-content: center;
+}
+
+.btn-perigo:hover {
+    border-color: var(--vermelho) !important;
+    color: #ff8a80 !important;
+    background: rgba(183, 28, 28, .15) !important;
+}
+
+/* ============================================================
+   FORM DE AVISO (overlay)
+   ============================================================ */
+.aviso-form-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .85);
+    backdrop-filter: blur(6px);
+    z-index: 9998;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 20px;
+    overflow-y: auto;
+}
+
+.aviso-form-overlay.open {
+    display: flex;
+    animation: fadeIn .3s;
+}
+
+.aviso-form {
+    background: var(--preto-card);
+    border: 2px solid var(--dourado);
+    border-radius: 14px;
+    max-width: 780px;
+    width: 100%;
+    margin: 30px auto;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .7);
+}
+
+.aviso-form-header {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--borda);
+    background: var(--preto-suave);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.aviso-form-header h3 {
+    color: var(--dourado);
+    font-size: 18px;
+    margin: 0;
+}
+
+.btn-fechar {
+    background: transparent;
+    border: 1px solid var(--borda);
+    color: var(--texto-muted);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.btn-fechar:hover {
+    background: var(--vermelho);
+    border-color: var(--vermelho);
+    color: #fff;
+}
+
+.aviso-form-body {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.aviso-form-body textarea {
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--texto);
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    transition: .3s;
+}
+
+.aviso-form-body textarea:focus {
+    outline: none;
+    border-color: var(--dourado);
+    background: var(--preto-suave);
+}
+
+.aviso-form-body select {
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--texto);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.aviso-form-body select:focus {
+    outline: none;
+    border-color: var(--dourado);
+}
+
+.form-linha-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.form-linha-check:hover {
+    border-color: var(--dourado);
+}
+
+.form-linha-check input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--dourado);
+}
+
+.form-linha-check label {
+    color: var(--texto);
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.aviso-form-footer {
+    padding: 18px 28px;
+    border-top: 1px solid var(--borda);
+    background: var(--preto-suave);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Responsivo */
+@media (max-width: 700px) {
+    .aviso-edit-card {
+        flex-direction: column;
+    }
+
+    .aviso-edit-barra {
+        width: 100%;
+        height: 4px;
+    }
+
+    .aviso-edit-acoes {
+        flex-direction: row;
+        justify-content: center;
+        border-left: none;
+        border-top: 1px solid var(--borda);
+        padding: 12px;
+    }
+
+    .aviso-form-body {
+        padding: 20px;
+    }
+
+    .aviso-form-header {
+        padding: 18px 20px;
+    }
+
+    .aviso-form-footer {
+        padding: 15px 20px;
+    }
+}
