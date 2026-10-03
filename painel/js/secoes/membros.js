@@ -160,7 +160,7 @@ function processarPrompt() {
             const conteudo = linha.replace(/^:seta:\s*/, '').trim();
 
             // Formato: @[SIGLA] Nome | ID  OU  @[SIGLA] Nome 🦅
-            const match = conteudo.match(/^@\[(.+?)\]\s*(.+)$/);
+            const match = conteudo.match(/^@!?\[(.+?)\]\s*(.+)$/);
             if (!match) continue;
 
             const sigla = match[1].trim();
