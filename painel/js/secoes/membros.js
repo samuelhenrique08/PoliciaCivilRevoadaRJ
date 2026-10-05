@@ -10,30 +10,35 @@ let niveis = [];
    MAPA DE ÍCONES E LOGOS POR CARGO
    ============================================================ */
 const CARGOS_CONFIG = {
-    'Secretário de Segurança Pública': { icone: 'fa-user-tie', logo: null },
-    'Comandante Geral': { icone: 'fa-crown', logo: null },
-    'Subcomandante Geral': { icone: 'fa-star', logo: null },
-    'Delegado PCERJ': { icone: 'fa-user-shield', logo: null },
-    'Delegado Adj. PCERJ': { icone: 'fa-user-shield', logo: null },
-    'Comando CORE': { icone: 'fa-crosshairs', logo: 'assets/img/concursos/core.png' },
-    'Comando CGPC': { icone: 'fa-clipboard-check', logo: 'assets/img/concursos/cgpc.png' },
-    'Comando SAER': { icone: 'fa-helicopter', logo: 'assets/img/concursos/saer.png' },
-    'Comando GEM': { icone: 'fa-motorcycle', logo: 'assets/img/concursos/gem.png' },
-    'Coordenador Civil': { icone: 'fa-diagram-project', logo: null },
-    'Supervisor Geral Civil': { icone: 'fa-user-check', logo: null },
-    'Comissário de Polícia': { icone: 'fa-clipboard-list', logo: null },
-    'Investigador de Operações Especiais': { icone: 'fa-bullseye', logo: null },
-    'Inspetor Civil': { icone: 'fa-user-police', logo: null },
-    'Investigador Operacional Civil': { icone: 'fa-person-running', logo: null },
-    'Escrivão Civil': { icone: 'fa-file-signature', logo: null },
-    'Investigador Especial': { icone: 'fa-star', logo: null },
-    'Investigador 1ª Classe': { icone: 'fa-medal', logo: null },
-    'Investigador 2ª Classe': { icone: 'fa-award', logo: null },
-    'Investigador 3ª Classe': { icone: 'fa-certificate', logo: null },
-    'Aluno PCERJ': { icone: 'fa-graduation-cap', logo: null }
+    'SECRETÁRIO DE SEGURANÇA PÚBLICA': { icone: 'fa-user-tie', logo: null },
+    'COMANDANTE GERAL': { icone: 'fa-crown', logo: null },
+    'SUBCOMANDANTE GERAL': { icone: 'fa-star', logo: null },
+    'DELEGADO PCERJ': { icone: 'fa-user-shield', logo: null },
+    'DELEGADO ADJ. PCERJ': { icone: 'fa-user-shield', logo: null },
+    'COMANDO CORE': { icone: 'fa-crosshairs', logo: 'assets/img/concursos/core.png' },
+    'COMANDO CGPC': { icone: 'fa-clipboard-check', logo: 'assets/img/concursos/cgpc.png' },
+    'COMANDO SAER': { icone: 'fa-helicopter', logo: 'assets/img/concursos/saer.png' },
+    'COMANDO GEM': { icone: 'fa-motorcycle', logo: 'assets/img/concursos/gem.png' },
+    'COORDENADOR PCERJ': { icone: 'fa-diagram-project', logo: null },
+    'COORDENADOR CIVIL': { icone: 'fa-diagram-project', logo: null },
+    'SUPERVISOR GERAL PCERJ': { icone: 'fa-user-check', logo: null },
+    'SUPERVISOR GERAL CIVIL': { icone: 'fa-user-check', logo: null },
+    'COMISSÁRIO DE POLÍCIA': { icone: 'fa-clipboard-list', logo: null },
+    'INVESTIGADOR DE OPERAÇÕES ESPECIAIS': { icone: 'fa-bullseye', logo: null },
+    'INSPETOR': { icone: 'fa-user-police', logo: null },
+    'INSPETOR CIVIL': { icone: 'fa-user-police', logo: null },
+    'INVESTIGADOR OPERACIONAL': { icone: 'fa-person-running', logo: null },
+    'INVESTIGADOR OPERACIONAL CIVIL': { icone: 'fa-person-running', logo: null },
+    'ESCRIVÃO': { icone: 'fa-file-signature', logo: null },
+    'ESCRIVÃO CIVIL': { icone: 'fa-file-signature', logo: null },
+    'INVESTIGADOR ESPECIAL': { icone: 'fa-star', logo: null },
+    'INVESTIGADOR 1ª CLASSE': { icone: 'fa-medal', logo: null },
+    'INVESTIGADOR 2ª CLASSE': { icone: 'fa-award', logo: null },
+    'INVESTIGADOR 3ª CLASSE': { icone: 'fa-certificate', logo: null },
+    'ALUNO PCERJ': { icone: 'fa-graduation-cap', logo: null }
 };
 
-const CARGOS_ESPECIAIS = ['Comando CORE', 'Comando CGPC', 'Comando SAER', 'Comando GEM'];
+const CARGOS_ESPECIAIS = ['COMANDO CORE', 'COMANDO CGPC', 'COMANDO SAER', 'COMANDO GEM'];
 
 /* ============================================================
    INIT
@@ -127,21 +132,27 @@ function processarPrompt() {
     let atual = null;
 
     for (const linha of linhas) {
-        // Linha de cargo: @・Nome do Cargo (N)
-        if (linha.startsWith('@・')) {
-            // Se tinha um nível anterior, salva
+        // Ignorar linhas de rodapé
+        if (/^Total de:|^Hierarquia atualizada em:|^HIERARQUIA PCERJ$/i.test(linha)) {
+            continue;
+        }
+
+        // Detectar linha de cargo: "NOME DO CARGO (N)" ou "@・Nome (N)"
+        const matchCargo = linha.match(/^@?・?(.+?)\s*\((\d+)\)\s*$/);
+        if (matchCargo && !linha.startsWith('➜') && !linha.startsWith(':seta:')) {
+            // Salva o nível anterior
             if (atual) novos.push(atual);
 
-            const match = linha.match(/^@・(.+?)\s*\((\d+)\)\s*$/);
-            if (!match) continue;
+            const cargoRaw = matchCargo[1].trim();
+            const cargoUpper = cargoRaw.toUpperCase();
 
-            const cargo = match[1].trim();
-            const config = CARGOS_CONFIG[cargo] || { icone: 'fa-user', logo: null };
-            const especial = CARGOS_ESPECIAIS.includes(cargo);
+            // Busca config tanto em MAIÚSCULO quanto na forma original
+            const config = CARGOS_CONFIG[cargoUpper] || CARGOS_CONFIG[cargoRaw] || { icone: 'fa-user', logo: null };
+            const especial = CARGOS_ESPECIAIS.includes(cargoUpper);
 
             atual = {
                 ordem: novos.length + 1,
-                cargo: cargo,
+                cargo: cargoRaw,  // Salva como veio (pra exibir bonito)
                 icone: config.icone,
                 tipo_visual: config.logo ? 'logo' : 'icone',
                 logo_url: config.logo,
@@ -151,22 +162,18 @@ function processarPrompt() {
             continue;
         }
 
-        // Linha de membro: :seta: @[SIGLA] Nome | ID_OU_EMOJI
-        if (linha.startsWith(':seta:') && atual) {
-            // Ignorar "Nenhum membro."
+        // Detectar linha de membro: "➜ @[SIGLA] Nome | ID" ou ":seta: @[SIGLA]..."
+        if ((linha.startsWith('➜') || linha.startsWith(':seta:')) && atual) {
             if (linha.includes('Nenhum membro')) continue;
 
-            // Remove :seta: e pega o resto
-            const conteudo = linha.replace(/^:seta:\s*/, '').trim();
+            const conteudo = linha.replace(/^➜\s*/, '').replace(/^:seta:\s*/, '').trim();
 
-            // Formato: @[SIGLA] Nome | ID  OU  @[SIGLA] Nome 🦅
             const match = conteudo.match(/^@!?\[(.+?)\]\s*(.+)$/);
             if (!match) continue;
 
             const sigla = match[1].trim();
             let resto = match[2].trim();
 
-            // Separa nome e id (por | se existir)
             let nome = resto;
             let id = '';
 
@@ -176,15 +183,14 @@ function processarPrompt() {
                 id = partes[1] || '';
             }
 
-            // Remove emojis do nome (🦅, etc.) - remove tudo que não é letra/número/espaço/acento
+            // Remove emojis
             nome = nome.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim();
 
-            // Detecta se id é emoji (🦅) - nesse caso, guarda como "🦅"
+            // Detecta emoji no ID
             if (id && /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu.test(id)) {
                 id = '🦅';
             }
 
-            // Monta id final
             let idFinal = '';
             if (id === '🦅') {
                 idFinal = `[${sigla}]`;
@@ -198,7 +204,6 @@ function processarPrompt() {
         }
     }
 
-    // Salva último nível
     if (atual) novos.push(atual);
 
     if (novos.length === 0) {
@@ -206,10 +211,8 @@ function processarPrompt() {
         return;
     }
 
-    // Atualiza ordem
     niveis = novos.map((n, i) => ({ ...n, ordem: i + 1 }));
 
-    // Mostra info
     const totalMembros = niveis.reduce((acc, n) => acc + n.membros.length, 0);
     const info = document.getElementById('promptInfo');
     info.style.display = 'flex';
