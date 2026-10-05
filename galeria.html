@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
+        /* ===== FILTROS ===== */
         .galeria-filtros {
             display: flex;
             gap: 10px;
@@ -39,6 +40,7 @@
             border-color: var(--dourado);
         }
 
+        /* ===== GRID ===== */
         .galeria-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -53,6 +55,7 @@
             aspect-ratio: 4/3;
             border: 2px solid var(--borda);
             transition: .4s;
+            background: #000;
         }
 
         .galeria-item:hover {
@@ -99,6 +102,23 @@
             font-size: 13px;
         }
 
+        /* Vazio */
+        .galeria-vazio {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--texto-muted);
+        }
+
+        .galeria-vazio i {
+            font-size: 56px;
+            color: var(--dourado);
+            opacity: .4;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* ===== LIGHTBOX ===== */
         .lightbox {
             display: none;
             position: fixed;
@@ -148,6 +168,7 @@
             font-size: 18px;
             font-weight: bold;
             text-align: center;
+            max-width: 90%;
         }
     </style>
 </head>
@@ -187,85 +208,33 @@
         <p style="text-align:center; margin-bottom:30px;">Registros das principais operações, formaturas e ações da
             Polícia Civil de Revoada RJ.</p>
 
-        <div class="galeria-filtros">
-            <button class="filtro-btn ativo" data-filtro="todas"><i class="fa-solid fa-images"></i> Todas</button>
-            <button class="filtro-btn" data-filtro="operacoes"><i class="fa-solid fa-bullseye"></i> Operações</button>
-            <button class="filtro-btn" data-filtro="formaturas"><i class="fa-solid fa-graduation-cap"></i>
-                Formaturas</button>
-            <button class="filtro-btn" data-filtro="core"><i class="fa-solid fa-crosshairs"></i> CORE</button>
-            <button class="filtro-btn" data-filtro="saer"><i class="fa-solid fa-helicopter"></i> SAER</button>
-            <button class="filtro-btn" data-filtro="gem"><i class="fa-solid fa-motorcycle"></i> GEM</button>
+        <!-- FILTROS -->
+        <div class="galeria-filtros" id="galeriaFiltros">
+            <button class="filtro-btn ativo" data-filtro="todas">
+                <i class="fa-solid fa-images"></i> Todas
+            </button>
+            <button class="filtro-btn" data-filtro="operacoes">
+                <i class="fa-solid fa-crosshairs"></i> Operações
+            </button>
+            <button class="filtro-btn" data-filtro="formaturas">
+                <i class="fa-solid fa-graduation-cap"></i> Formaturas
+            </button>
+            <button class="filtro-btn" data-filtro="core">
+                <i class="fa-solid fa-shield-halved"></i> CORE
+            </button>
+            <button class="filtro-btn" data-filtro="saer">
+                <i class="fa-solid fa-helicopter"></i> SAER
+            </button>
+            <button class="filtro-btn" data-filtro="gem">
+                <i class="fa-solid fa-motorcycle"></i> GEM
+            </button>
         </div>
 
-        <div class="galeria-grid" id="galeriaGrid">
-
-            <div class="galeria-item" data-cat="operacoes">
-                <img src="assets/img/galeria/op1.jpg" alt="Operação 1">
-                <div class="galeria-overlay">
-                    <h4>Operação Caveira</h4>
-                    <span>Combate ao tráfico — Zona Norte</span>
-                </div>
-            </div>
-
-            <div class="galeria-item" data-cat="formaturas">
-                <img src="assets/img/galeria/op2.jpg" alt="Formatura">
-                <div class="galeria-overlay">
-                    <h4>Formatura Turma 2025</h4>
-                    <span>Novos investigadores formados</span>
-                </div>
-            </div>
-
-            <div class="galeria-item" data-cat="core">
-                <img src="assets/img/galeria/op3.jpg" alt="CORE">
-                <div class="galeria-overlay">
-                    <h4>Treinamento CORE</h4>
-                    <span>Operação de alto risco</span>
-                </div>
-            </div>
-
-            <div class="galeria-item" data-cat="saer">
-                <img src="assets/img/galeria/op4.jpg" alt="SAER">
-                <div class="galeria-overlay">
-                    <h4>Patrulha Aérea</h4>
-                    <span>SAER em ação</span>
-                </div>
-            </div>
-
-            <div class="galeria-item" data-cat="gem">
-                <img src="assets/img/galeria/op5.jpg" alt="GEM">
-                <div class="galeria-overlay">
-                    <h4>Perseguição GEM</h4>
-                    <span>Alta velocidade pelas ruas</span>
-                </div>
-            </div>
-
-            <div class="galeria-item" data-cat="operacoes">
-                <img src="assets/img/galeria/op6.jpg" alt="Operação 2">
-                <div class="galeria-overlay">
-                    <h4>Operação Limpeza</h4>
-                    <span>Desmanche de facção</span>
-                </div>
-            </div>
-
-            <div class="galeria-item" data-cat="core">
-                <img src="assets/img/galeria/op7.jpg" alt="CORE 2">
-                <div class="galeria-overlay">
-                    <h4>Resgate de Reféns</h4>
-                    <span>CORE em ação</span>
-                </div>
-            </div>
-
-            <div class="galeria-item" data-cat="formaturas">
-                <img src="assets/img/galeria/op8.jpg" alt="Formatura 2">
-                <div class="galeria-overlay">
-                    <h4>Entrega de Medalhas</h4>
-                    <span>Reconhecimento aos destaques</span>
-                </div>
-            </div>
-
-        </div>
+        <!-- GRID -->
+        <div class="galeria-grid" id="galeriaGrid"></div>
     </section>
 
+    <!-- LIGHTBOX -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" id="lightboxClose" aria-label="Fechar">
             <i class="fa-solid fa-xmark"></i>
@@ -279,7 +248,127 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script src="js/galeria.js"></script>
+
+    <script type="module">
+        /* ============================================================
+           SUPABASE
+           ============================================================ */
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabase = createClient(
+            'https://tiokyomdsfgdloyxiazc.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpb2t5b21kc2ZnZGxveXhpYXpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4OTMyMDksImV4cCI6MjEwNjQ2OTIwOX0.HJwTC3sgDfofEHaidpM2H3O7dGDnpcUdGttM5dTsLR8'
+        );
+
+        /* ============================================================
+           ESTADO
+           ============================================================ */
+        let FOTOS = [];
+        let filtroAtual = 'todas';
+
+        /* ============================================================
+           CARREGAR
+           ============================================================ */
+        async function carregarGaleria() {
+            try {
+                const { data, error } = await supabase
+                    .from('galeria')
+                    .select('*')
+                    .order('ordem', { ascending: true });
+
+                if (error) throw error;
+
+                FOTOS = data || [];
+            } catch (err) {
+                console.error('Erro ao carregar galeria:', err);
+                FOTOS = [];
+            }
+        }
+
+        /* ============================================================
+           RENDER
+           ============================================================ */
+        function renderGaleria() {
+            const grid = document.getElementById('galeriaGrid');
+            if (!grid) return;
+
+            const filtradas = filtroAtual === 'todas'
+                ? FOTOS
+                : FOTOS.filter(f => f.categoria === filtroAtual);
+
+            const ordenadas = [...filtradas].sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
+
+            if (ordenadas.length === 0) {
+                grid.innerHTML = `
+          <div class="galeria-vazio">
+            <i class="fa-solid fa-camera-retro"></i>
+            <p>Nenhuma foto nesta categoria.</p>
+          </div>
+        `;
+                return;
+            }
+
+            grid.innerHTML = ordenadas.map(f => `
+        <div class="galeria-item" data-id="${f.id}">
+          <img src="${f.imagem_url}" alt="${f.titulo}" loading="lazy" onerror="this.src='assets/img/logo.png'; this.style.opacity='.3';">
+          <div class="galeria-overlay">
+            <h4>${f.titulo}</h4>
+            <span>${f.descricao || ''}</span>
+          </div>
+        </div>
+      `).join('');
+
+            grid.querySelectorAll('.galeria-item').forEach(item => {
+                item.addEventListener('click', () => abrirLightbox(item.dataset.id));
+            });
+        }
+
+        /* ============================================================
+           LIGHTBOX
+           ============================================================ */
+        function abrirLightbox(id) {
+            const foto = FOTOS.find(f => f.id === id);
+            if (!foto) return;
+
+            document.getElementById('lightboxImg').src = foto.imagem_url;
+            document.getElementById('lightboxCaption').textContent = foto.titulo + (foto.descricao ? ' — ' + foto.descricao : '');
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('lightboxClose')?.addEventListener('click', fecharLightbox);
+        document.getElementById('lightbox')?.addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') fecharLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') fecharLightbox();
+        });
+
+        /* ============================================================
+           FILTROS
+           ============================================================ */
+        document.querySelectorAll('.filtro-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
+                btn.classList.add('ativo');
+                filtroAtual = btn.dataset.filtro;
+                renderGaleria();
+            });
+        });
+
+        /* ============================================================
+           INIT
+           ============================================================ */
+        (async () => {
+            await carregarGaleria();
+            renderGaleria();
+        })();
+    </script>
 </body>
 
 </html>

@@ -2278,3 +2278,218 @@ body {
     border-color: var(--verde);
     color: #fff;
 }
+
+/* ============================================================
+   SEÇÃO GALERIA
+   ============================================================ */
+
+/* Filtros */
+.galeria-filtros-edit {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.filtro-edit {
+    background: transparent;
+    border: 1px solid var(--borda);
+    color: var(--texto);
+    padding: 9px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.filtro-edit:hover,
+.filtro-edit.ativo {
+    background: var(--dourado);
+    color: #000;
+    border-color: var(--dourado);
+}
+
+/* Grid de fotos */
+.galeria-grid-edit {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.foto-edit-card {
+    background: var(--preto-card);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: .3s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.foto-edit-card:hover {
+    border-color: var(--dourado);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(201, 162, 39, .2);
+}
+
+.foto-edit-imagem {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #000;
+    overflow: hidden;
+}
+
+.foto-edit-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .4s;
+}
+
+.foto-edit-card:hover .foto-edit-imagem img {
+    transform: scale(1.05);
+}
+
+.foto-edit-imagem.erro::before {
+    content: '\f127';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--texto-muted);
+    font-size: 36px;
+    opacity: .4;
+}
+
+.foto-edit-cat {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    border: 1px solid;
+    backdrop-filter: blur(6px);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.foto-edit-ordem {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, .7);
+    backdrop-filter: blur(6px);
+    color: var(--dourado);
+    letter-spacing: .5px;
+}
+
+.foto-edit-info {
+    padding: 16px 18px;
+    flex: 1;
+}
+
+.foto-edit-info h3 {
+    color: var(--dourado);
+    font-size: 15px;
+    margin: 0 0 5px;
+    line-height: 1.3;
+}
+
+.foto-edit-info p {
+    color: var(--texto-muted);
+    font-size: 12.5px;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.foto-edit-acoes {
+    display: flex;
+    gap: 8px;
+    padding: 12px 18px;
+    border-top: 1px solid var(--borda);
+    background: rgba(0, 0, 0, .2);
+}
+
+.foto-edit-acoes .btn-icon {
+    flex: 1;
+    height: 36px;
+}
+
+/* Preview no form */
+.galeria-preview-form {
+    width: 100%;
+    aspect-ratio: 16/9;
+    max-height: 320px;
+    background: var(--preto);
+    border: 2px dashed var(--borda);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.galeria-preview-form img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.galeria-preview-vazio {
+    text-align: center;
+    color: var(--texto-muted);
+}
+
+.galeria-preview-vazio i {
+    font-size: 42px;
+    color: var(--dourado);
+    opacity: .4;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.galeria-preview-vazio span {
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* Responsivo */
+@media (max-width: 700px) {
+    .galeria-grid-edit {
+        grid-template-columns: 1fr;
+    }
+
+    .galeria-filtros-edit {
+        justify-content: center;
+    }
+
+    .filtro-edit span {
+        display: none;
+    }
+
+    .filtro-edit {
+        padding: 10px 14px;
+    }
+}
