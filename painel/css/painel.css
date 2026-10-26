@@ -2834,3 +2834,77 @@ body {
         margin-top: 12px;
     }
 }
+
+/* ============================================================
+   MEMORIAL (Painel)
+   ============================================================ */
+.memorial-grupo-edit {
+    margin-bottom: 30px;
+    background: var(--preto-card);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.memorial-grupo-titulo {
+    background: var(--preto-suave);
+    color: var(--dourado);
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 16px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.memorial-mandatos-edit {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.memorial-mandato-edit {
+    border-left: 3px solid var(--dourado);
+    padding-left: 15px;
+}
+
+.memorial-mandato-num {
+    display: inline-block;
+    background: rgba(201, 162, 39, .15);
+    color: var(--dourado);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.memorial-membros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.memorial-membro-edit {
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.memorial-membro-edit i {
+    color: var(--dourado);
+}
+
+.memorial-membro-edit strong {
+    display: block;
+    color: var(--texto);
+    font-size: 13px;
+}
+
+.memorial-membro-edit span {
+    color: var(--texto-muted);
+    font-size: 11px;
+}

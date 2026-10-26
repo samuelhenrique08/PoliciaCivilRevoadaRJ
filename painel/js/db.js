@@ -369,3 +369,28 @@ export async function deletarUniforme(id) {
     if (error) throw error;
     return true;
 }
+
+/* ============================================================
+   MEMORIAL
+   ============================================================ */
+export async function getMemorial() {
+    const { data, error } = await supabase
+        .from('memorial')
+        .select('*')
+        .order('ordem', { ascending: true });
+    if (error) throw error;
+    return data || [];
+}
+
+export async function salvarMemorial(lista) {
+    // Apaga tudo e insere de novo
+    const { error: errDelete } = await supabase.from('memorial').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    if (errDelete) throw errDelete;
+
+    if (lista.length === 0) return true;
+
+    const { error: errInsert } = await supabase.from('memorial').insert(lista);
+    if (errInsert) throw errInsert;
+
+    return true;
+}

@@ -1009,38 +1009,73 @@
     /* ============================================================
        RENDER MEMORIAL — estático
        ============================================================ */
-    function renderMemorial() {
+    async function renderMemorial() {
       const el = document.getElementById('memorialLista');
       if (!el) return;
 
+      let dados = [];
+      try {
+        const { data, error } = await supabase.from('memorial').select('*').order('ordem', { ascending: true });
+        if (error) throw error;
+        dados = data || [];
+      } catch (err) {
+        console.warn('Erro ao carregar memorial:', err);
+        el.innerHTML = '<p style="text-align:center; color:var(--texto-muted);">Nenhum dado cadastrado ainda.</p>';
+        return;
+      }
+
+      if (dados.length === 0) {
+        el.innerHTML = '<p style="text-align:center; color:var(--texto-muted);">Nenhum dado cadastrado ainda.</p>';
+        return;
+      }
+
+      // Agrupar por Gestão
+      const gestoes = {};
+      dados.forEach(m => {
+        if (!gestoes[m.gestao]) gestoes[m.gestao] = [];
+        gestoes[m.gestao].push(m);
+      });
+
       let html = '';
-      MEMORIAL_DATA.forEach(gestao => {
+      Object.keys(gestoes).forEach(gestao => {
         html += `
-        <div class="gestao-bloco">
-          <div class="gestao-header">
-            <div class="gestao-icon"><i class="fa-solid fa-gavel"></i></div>
-            <h4>${gestao.gestao}</h4>
-          </div>
-          <div class="gestao-body">
+      <div class="gestao-bloco">
+        <div class="gestao-header">
+          <div class="gestao-icon"><i class="fa-solid fa-gavel"></i></div>
+          <h4>${gestao}</h4>
+        </div>
+        <div class="gestao-body">
+    `;
+
+        const mandatos = {};
+        gestoes[gestao].forEach(m => {
+          if (!mandatos[m.mandato]) mandatos[m.mandato] = [];
+          mandatos[m.mandato].push(m);
+        });
+
+        Object.keys(mandatos).forEach(mandato => {
+          html += `
+        <div class="mandato">
+          <span class="mandato-codigo">${mandato}</span>
+          <div class="mandato-membros">
       `;
 
-        gestao.mandatos.forEach(m => {
-          html += `
-          <div class="mandato">
-            <span class="mandato-codigo">${m.codigo}</span>
-            <div class="mandato-membros">
-        `;
-          m.membros.forEach(mem => {
+          mandatos[mandato].forEach(m => {
+            const nome = m.delegado_nome || m.adjunto_nome;
+            const apelido = m.delegado_apelido || m.adjunto_apelido;
+            const cargo = m.delegado_cargo || 'Delegado PCERJ';
+
             html += `
-            <div class="mandato-membro">
-              <i class="fa-solid fa-shield-halved"></i>
-              <div>
-                <span class="nome-real">${mem.nome}</span>
-                <span class="cargo-info">${mem.cargo}${mem.apelido && mem.apelido !== '—' ? ' · "' + mem.apelido + '"' : ''}</span>
-              </div>
+          <div class="mandato-membro">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <span class="nome-real">${nome}</span>
+              <span class="cargo-info">${cargo}${apelido ? ' · "' + apelido + '"' : ''}</span>
             </div>
-          `;
+          </div>
+        `;
           });
+
           html += `</div></div>`;
         });
 
