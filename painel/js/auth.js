@@ -15,7 +15,7 @@ export function temPermissao(secao) {
     const role = usuarioAtual.role;
 
     const permissoes = {
-        master: ['dashboard', 'comando', 'membros', 'avisos', 'concursos', 'galeria', 'tutoriais'],
+        master: ['dashboard', 'comando', 'membros', 'avisos', 'concursos', 'galeria', 'tutoriais', 'viaturas', 'uniformes'],
         editor: ['dashboard', 'avisos', 'concursos']
     };
 

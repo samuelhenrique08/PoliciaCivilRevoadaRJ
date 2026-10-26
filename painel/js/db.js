@@ -291,3 +291,81 @@ export async function contarTutoriais() {
     if (error) throw error;
     return count || 0;
 }
+
+/* ============================================================
+   VIATURAS
+   ============================================================ */
+export async function getViaturasGrupos() {
+    const { data, error } = await supabase.from('viaturas_grupos').select('*, viaturas(*)').order('ordem');
+    if (error) throw error;
+    return data || [];
+}
+
+export async function criarViaturaGrupo(grupo) {
+    const { data, error } = await supabase.from('viaturas_grupos').insert(grupo).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function atualizarViaturaGrupo(id, dados) {
+    const { data, error } = await supabase.from('viaturas_grupos').update(dados).eq('id', id).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function deletarViaturaGrupo(id) {
+    const { error } = await supabase.from('viaturas_grupos').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+}
+
+export async function criarViatura(viatura) {
+    const { data, error } = await supabase.from('viaturas').insert(viatura).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function atualizarViatura(id, dados) {
+    const { data, error } = await supabase.from('viaturas').update(dados).eq('id', id).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function deletarViatura(id) {
+    const { error } = await supabase.from('viaturas').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+}
+
+/* ============================================================
+   UNIFORMES
+   ============================================================ */
+export async function getUniformesGrupos() {
+    const { data, error } = await supabase.from('uniformes_grupos').select('*, uniformes(*)').order('ordem');
+    if (error) throw error;
+    return data || [];
+}
+
+export async function atualizarUniformeGrupo(id, dados) {
+    const { data, error } = await supabase.from('uniformes_grupos').update(dados).eq('id', id).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function criarUniforme(uniforme) {
+    const { data, error } = await supabase.from('uniformes').insert(uniforme).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function atualizarUniforme(id, dados) {
+    const { data, error } = await supabase.from('uniformes').update(dados).eq('id', id).select().single();
+    if (error) throw error;
+    return data;
+}
+
+export async function deletarUniforme(id) {
+    const { error } = await supabase.from('uniformes').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+}

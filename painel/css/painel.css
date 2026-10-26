@@ -2675,3 +2675,162 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================================
+   PAINEL DE VIATURAS
+   ============================================================ */
+.viatura-edit-grupo {
+    background: var(--preto-card);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.viatura-edit-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.viatura-edit-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--dourado), var(--dourado-hover));
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.viatura-edit-info {
+    flex: 1;
+}
+
+.viatura-edit-info h3 {
+    color: var(--dourado);
+    font-size: 17px;
+    margin: 0 0 4px;
+}
+
+.viatura-edit-info p {
+    color: var(--texto-muted);
+    font-size: 12px;
+    margin: 0;
+}
+
+.viatura-edit-acoes {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.vg-viaturas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.vg-viatura-card {
+    background: var(--preto);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: .3s;
+}
+
+.vg-viatura-card:hover {
+    border-color: var(--dourado);
+}
+
+.vg-viatura-img {
+    width: 100%;
+    height: 100px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.vg-viatura-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.vg-viatura-info {
+    padding: 12px;
+    flex: 1;
+}
+
+.vg-viatura-info strong {
+    display: block;
+    color: var(--texto);
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+.vg-viatura-info span {
+    color: var(--texto-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.vg-viatura-acoes {
+    display: flex;
+    border-top: 1px solid var(--borda);
+}
+
+.vg-viatura-acoes .btn-icon {
+    flex: 1;
+    border-radius: 0;
+    border: none;
+    border-right: 1px solid var(--borda);
+    height: 34px;
+}
+
+.vg-viatura-acoes .btn-icon:last-child {
+    border-right: none;
+}
+
+@media (max-width: 700px) {
+    .viatura-edit-header {
+        flex-wrap: wrap;
+    }
+
+    .viatura-edit-acoes {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+}
+
+/* Garante que os botões da header do grupo fiquem visíveis */
+.viatura-edit-acoes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Botão adicionar uniforme mais destacado */
+.viatura-edit-acoes .btn-acao {
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .viatura-edit-acoes {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 12px;
+    }
+}
