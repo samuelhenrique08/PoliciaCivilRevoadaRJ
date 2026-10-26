@@ -13,9 +13,9 @@ let fotos = [];
 let filtroAtual = 'todas';
 let editandoId = null;
 
-const CATEGORIAS = {
+const CATEGORIAS = { 
   operacoes: { label: 'Operações', icone: 'fa-crosshairs', cor: '#ef6c00' },
-  formaturas: { label: 'Formaturas', icone: 'fa-graduation-cap', cor: '#0d47a1' },
+  formaturas: { label: 'Diversos', icone: 'fa-graduation-cap', cor: '#0d47a1' },
   core: { label: 'CORE', icone: 'fa-shield-halved', cor: '#b71c1c' },
   saer: { label: 'SAER', icone: 'fa-helicopter', cor: '#a8841a' },
   gem: { label: 'GEM', icone: 'fa-motorcycle', cor: '#424242' },
