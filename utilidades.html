@@ -1512,13 +1512,20 @@
         });
 
         // --- VIATURAS ---
+        // --- VIATURAS ---
         async function carregarViaturas() {
             const div = document.getElementById('viaturas');
             try {
-                const grupos = await getViaturasGrupos();
+                // Busca direto do Supabase
+                const { data: grupos, error } = await supabase
+                    .from('viaturas_grupos')
+                    .select('*, viaturas(*)')
+                    .order('ordem');
 
-                if (grupos.length === 0) {
-                    div.innerHTML = '<p style="text-align:center; padding:50px; color:var(--texto-muted);">Nenhuma viatura cadastrada.</p>';
+                if (error) throw error;
+
+                if (!grupos || grupos.length === 0) {
+                    div.innerHTML = '<p style="text-align:center; padding:50px; color:var(--texto-muted);">Nenhuma viatura cadastrada ainda.</p>';
                     return;
                 }
 
@@ -1528,38 +1535,53 @@
                     html += `
                 <div class="viatura-grupo">
                     <div class="viatura-grupo-header">
-                        <div class="grupo-icon"><i class="fa-solid ${g.icone}"></i></div>
+                        <div class="grupo-icon"><i class="fa-solid ${g.icone || 'fa-car'}"></i></div>
                         <h4>${g.titulo}</h4>
                     </div>
                     ${g.observacao ? `<p style="color: var(--texto-muted); font-size: 14px; margin-bottom: 20px;">${g.observacao}</p>` : ''}
                     <div class="viatura-grid">
             `;
-                    (g.viaturas || []).sort((a, b) => a.ordem - b.ordem).forEach(v => {
-                        html += `
-                    <div class="viatura-item">
-                        <img src="${v.imagem_url}" alt="${v.nome}" onerror="this.style.display='none'">
-                        <h5>${v.nome}</h5>
-                        <p>${v.subtitulo || ''}</p>
-                    </div>
-                `;
-                    });
+
+                    // Ordena as viaturas dentro do grupo
+                    const viats = (g.viaturas || []).sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
+
+                    if (viats.length === 0) {
+                        html += `<p style="color:var(--texto-muted); font-size:13px; font-style:italic;">Nenhuma viatura neste grupo.</p>`;
+                    } else {
+                        viats.forEach(v => {
+                            html += `
+                        <div class="viatura-item">
+                            <img src="${v.imagem_url}" alt="${v.nome}" onerror="this.style.display='none'">
+                            <h5>${v.nome}</h5>
+                            <p>${v.subtitulo || ''}</p>
+                        </div>
+                    `;
+                        });
+                    }
                     html += `</div></div>`;
                 });
                 div.innerHTML = html;
             } catch (e) {
-                console.error(e);
+                console.error('Erro ao carregar viaturas:', e);
                 div.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar viaturas.</p>';
             }
         }
 
         // --- UNIFORMES ---
+        // --- UNIFORMES ---
         async function carregarUniformes() {
             const div = document.getElementById('uniformes');
             try {
-                const grupos = await getUniformesGrupos();
+                // Busca direto do Supabase
+                const { data: grupos, error } = await supabase
+                    .from('uniformes_grupos')
+                    .select('*, uniformes(*)')
+                    .order('ordem');
 
-                if (grupos.length === 0) {
-                    div.innerHTML = '<p style="text-align:center; padding:50px; color:var(--texto-muted);">Nenhum uniforme cadastrado.</p>';
+                if (error) throw error;
+
+                if (!grupos || grupos.length === 0) {
+                    div.innerHTML = '<p style="text-align:center; padding:50px; color:var(--texto-muted);">Nenhum uniforme cadastrado ainda.</p>';
                     return;
                 }
 
@@ -1577,36 +1599,42 @@
                     html += `<div class="uniforme-grupo ${i === 0 ? 'ativo' : ''}" id="uf-${g.slug}">
                         <div class="uniforme-grid">`;
 
-                    (g.uniformes || []).sort((a, b) => a.ordem - b.ordem).forEach(u => {
-                        // Transforma "mascara 131 0; maos 52 0" em tags HTML
-                        let codigosHtml = '';
-                        if (u.codigos) {
-                            const split = u.codigos.split(';').filter(Boolean);
-                            split.forEach(c => {
-                                const partes = c.trim().split(' ');
-                                if (partes.length >= 2) {
-                                    codigosHtml += `<span><b>${partes[0]}</b> ${partes.slice(1).join(' ')}</span>`;
-                                } else {
-                                    codigosHtml += `<span>${c}</span>`;
-                                }
-                            });
-                        }
+                    const unifs = (g.uniformes || []).sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
 
-                        html += `
-                    <div class="uniforme-card">
-                        <div class="uniforme-img">
-                            <img src="${u.imagem_url}" alt="${u.titulo}" onerror="this.style.display='none'">
+                    if (unifs.length === 0) {
+                        html += `<p style="color:var(--texto-muted); font-size:13px; font-style:italic; grid-column:1/-1;">Nenhum uniforme neste grupo.</p>`;
+                    } else {
+                        unifs.forEach(u => {
+                            // Transforma "mascara 131 0; maos 52 0" em tags HTML
+                            let codigosHtml = '';
+                            if (u.codigos) {
+                                const split = u.codigos.split(';').filter(Boolean);
+                                split.forEach(c => {
+                                    const partes = c.trim().split(' ');
+                                    if (partes.length >= 2) {
+                                        codigosHtml += `<span><b>${partes[0]}</b> ${partes.slice(1).join(' ')}</span>`;
+                                    } else {
+                                        codigosHtml += `<span>${c}</span>`;
+                                    }
+                                });
+                            }
+
+                            html += `
+                        <div class="uniforme-card">
+                            <div class="uniforme-img">
+                                <img src="${u.imagem_url}" alt="${u.titulo}" onerror="this.style.display='none'">
+                            </div>
+                            <div class="uniforme-info">
+                                ${u.badge ? `<span class="uniforme-badge">${u.badge}</span>` : ''}
+                                <h3>${u.titulo}</h3>
+                                <p class="uniforme-cargos">${u.cargos || ''}</p>
+                                ${u.observacao ? `<p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> ${u.observacao}</p>` : ''}
+                                <div class="uniforme-codigos">${codigosHtml}</div>
+                            </div>
                         </div>
-                        <div class="uniforme-info">
-                            ${u.badge ? `<span class="uniforme-badge">${u.badge}</span>` : ''}
-                            <h3>${u.titulo}</h3>
-                            <p class="uniforme-cargos">${u.cargos || ''}</p>
-                            ${u.observacao ? `<p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> ${u.observacao}</p>` : ''}
-                            <div class="uniforme-codigos">${codigosHtml}</div>
-                        </div>
-                    </div>
-                `;
-                    });
+                    `;
+                        });
+                    }
                     html += `</div>`;
 
                     // Regras do grupo
@@ -1627,7 +1655,7 @@
                 });
                 div.innerHTML = html;
             } catch (e) {
-                console.error(e);
+                console.error('Erro ao carregar uniformes:', e);
                 div.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar uniformes.</p>';
             }
         }
