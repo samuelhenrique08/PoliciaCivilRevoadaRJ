@@ -133,11 +133,9 @@
                 </section>
 
                 <!-- SEÇÃO: COMANDO (placeholder) -->
+                <!-- SEÇÃO: COMANDO -->
                 <section class="painel-secao" id="secao-comando">
-                    <div class="welcome-card">
-                        <h2>Comando Atual</h2>
-                        <p>Em construção.</p>
-                    </div>
+                    <div id="secao-comando-conteudo"></div>
                 </section>
 
                 <!-- SEÇÃO: MEMBROS (placeholder) -->
@@ -251,19 +249,22 @@
                 loginTela.style.display = 'none';
                 painelApp.classList.add('ativo');
 
-                document.getElementById('userNome').textContent = usuario.nome;
-                document.getElementById('userCargo').textContent = usuario.cargo || usuario.role;
-                document.getElementById('userAvatar').textContent = iniciais(usuario.nome);
-                document.getElementById('welcomeNome').textContent = usuario.nome;
+                // Proteção para não quebrar se o elemento não existir
+                const elNome = document.getElementById('userNome');
+                const elCargo = document.getElementById('userCargo');
+                const elAvatar = document.getElementById('userAvatar');
+                const elWelcome = document.getElementById('welcomeNome');
+
+                if (elNome) elNome.textContent = usuario.nome;
+                if (elCargo) elCargo.textContent = usuario.cargo || usuario.role;
+                if (elAvatar) elAvatar.textContent = iniciais(usuario.nome);
+                if (elWelcome) elWelcome.textContent = usuario.nome;
 
                 initRouter();
             },
             () => {
                 loginTela.style.display = 'flex';
                 painelApp.classList.remove('ativo');
-
-                btnEntrar.disabled = false;
-                btnEntrar.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Acessar Painel';
             }
         );
 

@@ -394,3 +394,69 @@ export async function salvarMemorial(lista) {
 
     return true;
 }
+
+/* ============================================================
+   DASHBOARD — ESTATÍSTICAS
+   ============================================================ */
+export async function getEstatisticas() {
+    try {
+        const [
+            { count: avisos },
+            { count: galeria },
+            { count: tutoriais },
+            { count: viaturas },
+            { data: hierarquia },
+            { data: concursos },
+            { data: ultimosAvisos }
+        ] = await Promise.all([
+            supabase.from('avisos').select('*', { count: 'exact', head: true }),
+            supabase.from('galeria').select('*', { count: 'exact', head: true }),
+            supabase.from('tutoriais').select('*', { count: 'exact', head: true }),
+            supabase.from('viaturas').select('*', { count: 'exact', head: true }),
+            supabase.from('hierarquia').select('membros'),
+            supabase.from('concursos').select('vagas_status'),
+            supabase.from('avisos').select('titulo, criado_em').order('criado_em', { ascending: false }).limit(3)
+        ]);
+
+        const totalMembros = (hierarquia || []).reduce((acc, n) =>
+            acc + (Array.isArray(n.membros) ? n.membros.length : 0), 0
+        );
+
+        const concursosAbertos = (concursos || []).filter(c => c.vagas_status === 'abertas').length;
+
+        return {
+            avisos: avisos || 0,
+            galeria: galeria || 0,
+            tutoriais: tutoriais || 0,
+            viaturas: viaturas || 0,
+            membros: totalMembros,
+            concursosAbertos,
+            ultimosAvisos: ultimosAvisos || []
+        };
+    } catch (err) {
+        console.error('Erro ao carregar estatísticas:', err);
+        return {
+            avisos: 0, galeria: 0, tutoriais: 0,
+            viaturas: 0, membros: 0, concursosAbertos: 0,
+            ultimosAvisos: []
+        };
+    }
+}
+
+export async function registrarAcesso(uid) {
+    const { error } = await supabase
+        .from('perfis')
+        .update({ ultimo_acesso: new Date().toISOString() })
+        .eq('id', uid);
+    if (error) console.warn('Erro ao registrar acesso:', error);
+}
+
+export async function getUltimoAcesso(uid) {
+    const { data, error } = await supabase
+        .from('perfis')
+        .select('ultimo_acesso')
+        .eq('id', uid)
+        .single();
+    if (error) return null;
+    return data?.ultimo_acesso || null;
+}
