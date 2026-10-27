@@ -244,12 +244,12 @@
         });
 
         /* -------- OBSERVAR SESSÃO -------- */
+        /* -------- OBSERVAR SESSÃO -------- */
         observarAuth(
-            (usuario) => {
+            async (usuario) => {
                 loginTela.style.display = 'none';
                 painelApp.classList.add('ativo');
 
-                // Proteção para não quebrar se o elemento não existir
                 const elNome = document.getElementById('userNome');
                 const elCargo = document.getElementById('userCargo');
                 const elAvatar = document.getElementById('userAvatar');
@@ -257,14 +257,43 @@
 
                 if (elNome) elNome.textContent = usuario.nome;
                 if (elCargo) elCargo.textContent = usuario.cargo || usuario.role;
-                if (elAvatar) elAvatar.textContent = iniciais(usuario.nome);
                 if (elWelcome) elWelcome.textContent = usuario.nome;
+
+                // Tenta buscar a foto do usuário no banco (na tabela comando_atual)
+                if (elAvatar) {
+                    try {
+                        const { getComandoAtual } = await import('./painel/js/db.js');
+                        const comando = await getComandoAtual();
+
+                        // Procura se o nome do usuário logado está no comando
+                        const meuCargo = comando.find(c =>
+                            c.nome.toLowerCase().includes(usuario.nome.toLowerCase()) ||
+                            usuario.nome.toLowerCase().includes(c.nome.toLowerCase())
+                        );
+
+                        if (meuCargo && meuCargo.foto_url) {
+                            // Tem foto! Substitui as iniciais pela imagem
+                            elAvatar.innerHTML = `<img src="${meuCargo.foto_url}" alt="${usuario.nome}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                            elAvatar.style.background = 'transparent';
+                            elAvatar.style.overflow = 'hidden';
+                        } else {
+                            // Não tem foto, mostra as iniciais
+                            elAvatar.textContent = iniciais(usuario.nome);
+                        }
+                    } catch (err) {
+                        console.error('Erro ao buscar foto do perfil:', err);
+                        elAvatar.textContent = iniciais(usuario.nome);
+                    }
+                }
 
                 initRouter();
             },
             () => {
                 loginTela.style.display = 'flex';
                 painelApp.classList.remove('ativo');
+
+                btnEntrar.disabled = false;
+                btnEntrar.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Acessar Painel';
             }
         );
 
