@@ -890,6 +890,37 @@
                 font-size: 17px;
             }
         }
+
+        /* Botão de copiar uniforme */
+        .btn-copiar-uniforme {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: var(--dourado);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        .btn-copiar-uniforme:hover {
+            background: var(--dourado-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-copiar-uniforme.copiado {
+            background: #4caf50;
+            /* Verde */
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -1568,7 +1599,6 @@
         }
 
         // --- UNIFORMES ---
-        // --- UNIFORMES ---
         async function carregarUniformes() {
             const div = document.getElementById('uniformes');
             try {
@@ -1597,7 +1627,7 @@
                 // Conteúdo dos grupos
                 grupos.forEach((g, i) => {
                     html += `<div class="uniforme-grupo ${i === 0 ? 'ativo' : ''}" id="uf-${g.slug}">
-                        <div class="uniforme-grid">`;
+                <div class="uniforme-grid">`;
 
                     const unifs = (g.uniformes || []).sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
 
@@ -1619,20 +1649,28 @@
                                 });
                             }
 
+                            // Escapa as aspas duplas para não quebrar o HTML no atributo data-codigos
+                            const codigosSeguros = u.codigos ? u.codigos.replace(/"/g, '&quot;') : '';
+
                             html += `
-                        <div class="uniforme-card">
-                            <div class="uniforme-img">
-                                <img src="${u.imagem_url}" alt="${u.titulo}" onerror="this.style.display='none'">
-                            </div>
-                            <div class="uniforme-info">
-                                ${u.badge ? `<span class="uniforme-badge">${u.badge}</span>` : ''}
-                                <h3>${u.titulo}</h3>
-                                <p class="uniforme-cargos">${u.cargos || ''}</p>
-                                ${u.observacao ? `<p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> ${u.observacao}</p>` : ''}
-                                <div class="uniforme-codigos">${codigosHtml}</div>
-                            </div>
-                        </div>
-                    `;
+                <div class="uniforme-card">
+                    <div class="uniforme-img">
+                        <img src="${u.imagem_url}" alt="${u.titulo}" onerror="this.style.display='none'">
+                    </div>
+                    <div class="uniforme-info">
+                        ${u.badge ? `<span class="uniforme-badge">${u.badge}</span>` : ''}
+                        <h3>${u.titulo}</h3>
+                        <p class="uniforme-cargos">${u.cargos || ''}</p>
+                        ${u.observacao ? `<p class="uniforme-obs"><i class="fa-solid fa-circle-info"></i> ${u.observacao}</p>` : ''}
+                        
+                        <div class="uniforme-codigos">${codigosHtml}</div>
+                        
+                        <button class="btn-copiar-uniforme" data-codigos="${codigosSeguros}">
+                            <i class="fa-solid fa-copy"></i> Copiar Códigos
+                        </button>
+                    </div>
+                </div>
+            `;
                         });
                     }
                     html += `</div>`;
@@ -1640,16 +1678,16 @@
                     // Regras do grupo
                     if (g.regras) {
                         html += `
-                    <div class="regras-box" style="margin-top: 40px; ${g.slug === 'cat' ? 'border-color:var(--vermelho);' : ''}">
-                        <h4 ${g.slug === 'cat' ? 'style="color:#ff8a80;"' : ''}><i class="fa-solid fa-book"></i> Regras de Fardamento ${g.titulo}</h4>
-                        <ul class="regras-lista">
-                            ${g.regras.split('\n').filter(Boolean).map(r => `<li><i class="fa-solid fa-chevron-right"></i> ${r}</li>`).join('')}
-                        </ul>
-                        <div class="aviso-punicao">
-                            <i class="fa-solid fa-gavel"></i> O descumprimento acarretará em punições severas.
-                        </div>
-                    </div>
-                `;
+            <div class="regras-box" style="margin-top: 40px; ${g.slug === 'cat' ? 'border-color:var(--vermelho);' : ''}">
+                <h4 ${g.slug === 'cat' ? 'style="color:#ff8a80;"' : ''}><i class="fa-solid fa-book"></i> Regras de Fardamento ${g.titulo}</h4>
+                <ul class="regras-lista">
+                    ${g.regras.split('\n').filter(Boolean).map(r => `<li><i class="fa-solid fa-chevron-right"></i> ${r}</li>`).join('')}
+                </ul>
+                <div class="aviso-punicao">
+                    <i class="fa-solid fa-gavel"></i> O descumprimento acarretará em punições severas.
+                </div>
+            </div>
+        `;
                     }
                     html += `</div>`;
                 });
@@ -1659,6 +1697,56 @@
                 div.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar uniformes.</p>';
             }
         }
+
+        // --- FUNÇÃO PARA COPIAR CÓDIGOS DO UNIFORME ---
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.btn-copiar-uniforme');
+            if (!btn) return;
+
+            const codigos = btn.getAttribute('data-codigos');
+            if (!codigos) return;
+
+            // Tenta copiar usando a API do navegador
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codigos).then(() => {
+                    // Feedback visual
+                    const originalHtml = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+                    btn.style.background = '#4caf50'; // Verde
+                    btn.style.color = '#fff';
+
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.style.background = 'var(--dourado)';
+                        btn.style.color = '#000';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Erro ao copiar: ', err);
+                    alert('Erro ao copiar. Tente novamente.');
+                });
+            } else {
+                // Fallback para navegadores antigos ou conexões não HTTPS
+                const textArea = document.createElement("textarea");
+                textArea.value = codigos;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const originalHtml = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+                    btn.style.background = '#4caf50';
+                    btn.style.color = '#fff';
+                    setTimeout(() => {
+                        btn.innerHTML = originalHtml;
+                        btn.style.background = 'var(--dourado)';
+                        btn.style.color = '#000';
+                    }, 2000);
+                } catch (err) {
+                    alert('Erro ao copiar.');
+                }
+                document.body.removeChild(textArea);
+            }
+        });
 
         // Função global pra trocar a aba de uniforme
         window.mudarAbaUniforme = function (slug, btn) {
