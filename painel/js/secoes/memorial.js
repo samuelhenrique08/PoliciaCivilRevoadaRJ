@@ -66,7 +66,7 @@ async function carregarDados() {
 }
 
 /* ============================================================
-   PARSER DO PROMPT DO MEMORIAL
+   PARSER DO PROMPT
    ============================================================ */
 function processarPrompt() {
     const texto = document.getElementById('memorialInput').value.trim();
@@ -80,9 +80,9 @@ function processarPrompt() {
     for (let i = 0; i < linhas.length; i++) {
         const linha = linhas[i];
 
-        // Detecta GESTÃO (ex: **GESTÃO FOXTROT**)
+        // Detecta GESTÃO
         if (linha.includes('GESTÃO')) {
-            gestaoAtual = linha.replace(/[║*]/g, '').trim(); // Remove barras e asteriscos
+            gestaoAtual = linha.replace(/[║*]/g, '').trim();
             continue;
         }
 
@@ -90,19 +90,17 @@ function processarPrompt() {
         if (/^║?\s*[a-zA-Z]\.\d+\s*$/.test(linha)) {
             mandatoAtual = linha.replace(/║/g, '').trim();
 
-            // Agora vamos ler as próximas linhas (até achar linha vazia ou outra gestão)
             let j = i + 1;
             let count = 0;
 
             while (j < linhas.length && !linhas[j].includes('GESTÃO') && !/^║?\s*[a-zA-Z]\.\d+\s*$/.test(linhas[j])) {
                 const linhaMembro = linhas[j];
 
-                // Regex para achar o ID do cargo, ID do user e o (Nome - Apelido)
-                // Ex: <@&1053434333014265908>: <@699025926398148649> (Henry Romanov Tenebras - Karin)
+                // Pega o Nome e Apelido
                 const match = linhaMembro.match(/<@&\d+>[:\s]*<@\d+>\s*\((.*?)\)/);
 
                 if (match) {
-                    const nomeCompleto = match[1]; // "Henry Romanov Tenebras - Karin"
+                    const nomeCompleto = match[1].replace(/[()]/g, '');
                     let nome = nomeCompleto;
                     let apelido = '';
 
@@ -112,25 +110,22 @@ function processarPrompt() {
                         apelido = partes[1].trim();
                     }
 
-                    // O primeiro ID é o Delegado, os próximos são Adjuntos
                     const cargo = count === 0 ? 'Delegado PCERJ' : 'Delegado Adj. PCERJ';
 
+                    // ENVIA EXATAMENTE O QUE A TABELA ESPERA
                     novos.push({
                         ordem: novos.length + 1,
                         gestao: gestaoAtual,
                         mandato: mandatoAtual,
-                        delegado_nome: cargo === 'Delegado PCERJ' ? nome : '',
-                        delegado_apelido: cargo === 'Delegado PCERJ' ? apelido : '',
-                        delegado_cargo: cargo,
-                        adjunto_nome: cargo === 'Delegado Adj. PCERJ' ? nome : '',
-                        adjunto_apelido: cargo === 'Delegado Adj. PCERJ' ? apelido : '',
-                        texto_original: `${nome}${apelido ? ` (${apelido})` : ''} - ${cargo}` // Pra exibição
+                        nome: nome,
+                        apelido: apelido,
+                        cargo: cargo
                     });
                     count++;
                 }
                 j++;
             }
-            i = j - 1; // Avança o loop principal
+            i = j - 1;
             continue;
         }
     }
@@ -157,7 +152,6 @@ function renderizar() {
         return;
     }
 
-    // Agrupar por Gestão
     const agrupado = {};
     memorialData.forEach(m => {
         if (!agrupado[m.gestao]) agrupado[m.gestao] = [];
@@ -172,7 +166,6 @@ function renderizar() {
         <div class="memorial-mandatos-edit">
     `;
 
-        // Agrupar mandatos dentro da gestão
         const mandatos = {};
         agrupado[gestao].forEach(m => {
             if (!mandatos[m.mandato]) mandatos[m.mandato] = [];
@@ -191,8 +184,8 @@ function renderizar() {
           <div class="memorial-membro-edit">
             <i class="fa-solid fa-shield-halved"></i>
             <div>
-              <strong>${escapar(m.delegado_nome || m.adjunto_nome)}</strong>
-              <span>${escapar(m.delegado_cargo)} ${m.delegado_apelido || m.adjunto_apelido ? `("${m.delegado_apelido || m.adjunto_apelido}")` : ''}</span>
+              <strong>${escapar(m.nome)}</strong>
+              <span>${escapar(m.cargo)} ${m.apelido ? `("${m.apelido}")` : ''}</span>
             </div>
           </div>
         `;
@@ -223,11 +216,12 @@ async function salvar() {
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
 
     try {
+        // O db.js vai cuidar de apagar os antigos e inserir os novos
         await salvarMemorial(memorialData);
         toast('Memorial salvo com sucesso!', 'sucesso');
     } catch (err) {
-        console.error(err);
-        toast('Erro ao salvar.', 'erro');
+        console.error('Erro detalhado:', err);
+        toast('Erro ao salvar. Verifique o console.', 'erro');
     } finally {
         btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Salvar';

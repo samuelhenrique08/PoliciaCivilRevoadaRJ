@@ -1029,7 +1029,6 @@
         return;
       }
 
-      // Agrupar por Gestão
       const gestoes = {};
       dados.forEach(m => {
         if (!gestoes[m.gestao]) gestoes[m.gestao] = [];
@@ -1061,16 +1060,12 @@
       `;
 
           mandatos[mandato].forEach(m => {
-            const nome = m.delegado_nome || m.adjunto_nome;
-            const apelido = m.delegado_apelido || m.adjunto_apelido;
-            const cargo = m.delegado_cargo || 'Delegado PCERJ';
-
             html += `
           <div class="mandato-membro">
             <i class="fa-solid fa-shield-halved"></i>
             <div>
-              <span class="nome-real">${nome}</span>
-              <span class="cargo-info">${cargo}${apelido ? ' · "' + apelido + '"' : ''}</span>
+              <span class="nome-real">${m.nome}</span>
+              <span class="cargo-info">${m.cargo}${m.apelido ? ' · "' + m.apelido + '"' : ''}</span>
             </div>
           </div>
         `;
@@ -1084,7 +1079,6 @@
 
       el.innerHTML = html;
     }
-
     /* ============================================================
        INIT
        ============================================================ */
